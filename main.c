@@ -1,5 +1,7 @@
 #include <mlx.h>
 
+#include "cub3d_structs.h"
+
 int	main(void)
 {
 	void	*mlx;
