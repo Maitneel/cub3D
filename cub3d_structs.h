@@ -12,9 +12,23 @@ typedef struct s_texture
 	int ceiling_color[3];
 }	t_texture;
 
+typedef struct s_point
+{
+	double	y;
+	double	x;
+}	t_point;
+
+typedef struct s_player
+{
+	t_point	point;
+	double direction; // 0 ~ 2π
+}	t_player;
+
+
 typedef struct s_cub3d {
 	int 		**map;
 	t_texture	*texture;
+	t_player	player;
 }	t_cub3d;
 
 #endif
