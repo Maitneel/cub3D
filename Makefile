@@ -1,20 +1,26 @@
 NAME = cub3D
 
 CC = clang
-CFLAGS = -Wall -Wextra -fsanitize=address -g
+CFLAGS = -Wall -Wextra 
 MLX_DIR = minilibx-linux
-MLX_FLAG := -lmlx -framework OpenGL -framework AppKit
-MLX_LOCAL_FLAG = -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I${MLX_DIR}
+
+HOSTNAME = ${shell hostname | sed 's/c[0-9]*r[0-9]*s[0-9]\.//g'}
+
+ifeq (${HOSTNAME}, "42tokyo.jp")
+	MLX_FLAG := -lmlx -framework OpenGL -framework AppKit
+else 
+	MLX_FLAG = -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I${MLX_DIR}
+endif
 
 SRCS = main.c \
 
 OBJS = ${SRCS:%.c=%.o}
 
 %.o: %.c
-	${CC} ${CFLAGS}  -c -o $@ $^
+	${CC} ${CFLAGS} ${MLX_FLAG} -c -o $@ $^
 
 ${NAME} : ${OBJS}
-	${CC} ${CFLAGS} ${MLX_FLAG} ${OBJS} -o ${NAME}
+	${CC} ${CFLAGS} ${MLX_FLAG} ${OBJS} -o ${NAME} ${MLX_DIR}/libmlx.a
 
 all: ${NAME}
 
