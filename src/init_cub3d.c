@@ -3,6 +3,7 @@
 #include <sys/fcntl.h>
 
 #include "libft.h"
+#include "util_lib.h"
 #include "cub3d_structs.h"
 #include "print_lib.h"
 
@@ -38,12 +39,7 @@ static t_cub3d	*get_cub3d_data(const int fd)
 {
 	t_cub3d	*cub3d;
 
-	cub3d = malloc(sizeof(t_cub3d));
-	if (cub3d == NULL)
-	{
-		print_error(true, "malloc");
-		return (NULL);
-	}
+	cub3d = ft_xcalloc(1, sizeof(t_cub3d));
 	// cub3d->texture = get_texture(fd); TODO
 	// cub3d->map = get_map(fd); TODO
 	if (cub3d->texture == NULL || cub3d->map == NULL)
