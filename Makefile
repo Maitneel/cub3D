@@ -16,6 +16,7 @@ MLX_FLAG = -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I$
 
 SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/print_error.c \
+		${SRCS_DIR}/get_texture.c \
 		${SRCS_DIR}/init_cub3d.c \
 
 OBJS = ${SRCS:%.c=%.o}
