@@ -49,9 +49,25 @@ static bool is_color_line(char *line)
 	return false;
 }
 
-static bool is_correct_texture_format(char *line)
+ bool is_correct_texture_format(char *line)
 {
-	// TODO
+	size_t i;
+
+	if (!ft_isspace(line[3]))
+		return false;
+	i = 4;
+	while (ft_isspace(line[i]) && line[i] != '\0')
+		i++;
+	if (line[i] == '\0')
+		return false;
+	while (ft_isascii(line[i]) && !ft_isspace(line[i]) && line[i] != '\0')
+		i++;
+	if (line[i] == '\0')
+		return false;
+	while (ft_isspace(line[i]) && line[i] != '\0')
+		i++;
+	if (line[i] != '\0')
+		return false;
 	return true;
 }
 

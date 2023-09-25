@@ -6,5 +6,5 @@
 void	*ft_xmalloc(const size_t size);
 void	*ft_xcalloc(size_t count, size_t size);
 
-bool ft_isspace(char c);
+bool	ft_isspace(char c);
 #endif
