@@ -18,6 +18,7 @@ SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/print_error.c \
 		${SRCS_DIR}/get_texture.c \
 		${SRCS_DIR}/init_cub3d.c \
+		${SRCS_DIR}/xalloc.c \
 
 OBJS = ${SRCS:%.c=%.o}
 
