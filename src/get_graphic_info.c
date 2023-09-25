@@ -16,14 +16,47 @@ static bool	is_graphic_info_element_filled(const t_graphic_info *graphic_info)
 		graphic_info->east_texture != NULL);
 }
 
+static bool is_texture_line(char *line)
+{
+	// TODO;
+	return false;
+}
+
+static bool is_color_line(char *line)
+{
+	// TODO;
+	return false;
+}
+
+static bool is_correct_texture_format(char *line)
+{
+	// TODO
+	return true;
+}
+
+static bool is_correct_color_format(char *line)
+{
+	// TODO
+	return true;
+}
+
 static bool is_correct_format(char *line)
 {
+	size_t i;
+
 	if (line == NULL)
 		return false;
-
-	// TODO
-
-	return true;
+	if (line[0] == '\0')
+		return true;
+	i = 0;
+	while (line[i] == ' ' && line[i] != '\0')
+		i++;
+	if (is_texture_line(&line[i]))
+		return is_correct_texture_format(&line[i]);
+	if (is_color_line(&line[i]))
+		return is_correct_color_format(&line[i]);
+	else 
+		return false;
 }
 
 static void set_to_appropriate_element(t_graphic_info *graphic_info, char *line)
