@@ -37,7 +37,27 @@ bool	is_valid_filename(char *filename)
 	return (true);
 }
 
-t_cub3d	*init_cub3d(char *filename)
+t_cub3d	*get_cub3d_data(const int fd)
+{
+	t_cub3d	*cub3d;
+
+	cub3d = malloc(sizeof(t_cub3d));
+	if (cub3d == NULL)
+	{
+		print_error(true, "malloc");
+		return (NULL);
+	}
+	// cub3d->texture = get_texture(fd); TODO
+	// cub3d->map = get_map(fd); TODO
+	if (cub3d->texture == NULL || cub3d->map == NULL)
+	{
+		// free_cub3d(cub3d); TODO
+		return (NULL);
+	}
+	return (cub3d);
+}
+
+t_cub3d	*init_cub3d(const char *filename)
 {
 	int		fd;
 	t_cub3d	*cub3d;
@@ -53,20 +73,8 @@ t_cub3d	*init_cub3d(char *filename)
 		print_error(true, filename);
 		return (NULL);
 	}
-	cub3d = malloc(sizeof(t_cub3d));
-	if (cub3d == NULL)
-	{
-		print_error(true, "malloc");
-		return (NULL);
-	}
-	// cub3d->texture = get_texture(fd); TODO
-	// cub3d->map = get_map(fd); TODO
+	cub3d = get_cub3d_data(fd);
 	close(fd);
-	if (cub3d->texture == NULL || cub3d->map == NULL)
-	{
-		// free_cub3d(cub3d); TODO
-		return (NULL);
-	}
 	return (cub3d);
 }
 
