@@ -6,7 +6,7 @@
 #    By: dummy <dummy@example.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 13:35:54 by dummy             #+#    #+#              #
-#    Updated: 2023/09/25 11:07:52 by dummy            ###   ########.fr        #
+#    Updated: 2023/09/25 14:39:25 by dummy            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,11 +62,15 @@ BONUS_SRCS := ft_lstnew.c \
 		ft_lstiter.c \
 		ft_lstmap.c
 
+GET_NEXT_LINE_SRCS = ./get_next_line/get_next_line.c \
+
 MANDANTORY_OBJS := ${MANDANTORY_SRCS:%.c=%.o}
 
 BONUS_OBJS := ${BONUS_SRCS:%.c=%.o}
 
-OBJS := ${MANDANTORY_OBJS}
+GET_NEXT_LINE_OBJS := ${GET_NEXT_LINE_SRCS:%.c=%.o}
+
+OBJS := ${MANDANTORY_OBJS} ${GET_NEXT_LINE_OBJS}
 
 ifdef WITH_BONUS
 	OBJS += ${BONUS_OBJS}

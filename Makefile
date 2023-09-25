@@ -4,6 +4,7 @@ CC = clang
 CFLAGS = -Wall -Wextra -fsanitize=address -g
 MLX_DIR = minilibx-linux
 LIBFT_DIR = ./libft
+GNL_DIR = ${LIBFT_DIR}/get_next_line/
 
 MLX = ${MLX_DIR}/libmlx.a
 LIBFT = ${LIBFT_DIR}/libft.a
@@ -15,7 +16,7 @@ SRCS = main.c \
 OBJS = ${SRCS:%.c=%.o}
 
 %.o: %.c
-	${CC} ${CFLAGS} -I${MLX_DIR} -I${LIBFT_DIR} -c -o $@ $^
+	${CC} ${CFLAGS} -I${MLX_DIR} -I${LIBFT_DIR} -I${GNL_DIR} -c -o $@ $^
 
 ${NAME} : ${OBJS} ${MLX} ${LIBFT}
 	${CC} ${CFLAGS} ${MLX_FLAG} ${OBJS} ${MLX} ${LIBFT} -o ${NAME} 
