@@ -31,4 +31,6 @@ typedef struct s_cub3d {
 	t_player	player;
 }	t_cub3d;
 
+t_cub3d	*init_cub3d(const char *filename);
+
 #endif
