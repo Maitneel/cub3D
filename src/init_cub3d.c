@@ -40,7 +40,7 @@ static t_cub3d	*get_cub3d_data(const int fd)
 	t_cub3d	*cub3d;
 
 	cub3d = ft_xcalloc(1, sizeof(t_cub3d));
-	// cub3d->texture = get_texture(fd); TODO
+	// cub3d->texture = get_graphic_info(fd); TODO
 	// cub3d->map = get_map(fd); TODO
 	if (cub3d->texture == NULL || cub3d->map == NULL)
 	{

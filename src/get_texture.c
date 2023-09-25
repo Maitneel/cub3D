@@ -26,7 +26,7 @@ void free_graphic_info(t_graphic_info *graphic_info)
 	// TODO
 }
 
-t_graphic_info	*get_texture(const int fd)
+t_graphic_info	*get_graphic_info(const int fd)
 {
 	t_graphic_info *graphic_info;
 	char *line;
