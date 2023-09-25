@@ -3,40 +3,40 @@
 
 typedef struct s_texture
 {
-	char *file_name;
+	char			*file_name;
 	// TODO;
-}	t_texture;
+}					t_texture;
 
 typedef struct s_graphic_info
 {
-	t_texture *north_texture;
-	t_texture *south_texture;
-	t_texture *west_texture;
-	t_texture *east_texture;
+	t_texture		*north_texture;
+	t_texture		*south_texture;
+	t_texture		*west_texture;
+	t_texture		*east_texture;
 
-	int floor_color[3];
-	int ceiling_color[3];
-}	t_graphic_info;
+	int				floor_color[3];
+	int				ceiling_color[3];
+}					t_graphic_info;
 
 typedef struct s_point
 {
-	double	y;
-	double	x;
-}	t_point;
+	double			y;
+	double			x;
+}					t_point;
 
 typedef struct s_player
 {
-	t_point	point;
+	t_point			point;
 	double direction; // 0 ~ 2π
-}	t_player;
+}					t_player;
 
-
-typedef struct s_cub3d {
-	int 			**map;
+typedef struct s_cub3d
+{
+	int				**map;
 	t_graphic_info	*texture;
 	t_player		player;
-}	t_cub3d;
+}					t_cub3d;
 
-t_cub3d	*init_cub3d(const char *filename);
+t_cub3d				*init_cub3d(const char *filename);
 
 #endif
