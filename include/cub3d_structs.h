@@ -1,7 +1,7 @@
 #ifndef CUB3D_STRUCTS_H
 # define CUB3D_STRUCTS_H
 
-typedef struct s_texture
+typedef struct s_graphic_info
 {
 	void *north_texture;
 	void *south_texture;
@@ -10,7 +10,7 @@ typedef struct s_texture
 
 	int floor_color[3];
 	int ceiling_color[3];
-}	t_texture;
+}	t_graphic_info;
 
 typedef struct s_point
 {
@@ -26,9 +26,9 @@ typedef struct s_player
 
 
 typedef struct s_cub3d {
-	int 		**map;
-	t_texture	*texture;
-	t_player	player;
+	int 			**map;
+	t_graphic_info	*texture;
+	t_player		player;
 }	t_cub3d;
 
 t_cub3d	*init_cub3d(const char *filename);
