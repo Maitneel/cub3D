@@ -53,8 +53,6 @@ bool	is_correct_texture_format(char *line)
 {
 	size_t	i;
 
-	if (!ft_isspace(line[2]))
-		return (false);
 	i = 3;
 	while (ft_isspace(line[i]) && line[i] != '\0')
 		i++;
