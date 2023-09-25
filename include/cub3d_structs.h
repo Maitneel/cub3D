@@ -33,7 +33,7 @@ typedef struct s_player
 typedef struct s_cub3d
 {
 	int				**map;
-	t_graphic_info	*texture;
+	t_graphic_info	*graphic_info;
 	t_player		player;
 }					t_cub3d;
 

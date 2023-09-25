@@ -6,6 +6,9 @@
 #include "util_lib.h"
 #include "cub3d_structs.h"
 #include "print_lib.h"
+#include "get_cub3d_info.h"
+
+#include <stdio.h>
 
 static bool	is_valid_filename(const char *filename)
 {
@@ -40,9 +43,10 @@ static t_cub3d	*get_cub3d_data(const int fd)
 	t_cub3d	*cub3d;
 
 	cub3d = ft_xcalloc(1, sizeof(t_cub3d));
-	// cub3d->texture = get_graphic_info(fd); TODO
+	cub3d->graphic_info = get_graphic_info(fd);
+	fprintf(stderr, "cub3d->graphic_info : '%p'\n", cub3d->graphic_info);
 	// cub3d->map = get_map(fd); TODO
-	if (cub3d->texture == NULL || cub3d->map == NULL)
+	if (cub3d->graphic_info == NULL || cub3d->map == NULL)
 	{
 		// free_cub3d(cub3d); TODO
 		return (NULL);

@@ -152,7 +152,7 @@ t_graphic_info	*get_graphic_info(const int fd)
 	char			*line;
 
 	graphic_info = ft_xcalloc(1, sizeof(t_graphic_info));
-	while (is_graphic_info_element_filled(graphic_info))
+	while (!is_graphic_info_element_filled(graphic_info))
 	{
 		line = get_next_line(fd);
 		if (line == NULL || !is_correct_format(line))
