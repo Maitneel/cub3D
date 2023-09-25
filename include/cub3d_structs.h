@@ -1,12 +1,18 @@
 #ifndef CUB3D_STRUCTS_H
 # define CUB3D_STRUCTS_H
 
+typedef struct s_texture
+{
+	char *file_name;
+	// TODO;
+}	t_texture;
+
 typedef struct s_graphic_info
 {
-	void *north_texture;
-	void *south_texture;
-	void *west_texture;
-	void *east_texture;
+	t_texture *north_texture;
+	t_texture *south_texture;
+	t_texture *west_texture;
+	t_texture *east_texture;
 
 	int floor_color[3];
 	int ceiling_color[3];
