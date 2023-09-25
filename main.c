@@ -6,7 +6,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#include <string.h>
+#include "libft.h"
+#include "print_lib.h"
 
 bool	is_valid_filename(char *filename)
 {
