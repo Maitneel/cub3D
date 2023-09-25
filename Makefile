@@ -19,6 +19,7 @@ SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/get_graphic_info.c \
 		${SRCS_DIR}/init_cub3d.c \
 		${SRCS_DIR}/xalloc.c \
+		${SRCS_DIR}/ft_isspace.c \
 
 OBJS = ${SRCS:%.c=%.o}
 
