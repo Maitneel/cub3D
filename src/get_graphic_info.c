@@ -8,6 +8,8 @@
 #include "util_lib.h"
 #include "print_lib.h"
 
+#include <stdio.h>
+
 static bool	is_graphic_info_element_filled(const t_graphic_info *graphic_info)
 {
 	return (
@@ -71,9 +73,53 @@ static bool is_color_line(char *line)
 	return true;
 }
 
-static bool is_correct_color_format(char *line)
+bool is_within_0_to_255(char *front)
 {
-	// TODO
+	size_t i;
+	size_t front_index;
+	int converted;
+	
+	converted = 0;
+	i = 0;
+	while (ft_isdigit(front[i]) && converted < 256)
+	{
+		converted *= 10;
+		converted += front[i] - '0';
+		i++;
+	}
+	if (converted < 256)
+		return true;
+	return false;
+}
+
+bool is_correct_color_format(char *line)
+{
+	size_t i;
+	size_t j;
+
+	if (!ft_isspace(line[1]))
+		return false;
+	j = 0;
+	i = 2;
+	while (j < 3)
+	{
+		while (ft_isspace(line[i]) && line[i] != '\0')
+			i++;
+		if (!ft_isdigit(line[i]) || !is_within_0_to_255(&line[i]))
+			return false;
+		while (ft_isdigit(line[i]))
+			i++;
+		if (line[i] == '\0')
+			return false;
+		while (ft_isspace(line[i]) && line[i] != '\0')
+			i++;
+		if (line[i] != ',' && j != 2)
+			return false;
+		i++;
+		j++;
+	}
+	if (line[i - 1] != '\0')
+		return false;
 	return true;
 }
 
