@@ -11,7 +11,8 @@ LIBFT = ${LIBFT_DIR}/libft.a
 
 MLX_FLAG = -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I${MLX_DIR}
 
-SRCS = main.c \
+SRCS =	main.c \
+		print_error.c \
 
 OBJS = ${SRCS:%.c=%.o}
 
@@ -31,11 +32,11 @@ all: ${NAME}
 
 clean: 
 	rm -rf ${OBJS}
-	make -C ${LIBFT_DIR}
+	# make -C ${LIBFT_DIR}
 
 fclean: clean
 	rm -rf ${NAME}
-	make -C ${MLX_DIR} clean
+	# make -C ${MLX_DIR} clean
 
 re: fclean all
 

@@ -44,21 +44,18 @@ t_cub3d	*init_cub3d(char *filename)
 
 	if (!is_valid_filename(filename))
 	{
-		write(STDERR_FILENO, "Error\n", 6);
-		write(STDERR_FILENO, "file is not .cub file\n", 23);
+		print_error(false, "file is not .cub file\n");
 		return (NULL);
 	}
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 	{
-		write(STDERR_FILENO, "Error\n", 6);
-		perror(NULL);
+		print_error(true, filename);
 		return (NULL);
 	}
 	cub3d = malloc(sizeof(t_cub3d));
 	if (cub3d == NULL) {
-		write(STDERR_FILENO, "Error\n", 6);
-		perror(NULL);
+		print_error(true, "malloc");
 		return NULL;
 	}
 	// cub3d->texture = get_texture(fd); TODO
