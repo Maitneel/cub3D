@@ -13,14 +13,14 @@ bool	is_valid_filename(char *filename)
 {
 	size_t			filename_length;
 	const char		*extension = ".cub";
-	const size_t	extension_length = strlen(extension);
+	const size_t	extension_length = ft_strlen(extension);
 	size_t			i;
 
 	if (filename == NULL)
 	{
 		return (false);
 	}
-	filename_length = strlen(filename);
+	filename_length = ft_strlen(filename);
 	if (filename_length < extension_length + 1)
 	{
 		return (false);
@@ -55,7 +55,7 @@ t_cub3d	*init_cub3d(char *filename)
 		perror(NULL);
 		return (NULL);
 	}
-	cub3d = malloc(sizeof(cub3d));
+	cub3d = malloc(sizeof(t_cub3d));
 	if (cub3d == NULL) {
 		write(STDERR_FILENO, "Error\n", 6);
 		perror(NULL);
@@ -64,6 +64,9 @@ t_cub3d	*init_cub3d(char *filename)
 	// cub3d->texture = get_texture(fd); TODO
 	// cub3d->map = get_map(fd); TODO
 	close(fd);
+	fprintf(stderr, "cub3d : '%p'\n", cub3d);
+	fprintf(stderr, "cub3d->map : '%p'\n", cub3d->map);
+	fprintf(stderr, "cub3d->texture : '%p'\n", cub3d->texture);
 	if (cub3d->texture == NULL || cub3d->map == NULL) {
 		// free_cub3d(cub3d); TODO
 		return NULL;
