@@ -9,7 +9,7 @@
 #include "libft.h"
 #include "print_lib.h"
 
-bool	is_valid_filename(char *filename)
+bool	is_valid_filename(const char *filename)
 {
 	size_t			filename_length;
 	const char		*extension = ".cub";
