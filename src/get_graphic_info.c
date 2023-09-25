@@ -7,7 +7,7 @@
 #include "util_lib.h"
 #include "print_lib.h"
 
-bool	is_graphic_info_element_filled(const t_graphic_info *graphic_info)
+static bool	is_graphic_info_element_filled(const t_graphic_info *graphic_info)
 {
 	return (
 		graphic_info->north_texture != NULL && \
@@ -16,7 +16,17 @@ bool	is_graphic_info_element_filled(const t_graphic_info *graphic_info)
 		graphic_info->east_texture != NULL);
 }
 
-void set_to_appropriate_element(t_graphic_info *graphic_info, char *line)
+static bool is_correct_format(char *line)
+{
+	if (line == NULL)
+		return false;
+
+	// TODO
+
+	return true;
+}
+
+static void set_to_appropriate_element(t_graphic_info *graphic_info, char *line)
 {
 	// TODO
 }
@@ -35,7 +45,7 @@ t_graphic_info	*get_graphic_info(const int fd)
 	while (is_graphic_info_element_filled(graphic_info))
 	{
 		line = get_next_line(fd);
-		if (line == NULL)
+		if (line == NULL || !is_correct_format(line))
 		{
 			if (errno != 0) 
 				print_error(true, "read");
