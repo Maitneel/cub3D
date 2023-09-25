@@ -3,6 +3,7 @@
 #include <stdbool.h>
 
 #include "cub3d_structs.h"
+#include "libft.h"
 #include "get_next_line.h"
 #include "util_lib.h"
 #include "print_lib.h"
@@ -18,13 +19,33 @@ static bool	is_graphic_info_element_filled(const t_graphic_info *graphic_info)
 
 static bool is_texture_line(char *line)
 {
-	// TODO;
+	const char *texture_identifier[4] = {"NO ", "SO ", "WE ", "EA "};
+	const size_t texture_identifier_size = 4;
+	size_t i;
+
+	i = 0;
+	while (i < texture_identifier_size)
+	{
+		if (ft_strncmp(line, texture_identifier[i], 3) == 0)
+			return true;
+		i++;
+	}
 	return false;
 }
 
 static bool is_color_line(char *line)
 {
-	// TODO;
+	const char *texture_identifier[2] = {"F ", "c "};
+	const size_t texture_identifier_size = 2;
+	size_t i;
+
+	i = 0;
+	while (i < texture_identifier_size)
+	{
+		if (ft_strncmp(line, texture_identifier[i], 2) == 0)
+			return true;
+		i++;
+	}
 	return false;
 }
 
