@@ -83,19 +83,19 @@ t_map_element *convert_line_to_map_element(char *line, size_t width)
 	t_map_element *converted_line;
 	size_t i;
 
-	converted_line = ft_xcalloc(width + 1, sizeof(t_map_element));
+	converted_line = ft_xcalloc(width + 3, sizeof(t_map_element));
 	i = 0;
 	while (line[i] != '\0')
 	{
-		converted_line[i] = get_element_type(line[i]);
+		converted_line[i + 1] = get_element_type(line[i]);
 		i++;
 	}
-	while (i < width)
+	while (i < width + 2)
 	{
 		converted_line[i] = OUT_OF_MAP;
 		i++;
 	}
-	converted_line[width] = END_OF_LINE;
+	converted_line[width + 2] = END_OF_LINE;
 	return (converted_line);
 }
 
@@ -108,13 +108,15 @@ t_map_element **convert_to_map_element(char **char_map)
 	size_t i;
 	t_map_element **converted_map;
 
-	converted_map = ft_xcalloc((height + 1), sizeof(t_map_element *));
+	converted_map = ft_xcalloc((height + 3), sizeof(t_map_element *));
+	converted_map[0] = convert_line_to_map_element("", width);
 	i = 0;
 	while (i < height)
 	{
-		converted_map[i] = convert_line_to_map_element(char_map[i], width);
+		converted_map[i + 1] = convert_line_to_map_element(char_map[i], width);
 		i++;
 	}
+	converted_map[height + 1] = convert_line_to_map_element("", width);
 	return (converted_map);
 }
 
