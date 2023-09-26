@@ -72,6 +72,6 @@ t_cub3d	*init_cub3d(const char *filename)
 	}
 	cub3d = get_cub3d_data(fd);
 	close(fd);
-	print_cub3d(cub3d);	
+	print_cub3d(cub3d);
 	return (cub3d);
 }

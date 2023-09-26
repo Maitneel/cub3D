@@ -34,7 +34,7 @@ typedef struct s_point
 typedef struct s_player
 {
 	t_point			point;
-	double direction; // 0 ~ 2π
+	double			direction; // 0 ~ 2π
 }					t_player;
 
 typedef enum e_map_element

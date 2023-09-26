@@ -10,12 +10,12 @@
 #include <stdio.h>
 #include "debug.h"
 
-char **read_map(const int fd)
+char	**read_map(const int fd)
 {
-	char **map;
-	char *line;
-	size_t alloc_size;
-	size_t map_index;
+	char	**map;
+	char	*line;
+	size_t	alloc_size;
+	size_t	map_index;
 
 	alloc_size = 2;
 	map = ft_xcalloc(alloc_size, sizeof(char *));
@@ -35,17 +35,17 @@ char **read_map(const int fd)
 	return (map);
 }
 
-bool is_correct_map(const char **map)
+bool	is_correct_map(const char **map)
 {
 	// TODO
-	return true;
+	return (true);
 }
 
-static size_t get_max_length(const char **map)
+static size_t	get_max_length(const char **map)
 {
-	size_t max_length;
-	size_t length;
-	size_t i;
+	size_t	max_length;
+	size_t	length;
+	size_t	i;
 
 	max_length = 0;
 	i = 0;
@@ -59,7 +59,7 @@ static size_t get_max_length(const char **map)
 	return (max_length);
 }
 
-static t_map_element get_element_type(const char c)
+static t_map_element	get_element_type(const char c)
 {
 	if (c == ' ')
 		return (OUT_OF_MAP);
@@ -78,10 +78,11 @@ static t_map_element get_element_type(const char c)
 	return (OUT_OF_MAP);
 }
 
-t_map_element *convert_line_to_map_element(const char *line, const size_t width)
+t_map_element	*convert_line_to_map_element(const char *line,
+		const size_t width)
 {
-	t_map_element *converted_line;
-	size_t i;
+	t_map_element	*converted_line;
+	size_t			i;
 
 	converted_line = ft_xcalloc(width + 3, sizeof(t_map_element));
 	i = 0;
@@ -99,12 +100,12 @@ t_map_element *convert_line_to_map_element(const char *line, const size_t width)
 	return (converted_line);
 }
 
-t_map_element **convert_to_map_element(const char **char_map)
+t_map_element	**convert_to_map_element(const char **char_map)
 {
-	const size_t height = string_array_size(char_map);
-	const size_t width = get_max_length(char_map);
-	size_t i;
-	t_map_element **converted_map;
+	const size_t	height = string_array_size(char_map);
+	const size_t	width = get_max_length(char_map);
+	size_t			i;
+	t_map_element	**converted_map;
 
 	converted_map = ft_xcalloc((height + 3), sizeof(t_map_element *));
 	converted_map[0] = convert_line_to_map_element("", width);
@@ -118,9 +119,9 @@ t_map_element **convert_to_map_element(const char **char_map)
 	return (converted_map);
 }
 
-t_map_element **get_map(const int fd_of_move_to_end_of_graphic_info)
+t_map_element	**get_map(const int fd_of_move_to_end_of_graphic_info)
 {
-	char **char_map;
+	char			**char_map;
 	t_map_element	**converted_map;
 
 	char_map = read_map(fd_of_move_to_end_of_graphic_info);

@@ -3,12 +3,12 @@
 
 #include "util_lib.h"
 
-char **expand_str_array_memory(char ***arg_src, size_t size)
+char	**expand_str_array_memory(char ***arg_src, size_t size)
 {
-	char **new_memroy;
-	char **src;
-	size_t i;
-	
+	char	**new_memroy;
+	char	**src;
+	size_t	i;
+
 	src = *arg_src;
 	new_memroy = ft_xcalloc(size, sizeof(char *));
 	i = 0;
@@ -19,5 +19,5 @@ char **expand_str_array_memory(char ***arg_src, size_t size)
 	}
 	free(*arg_src);
 	*arg_src = new_memroy;
-	return new_memroy;
+	return (new_memroy);
 }

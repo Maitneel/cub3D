@@ -139,7 +139,8 @@ static bool	is_correct_format(const char *line)
 		return (false);
 }
 
-static bool	is_texture_empty(const t_graphic_info *graphic_info, const char identifier)
+static bool	is_texture_empty(
+	const t_graphic_info *graphic_info, const char identifier)
 {
 	t_texture	*target;
 
@@ -159,7 +160,8 @@ static bool	is_texture_empty(const t_graphic_info *graphic_info, const char iden
 		return (false);
 }
 
-static bool	is_color_empty(const t_graphic_info *graphic_info, const char identifier)
+static bool	is_color_empty(
+	const t_graphic_info *graphic_info, const char identifier)
 {
 	t_color	*target;
 

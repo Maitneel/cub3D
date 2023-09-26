@@ -1,7 +1,7 @@
 #ifndef FREE_LIB_H
 # define FREE_LIB_H
 
-#include "cub3d_structs.h"
+# include "cub3d_structs.h"
 
 void	free_string_array(char **array);
 void	free_texture(t_texture *texture);
