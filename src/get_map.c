@@ -5,6 +5,7 @@
 #include "util_lib.h"
 #include "print_lib.h"
 #include "free_lib.h"
+#include "cub3d_structs.h"
 
 #include <stdio.h>
 
@@ -57,35 +58,68 @@ static size_t get_max_length(char **map)
 	return (max_length);
 }
 
-int *convert_line_to_int(char *line, size_t width)
+static t_map_element get_element_type(char c)
 {
-	// TODO;
-	return NULL;
+	if (c == ' ')
+		return (OUT_OF_MAP);
+	else if (c == '0')
+		return (EMPTY);
+	else if (c == '1')
+		return (WALL);
+	else if (c == 'N')
+		return (START_N);
+	else if (c == 'S')
+		return (START_S);
+	else if (c == 'E')
+		return (START_E);
+	else if (c == 'W')
+		return (START_W);
+	return (OUT_OF_MAP);
+}
+
+t_map_element *convert_line_to_map_element(char *line, size_t width)
+{
+	t_map_element *converted_line;
+	size_t i;
+
+	converted_line = ft_xcalloc(width + 1, sizeof(t_map_element));
+	i = 0;
+	while (line[i] != '\0')
+	{
+		converted_line[i] = get_element_type(line[i]);
+		i++;
+	}
+	while (i < width)
+	{
+		converted_line[i] = OUT_OF_MAP;
+		i++;
+	}
+	return (converted_line);
 }
 
 
 
-int **convert_to_int_map(char **char_map)
+t_map_element **convert_to_map_element(char **char_map)
 {
 	const size_t height = string_array_size(char_map);
 	const size_t width = get_max_length(char_map);
 	size_t i;
-	int **int_map;
+	t_map_element **converted_map;
 
-	int_map = ft_xcalloc((height + 1), sizeof(int *));
+	converted_map = ft_xcalloc((height + 1), sizeof(t_map_element *));
 	i = 0;
 	while (i < height)
 	{
-		int_map[i] = convert_line_to_int(char_map[i], width);
+		converted_map[i] = convert_line_to_map_element(char_map[i], width);
 		i++;
 	}
-	return (int_map);
+	return (converted_map);
 }
 
-int **get_map(const int fd_of_move_to_end_of_graphic_info)
+t_map_element **get_map(const int fd_of_move_to_end_of_graphic_info)
 {
 	const char **char_map = read_map(fd_of_move_to_end_of_graphic_info);
-	int	**int_map;
+	t_map_element	**converted_map;
 
 	if (!is_correct_map(char_map))
 	{
@@ -93,7 +127,7 @@ int **get_map(const int fd_of_move_to_end_of_graphic_info)
 		free_string_array(char_map);
 		return (NULL);
 	}
-	int_map = convert_to_int_map(char_map);
+	converted_map = convert_to_map_element(char_map);
 	free_string_array(char_map);
-	return (int_map);
+	return (converted_map);
 }

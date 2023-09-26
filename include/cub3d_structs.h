@@ -37,9 +37,20 @@ typedef struct s_player
 	double direction; // 0 ~ 2π
 }					t_player;
 
+typedef enum e_map_element
+{
+	OUT_OF_MAP = 0,
+	EMPTY,
+	WALL,
+	START_N,
+	START_S,
+	START_W,
+	START_E,
+}		t_map_element;
+
 typedef struct s_cub3d
 {
-	int				**map;
+	t_map_element	**map;
 	t_graphic_info	*graphic_info;
 	t_player		player;
 }					t_cub3d;
