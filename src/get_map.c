@@ -8,6 +8,7 @@
 #include "cub3d_structs.h"
 
 #include <stdio.h>
+#include "debug.h"
 
 char **read_map(const int fd)
 {
@@ -130,5 +131,6 @@ t_map_element **get_map(const int fd_of_move_to_end_of_graphic_info)
 	}
 	converted_map = convert_to_map_element(char_map);
 	free_string_array(char_map);
+	print_map(converted_map);
 	return (converted_map);
 }

@@ -18,3 +18,14 @@ void print_cub3d(t_cub3d *cub3d) {
 	fprintf(stderr, "cub3d->graphic_info->ceiling_color ");
 	print_color(cub3d->graphic_info->ceiling_color);
 }
+
+void print_map(t_map_element **map) {
+	for (size_t i = 0; map[i] != NULL; i++)
+	{
+		for (size_t j = 0; map[i][j] != END_OF_LINE; j++)
+		{
+			fprintf(stderr, "%d", map[i][j]);
+		}
+		fprintf(stderr, "\n");
+	}
+}

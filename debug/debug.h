@@ -8,5 +8,6 @@
 
 void print_color(t_color *color);
 void print_cub3d(t_cub3d *cub3d);
+void print_map(t_map_element **map);
 
 #endif
