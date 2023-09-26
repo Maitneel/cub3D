@@ -3,6 +3,7 @@
 #include "libft.h"
 #include "print_lib.h"
 #include "util_lib.h"
+#include "free_lib.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -283,7 +284,6 @@ static void	set_to_appropriate_element(t_graphic_info *graphic_info,
 	const char *line
 )
 {
-	// TODO
 	if (is_texture_line(line))
 	{
 		set_texture(graphic_info, line);
@@ -292,11 +292,6 @@ static void	set_to_appropriate_element(t_graphic_info *graphic_info,
 	{
 		set_color(graphic_info, line);
 	}
-}
-
-void	free_graphic_info(t_graphic_info *graphic_info)
-{
-	// TODO
 }
 
 t_graphic_info	*get_graphic_info(const int fd)
