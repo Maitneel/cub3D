@@ -1,0 +1,1 @@
+norminette $1 | grep -v "TOO_MANY_FUNC" | grep -v "WRONG_SCOPE_COMMENT" | grep -v "INVALID_HEADER"

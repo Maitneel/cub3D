@@ -1,0 +1,40 @@
+#include <stdio.h>
+
+#include "cub3d_structs.h"
+#include "debug.h"
+
+void print_color(t_color *color) {
+	fprintf(stderr, "color : [%3d, %3d, %3d]\n", color->red, color->green, color->blue);
+}
+
+void print_map(t_map_element **map) {
+	for (size_t i = 0; map[i] != NULL; i++)
+	{
+		for (size_t j = 0; map[i][j] != END_OF_LINE; j++)
+		{
+			fprintf(stderr, "%d", map[i][j]);
+		}
+		fprintf(stderr, "\n");
+	}
+}
+
+void print_cub3d(t_cub3d *cub3d) {
+	if (cub3d == NULL) {
+		fprintf(stderr, "cub3d is NULL\n");
+		return;
+	}
+	if (cub3d->graphic_info == NULL) {
+		fprintf(stderr, "cub3d->graphic_info is NULL\n");
+	}
+	debug_string(cub3d->graphic_info->north_texture->file_name);
+	debug_string(cub3d->graphic_info->south_texture->file_name);
+	debug_string(cub3d->graphic_info->west_texture->file_name);
+	debug_string(cub3d->graphic_info->east_texture->file_name);
+	fprintf(stderr, "-------------------------------------------------\n");
+	fprintf(stderr, "cub3d->graphic_info->floor_color ");
+	print_color(cub3d->graphic_info->floor_color);
+	fprintf(stderr, "cub3d->graphic_info->ceiling_color ");
+	print_color(cub3d->graphic_info->ceiling_color);
+	fprintf(stderr, "-------------------------------------------------\n");
+	print_map(cub3d->map);
+}
