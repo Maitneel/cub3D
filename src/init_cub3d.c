@@ -50,7 +50,7 @@ static t_cub3d	*get_cub3d_data(const int fd)
 	if (cub3d->graphic_info == NULL || cub3d->map == NULL)
 	{
 		// free_cub3d(cub3d); TODO
-		return (NULL);
+		// return (NULL);
 	}
 	return (cub3d);
 }

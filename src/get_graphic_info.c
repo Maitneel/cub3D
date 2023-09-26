@@ -38,7 +38,7 @@ static bool	is_texture_line(char *line)
 
 static bool	is_color_line(char *line)
 {
-	const char		*texture_identifier[2] = {"F ", "c "};
+	const char		*texture_identifier[2] = {"F ", "C "};
 	const size_t	texture_identifier_size = 2;
 	size_t			i;
 
@@ -126,7 +126,7 @@ static bool	is_correct_format(char *line)
 
 	if (line == NULL)
 		return (false);
-	if (line[0] == '\0')
+	if (line[0] == '\n')
 		return (true);
 	i = 0;
 	while (line[i] == ' ' && line[i] != '\0')
@@ -181,7 +181,9 @@ static bool	is_element_empyt(
 	const char *line
 )
 {
-	if (is_texture_line(line))
+	if (line[0] == '\n')
+		return (true);
+	else if (is_texture_line(line))
 		return (is_texture_empty(graphic_info, line[0]));
 	else if (is_color_line(line))
 		return (is_color_empty(graphic_info, line[0]));
