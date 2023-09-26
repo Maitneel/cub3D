@@ -35,13 +35,13 @@ char **read_map(const int fd)
 	return (map);
 }
 
-bool is_correct_map(char **map)
+bool is_correct_map(const char **map)
 {
 	// TODO
 	return true;
 }
 
-static size_t get_max_length(char **map)
+static size_t get_max_length(const char **map)
 {
 	size_t max_length;
 	size_t length;
@@ -59,7 +59,7 @@ static size_t get_max_length(char **map)
 	return (max_length);
 }
 
-static t_map_element get_element_type(char c)
+static t_map_element get_element_type(const char c)
 {
 	if (c == ' ')
 		return (OUT_OF_MAP);
@@ -78,7 +78,7 @@ static t_map_element get_element_type(char c)
 	return (OUT_OF_MAP);
 }
 
-t_map_element *convert_line_to_map_element(char *line, size_t width)
+t_map_element *convert_line_to_map_element(const char *line, const size_t width)
 {
 	t_map_element *converted_line;
 	size_t i;
@@ -99,9 +99,7 @@ t_map_element *convert_line_to_map_element(char *line, size_t width)
 	return (converted_line);
 }
 
-
-
-t_map_element **convert_to_map_element(char **char_map)
+t_map_element **convert_to_map_element(const char **char_map)
 {
 	const size_t height = string_array_size(char_map);
 	const size_t width = get_max_length(char_map);
@@ -122,16 +120,17 @@ t_map_element **convert_to_map_element(char **char_map)
 
 t_map_element **get_map(const int fd_of_move_to_end_of_graphic_info)
 {
-	const char **char_map = read_map(fd_of_move_to_end_of_graphic_info);
+	char **char_map;
 	t_map_element	**converted_map;
 
-	if (!is_correct_map(char_map))
+	char_map = read_map(fd_of_move_to_end_of_graphic_info);
+	if (!is_correct_map((const char **)(char_map)))
 	{
 		print_error(false, "inccorect map");
 		free_string_array(char_map);
 		return (NULL);
 	}
-	converted_map = convert_to_map_element(char_map);
+	converted_map = convert_to_map_element((const char **)(char_map));
 	free_string_array(char_map);
 	print_map(converted_map);
 	return (converted_map);
