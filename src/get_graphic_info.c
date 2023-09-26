@@ -136,54 +136,58 @@ static bool	is_correct_format(char *line)
 		return (false);
 }
 
-static bool is_texture_empty(t_graphic_info *graphic_info, char identifier_first_char)
+static bool	is_texture_empty(t_graphic_info *graphic_info, char identifier)
 {
-	t_texture *target;
+	t_texture	*target;
 
-	if (identifier_first_char == 'N')
+	if (identifier == 'N')
 		target = graphic_info->north_texture;
-	else if (identifier_first_char == 'S')
+	else if (identifier == 'S')
 		target = graphic_info->south_texture;
-	else if (identifier_first_char == 'W')
+	else if (identifier == 'W')
 		target = graphic_info->west_texture;
-	else if (identifier_first_char == 'E')
+	else if (identifier == 'E')
 		target = graphic_info->east_texture;
 	else
-		return false;
+		return (false);
 	if (target == NULL)
-		return true;
+		return (true);
 	else
-		return false;
+		return (false);
 }
 
-static bool is_color_empty(t_graphic_info *graphic_info, char identifier_first_char)
+static bool	is_color_empty(t_graphic_info *graphic_info, char identifier)
 {
 	// TODO
-	return false;
+	return (false);
 }
 
 // なんかいい感じの関数名が思いつかない //
-static bool is_element_empyt(const t_graphic_info *graphic_info, const char *line)
+static bool	is_element_empyt(
+	const t_graphic_info *graphic_info,
+	const char *line
+)
 {
 	if (is_texture_line(line))
-		return is_texture_empty(graphic_info, line[0]);
+		return (is_texture_empty(graphic_info, line[0]));
 	else if (is_color_line(line))
-		return is_color_empty(graphic_info, line[0]);
+		return (is_color_empty(graphic_info, line[0]));
 	else
-		return false;
+		return (false);
 }
 
-char *get_texture_file_name(char *line)
+char	*get_texture_file_name(char *line)
 {
-	char *file_name;
-	size_t file_name_start_index;
-	size_t i;
+	char	*file_name;
+	size_t	file_name_start_index;
+	size_t	i;
 
 	file_name_start_index = 2;
 	while (ft_isspace(line[file_name_start_index]))
 		file_name_start_index++;
 	file_name = ft_strdup(&line[file_name_start_index]);
-	if (file_name == NULL) {
+	if (file_name == NULL)
+	{
 		print_error(true, "malloc");
 		exit(1);
 	}
@@ -191,12 +195,12 @@ char *get_texture_file_name(char *line)
 	while (!ft_isspace(file_name[i]) && file_name[i] != '\0')
 		i++;
 	file_name[i] = '\0';
-	return file_name;
+	return (file_name);
 }
 
-t_texture *new_texture(const char *file_name)
+t_texture	*new_texture(const char *file_name)
 {
-	t_texture *texture;
+	t_texture	*texture;
 
 	texture = ft_xcalloc(1, sizeof(t_texture));
 	texture->file_name = ft_strdup(file_name);
@@ -205,31 +209,34 @@ t_texture *new_texture(const char *file_name)
 		print_error(true, "malloc");
 		exit(1);
 	}
-	return texture;
+	return (texture);
 }
 
-static void set_texture(t_graphic_info *graphic_info, char *line)
+static void	set_texture(t_graphic_info *graphic_info, char *line)
 {
-	char *file_name;
-	const char identifier_first_char = line[0];
+	char		*file_name;
+	const char	identifier = line[0];
 
 	file_name = get_texture_file_name(line);
-	if (identifier_first_char == 'N')
+	if (identifier == 'N')
 		graphic_info->north_texture = new_texture(file_name);
-	else if (identifier_first_char == 'S')
+	else if (identifier == 'S')
 		graphic_info->south_texture = new_texture(file_name);
-	else if (identifier_first_char == 'W')
+	else if (identifier == 'W')
 		graphic_info->west_texture = new_texture(file_name);
-	else if (identifier_first_char == 'E')
+	else if (identifier == 'E')
 		graphic_info->east_texture = new_texture(file_name);
 	free(file_name);
 }
 
-static void set_color(t_graphic_info *graphic_info, char *line) {
+static void	set_color(t_graphic_info *graphic_info, char *line)
+{
 	// TODO
 }
 
-static void	set_to_appropriate_element(t_graphic_info *graphic_info, char *line)
+static void	set_to_appropriate_element(t_graphic_info *graphic_info,
+	char *line
+)
 {
 	// TODO
 	if (is_texture_line(line))
@@ -257,7 +264,8 @@ t_graphic_info	*get_graphic_info(const int fd)
 	{
 		line = get_next_line(fd);
 		fprintf(stderr, "line : '%s'\n", line);
-		if (line == NULL || !is_correct_format(line) || !is_element_empyt(graphic_info, line))
+		if (line == NULL || !is_correct_format(line) || \
+				!is_element_empyt(graphic_info, line))
 		{
 			print_error(false, "inccorect map\n");
 			free_graphic_info(graphic_info);
