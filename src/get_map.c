@@ -2,7 +2,7 @@
 
 #include "get_next_line.h"
 #include "util_lib.h"
-
+#include "print_lib.h"
 
 #include <stdio.h>
 
@@ -31,19 +31,30 @@ char **read_map(const int fd)
 	return (map);
 }
 
+bool is_correct_map(char **map)
+{
+	// TODO
+	return true;
+}
+
+int **convert_to_int_map(char **char_map)
+{
+	// TODO;
+	return NULL;
+}
+
 int **get_map(const int fd_of_move_to_end_of_graphic_info)
 {
-	char **char_map = read_map(fd_of_move_to_end_of_graphic_info);
+	const char **char_map = read_map(fd_of_move_to_end_of_graphic_info);
+	int	**int_map;
 
-
-	size_t i;
-	i = 0;
-	while (char_map[i] != NULL)
+	if (!is_correct_map(char_map))
 	{
-		fprintf(stderr, "char_map[i] : '%s", char_map[i]);
-		i++;
+		print_error(false, "inccorect map");
+		free_string_array(char_map);
+		return (NULL);
 	}
-	
-
-	return NULL;
+	int_map = convert_to_int_map(char_map);
+	free_string_array(char_map);
+	return (int_map);
 }
