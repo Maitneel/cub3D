@@ -133,6 +133,5 @@ t_map_element	**get_map(const int fd_of_move_to_end_of_graphic_info)
 	}
 	converted_map = convert_to_map_element((const char **)(char_map));
 	free_string_array(char_map);
-	print_map(converted_map);
 	return (converted_map);
 }

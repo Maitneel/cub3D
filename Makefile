@@ -23,6 +23,7 @@ SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/xalloc.c \
 		${SRCS_DIR}/expand_memory.c \
 		${SRCS_DIR}/util_free.c \
+		${SRCS_DIR}/util_free2.c \
 		${SRCS_DIR}/array_size.c \
 		${SRCS_DIR}/ft_isspace.c \
 		${DEBUG_DIR}/debug.c \

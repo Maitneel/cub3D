@@ -4,6 +4,7 @@
 
 #include "libft.h"
 #include "util_lib.h"
+#include "free_lib.h"
 #include "cub3d_structs.h"
 #include "print_lib.h"
 #include "get_cub3d_info.h"
@@ -48,8 +49,8 @@ static t_cub3d	*get_cub3d_data(const int fd)
 	cub3d->map = get_map(fd);
 	if (cub3d->graphic_info == NULL || cub3d->map == NULL)
 	{
-		// free_cub3d(cub3d); TODO
-		// return (NULL);
+		free_cub3d(cub3d);
+		return (NULL);
 	}
 	return (cub3d);
 }
@@ -72,6 +73,5 @@ t_cub3d	*init_cub3d(const char *filename)
 	}
 	cub3d = get_cub3d_data(fd);
 	close(fd);
-	print_cub3d(cub3d);
 	return (cub3d);
 }
