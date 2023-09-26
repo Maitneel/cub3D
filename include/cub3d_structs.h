@@ -44,8 +44,8 @@ typedef enum e_map_element
 	WALL,
 	START_N,
 	START_S,
-	START_W,
 	START_E,
+	START_W,
 }		t_map_element;
 
 typedef struct s_cub3d

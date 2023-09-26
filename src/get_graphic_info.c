@@ -20,7 +20,7 @@ static bool	is_graphic_info_element_filled(const t_graphic_info *graphic_info)
 	);
 }
 
-static bool	is_texture_line(char *line)
+static bool	is_texture_line(const char *line)
 {
 	const char		*texture_identifier[4] = {"NO ", "SO ", "WE ", "EA "};
 	const size_t	texture_identifier_size = 4;
@@ -36,7 +36,7 @@ static bool	is_texture_line(char *line)
 	return (false);
 }
 
-static bool	is_color_line(char *line)
+static bool	is_color_line(const char *line)
 {
 	const char		*texture_identifier[2] = {"F ", "C "};
 	const size_t	texture_identifier_size = 2;
@@ -52,7 +52,7 @@ static bool	is_color_line(char *line)
 	return (false);
 }
 
-bool	is_correct_texture_format(char *line)
+bool	is_correct_texture_format(const char *line)
 {
 	size_t	i;
 
@@ -72,10 +72,9 @@ bool	is_correct_texture_format(char *line)
 	return (true);
 }
 
-bool	is_within_0_to_255(char *front)
+bool	is_within_0_to_255(const char *front)
 {
 	size_t	i;
-	size_t	front_index;
 	int		converted;
 
 	converted = 0;
@@ -120,7 +119,7 @@ bool	is_correct_color_format(const char *line)
 	return (true);
 }
 
-static bool	is_correct_format(char *line)
+static bool	is_correct_format(const char *line)
 {
 	size_t	i;
 
@@ -139,7 +138,7 @@ static bool	is_correct_format(char *line)
 		return (false);
 }
 
-static bool	is_texture_empty(t_graphic_info *graphic_info, char identifier)
+static bool	is_texture_empty(const t_graphic_info *graphic_info, const char identifier)
 {
 	t_texture	*target;
 
@@ -159,7 +158,7 @@ static bool	is_texture_empty(t_graphic_info *graphic_info, char identifier)
 		return (false);
 }
 
-static bool	is_color_empty(t_graphic_info *graphic_info, char identifier)
+static bool	is_color_empty(const t_graphic_info *graphic_info, const char identifier)
 {
 	t_color	*target;
 
@@ -191,7 +190,7 @@ static bool	is_element_empyt(
 		return (false);
 }
 
-char	*get_texture_file_name(char *line)
+char	*get_texture_file_name(const char *line)
 {
 	char	*file_name;
 	size_t	file_name_start_index;
@@ -227,7 +226,7 @@ t_texture	*new_texture(const char *file_name)
 	return (texture);
 }
 
-static void	set_texture(t_graphic_info *graphic_info, char *line)
+static void	set_texture(t_graphic_info *graphic_info, const char *line)
 {
 	char		*file_name;
 	const char	identifier = line[0];
@@ -244,7 +243,7 @@ static void	set_texture(t_graphic_info *graphic_info, char *line)
 	free(file_name);
 }
 
-static t_color	*new_color(char *line)
+static t_color	*new_color(const char *line)
 {
 	size_t	i;
 	size_t	line_index;
@@ -270,7 +269,7 @@ static t_color	*new_color(char *line)
 	return (color);
 }
 
-static void	set_color(t_graphic_info *graphic_info, char *line)
+static void	set_color(t_graphic_info *graphic_info, const char *line)
 {
 	const char	identifier = line[0];
 
@@ -281,7 +280,7 @@ static void	set_color(t_graphic_info *graphic_info, char *line)
 }
 
 static void	set_to_appropriate_element(t_graphic_info *graphic_info,
-	char *line
+	const char *line
 )
 {
 	// TODO
