@@ -259,10 +259,7 @@ t_graphic_info	*get_graphic_info(const int fd)
 		fprintf(stderr, "line : '%s'\n", line);
 		if (line == NULL || !is_correct_format(line) || !is_element_empyt(graphic_info, line))
 		{
-			if (errno != 0)
-				print_error(true, "read");
-			else
-				print_error(false, "inccorect map\n");
+			print_error(false, "inccorect map\n");
 			free_graphic_info(graphic_info);
 			return (NULL);
 		}
