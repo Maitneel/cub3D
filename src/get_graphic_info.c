@@ -136,9 +136,98 @@ static bool	is_correct_format(char *line)
 		return (false);
 }
 
+static bool is_texture_empty(t_graphic_info *graphic_info, char identifier_first_char)
+{
+	t_texture *target;
+
+	if (identifier_first_char == 'N')
+		target = graphic_info->north_texture;
+	else if (identifier_first_char == 'S')
+		target = graphic_info->south_texture;
+	else if (identifier_first_char == 'W')
+		target = graphic_info->west_texture;
+	else if (identifier_first_char == 'E')
+		target = graphic_info->east_texture;
+	else
+		return false;
+	if (target == NULL)
+		return true;
+	else
+		return false;
+}
+
+char *get_texture_file_name(char *line)
+{
+	char *file_name;
+	size_t file_name_start_index;
+	size_t i;
+
+	file_name_start_index = 2;
+	while (ft_isspace(line[file_name_start_index]))
+		file_name_start_index++;
+	file_name = ft_strdup(&line[file_name_start_index]);
+	if (file_name == NULL) {
+		print_error(true, "malloc");
+		exit(1);
+	}
+	i = 0;
+	while (!ft_isspace(file_name[i]) && file_name[i] != '\0')
+		i++;
+	file_name[i] = '\0';
+	return file_name;
+}
+
+t_texture *new_texture(const char *file_name)
+{
+	t_texture *texture;
+
+	texture = ft_xcalloc(1, sizeof(t_texture));
+	texture->file_name = ft_strdup(file_name);
+	if (texture->file_name == NULL)
+	{
+		print_error(true, "malloc");
+		exit(1);
+	}
+	return texture;
+}
+
+static void set_texture(t_graphic_info *graphic_info, char *line)
+{
+	char *file_name;
+	const char identifier_first_char = line[0];
+
+	if (!is_texture_empty(graphic_info, line[0]))
+	{
+		print_error(false, "inccorected map\n");
+		// exit?
+	}
+	file_name = get_texture_file_name(line);
+	if (identifier_first_char == 'N')
+		graphic_info->north_texture = new_texture(file_name);
+	else if (identifier_first_char == 'S')
+		graphic_info->south_texture = new_texture(file_name);
+	else if (identifier_first_char == 'W')
+		graphic_info->west_texture = new_texture(file_name);
+	else if (identifier_first_char == 'E')
+		graphic_info->east_texture = new_texture(file_name);
+	free(file_name);
+}
+
+static void set_color(t_graphic_info *graphic_info, char *line) {
+	// TODO
+}
+
 static void	set_to_appropriate_element(t_graphic_info *graphic_info, char *line)
 {
 	// TODO
+	if (is_texture_line(line))
+	{
+		set_texture(graphic_info, line);
+	}
+	else if (is_color_line(line))
+	{
+		set_color(graphic_info, line);
+	}
 }
 
 void	free_graphic_info(t_graphic_info *graphic_info)
