@@ -22,6 +22,7 @@ SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/init_cub3d.c \
 		${SRCS_DIR}/xalloc.c \
 		${SRCS_DIR}/expand_memory.c \
+		${SRCS_DIR}/util_free.c \
 		${SRCS_DIR}/ft_isspace.c \
 		${DEBUG_DIR}/debug.c \
 

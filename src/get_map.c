@@ -3,6 +3,7 @@
 #include "get_next_line.h"
 #include "util_lib.h"
 #include "print_lib.h"
+#include "free_lib.h"
 
 #include <stdio.h>
 
