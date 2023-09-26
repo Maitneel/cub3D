@@ -26,7 +26,7 @@ int	main(const int argc, const char **argv)
 	}
 	cub3d = init_cub3d(argv[1]);
 	if (cub3d == NULL)
-		return 1;
+		return (1);
 	print_cub3d(cub3d);
 	free_cub3d(cub3d);
 	return (0);

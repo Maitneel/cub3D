@@ -19,7 +19,7 @@ void	free_string_array(char **array)
 void	free_texture(t_texture *texture)
 {
 	if (texture == NULL)
-		return;
+		return ;
 	free(texture->file_name);
 	free(texture);
 }
@@ -31,8 +31,8 @@ void	free_color(t_color *color)
 
 void	free_graphic_info(t_graphic_info *graphic_info)
 {
-	if (graphic_info == NULL) 
-		return;
+	if (graphic_info == NULL)
+		return ;
 	free_texture(graphic_info->north_texture);
 	free_texture(graphic_info->south_texture);
 	free_texture(graphic_info->west_texture);
@@ -44,7 +44,7 @@ void	free_graphic_info(t_graphic_info *graphic_info)
 
 void	free_map(t_map_element **map)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (map[i] != NULL)
