@@ -14,7 +14,10 @@ static bool	is_graphic_info_element_filled(const t_graphic_info *graphic_info)
 		graphic_info->north_texture != NULL && \
 		graphic_info->south_texture != NULL && \
 		graphic_info->west_texture != NULL && \
-		graphic_info->east_texture != NULL);
+		graphic_info->east_texture != NULL && \
+		graphic_info->floor_color != NULL && \
+		graphic_info->ceiling_color != NULL
+		);
 }
 
 static bool	is_texture_line(char *line)
