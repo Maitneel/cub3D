@@ -7,6 +7,13 @@ typedef struct s_texture
 	// TODO;
 }					t_texture;
 
+typedef struct s_color
+{
+	int				red;
+	int				green;
+	int				blue;
+}					t_color;
+
 typedef struct s_graphic_info
 {
 	t_texture		*north_texture;
@@ -14,8 +21,8 @@ typedef struct s_graphic_info
 	t_texture		*west_texture;
 	t_texture		*east_texture;
 
-	int				floor_color[3];
-	int				ceiling_color[3];
+	t_color			*floor_color;
+	t_color			*ceiling_color;
 }					t_graphic_info;
 
 typedef struct s_point
