@@ -94,6 +94,7 @@ t_map_element *convert_line_to_map_element(char *line, size_t width)
 		converted_line[i] = OUT_OF_MAP;
 		i++;
 	}
+	converted_line[width] = END_OF_LINE;
 	return (converted_line);
 }
 

@@ -46,6 +46,7 @@ typedef enum e_map_element
 	START_S,
 	START_E,
 	START_W,
+	END_OF_LINE,
 }		t_map_element;
 
 typedef struct s_cub3d
