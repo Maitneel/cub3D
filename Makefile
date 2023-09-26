@@ -18,8 +18,10 @@ MLX_FLAG = -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I$
 SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/print_error.c \
 		${SRCS_DIR}/get_graphic_info.c \
+		${SRCS_DIR}/get_map.c \
 		${SRCS_DIR}/init_cub3d.c \
 		${SRCS_DIR}/xalloc.c \
+		${SRCS_DIR}/expand_memory.c \
 		${SRCS_DIR}/ft_isspace.c \
 		${DEBUG_DIR}/debug.c \
 

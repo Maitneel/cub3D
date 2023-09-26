@@ -46,7 +46,7 @@ static t_cub3d	*get_cub3d_data(const int fd)
 	cub3d = ft_xcalloc(1, sizeof(t_cub3d));
 	cub3d->graphic_info = get_graphic_info(fd);
 	fprintf(stderr, "cub3d->graphic_info : '%p'\n", cub3d->graphic_info);
-	// cub3d->map = get_map(fd); TODO
+	cub3d->map = get_map(fd);
 	if (cub3d->graphic_info == NULL || cub3d->map == NULL)
 	{
 		// free_cub3d(cub3d); TODO

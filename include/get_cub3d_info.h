@@ -4,5 +4,6 @@
 #include "cub3d_structs.h"
 
 t_graphic_info	*get_graphic_info(const int fd);
+int **get_map(const int fd_of_move_to_end_of_graphic_info);
 
 #endif
