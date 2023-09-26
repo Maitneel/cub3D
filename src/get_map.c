@@ -1,5 +1,6 @@
 #include <stdlib.h>
 
+#include "libft.h"
 #include "get_next_line.h"
 #include "util_lib.h"
 #include "print_lib.h"
@@ -38,10 +39,47 @@ bool is_correct_map(char **map)
 	return true;
 }
 
-int **convert_to_int_map(char **char_map)
+static size_t get_max_length(char **map)
+{
+	size_t max_length;
+	size_t length;
+	size_t i;
+
+	max_length = 0;
+	i = 0;
+	while (map[i] != NULL)
+	{
+		length = ft_strlen(map[i]);
+		if (max_length < length)
+			max_length = length;
+		i++;
+	}
+	return (max_length);
+}
+
+int *convert_line_to_int(char *line, size_t width)
 {
 	// TODO;
 	return NULL;
+}
+
+
+
+int **convert_to_int_map(char **char_map)
+{
+	const size_t height = string_array_size(char_map);
+	const size_t width = get_max_length(char_map);
+	size_t i;
+	int **int_map;
+
+	int_map = ft_xcalloc((height + 1), sizeof(int *));
+	i = 0;
+	while (i < height)
+	{
+		int_map[i] = convert_line_to_int(char_map[i], width);
+		i++;
+	}
+	return (int_map);
 }
 
 int **get_map(const int fd_of_move_to_end_of_graphic_info)
