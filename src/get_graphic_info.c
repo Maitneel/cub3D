@@ -17,7 +17,7 @@ static bool	is_graphic_info_element_filled(const t_graphic_info *graphic_info)
 		graphic_info->east_texture != NULL && \
 		graphic_info->floor_color != NULL && \
 		graphic_info->ceiling_color != NULL
-		);
+	);
 }
 
 static bool	is_texture_line(char *line)
@@ -161,13 +161,13 @@ static bool	is_texture_empty(t_graphic_info *graphic_info, char identifier)
 
 static bool	is_color_empty(t_graphic_info *graphic_info, char identifier)
 {
-	t_color *target;
+	t_color	*target;
 
 	if (identifier == 'F')
 		target = graphic_info->floor_color;
-	else if (identifier == 'C') 
+	else if (identifier == 'C')
 		target = graphic_info->ceiling_color;
-	else 
+	else
 		return (false);
 	if (target == NULL)
 		return (true);
@@ -244,10 +244,10 @@ static void	set_texture(t_graphic_info *graphic_info, char *line)
 	free(file_name);
 }
 
-static t_color *new_color(char *line)
+static t_color	*new_color(char *line)
 {
-	size_t i;
-	size_t line_index;
+	size_t	i;
+	size_t	line_index;
 	t_color	*color;
 
 	color = ft_xcalloc(1, sizeof(t_color));
@@ -257,11 +257,11 @@ static t_color *new_color(char *line)
 	{
 		while (!ft_isdigit(line[line_index]))
 			line_index++;
-		if (i == 0) 
+		if (i == 0)
 			color->red = ft_atoi(&line[line_index]);
-		else if (i == 1) 
+		else if (i == 1)
 			color->green = ft_atoi(&line[line_index]);
-		else if (i == 2) 
+		else if (i == 2)
 			color->blue = ft_atoi(&line[line_index]);
 		while (ft_isdigit(line[line_index]))
 			line_index++;
@@ -272,11 +272,11 @@ static t_color *new_color(char *line)
 
 static void	set_color(t_graphic_info *graphic_info, char *line)
 {
-	const char identifier = line[0];
+	const char	identifier = line[0];
 
 	if (identifier == 'F')
 		graphic_info->floor_color = new_color(line);
-	else if (identifier == 'C') 
+	else if (identifier == 'C')
 		graphic_info->ceiling_color = new_color(line);
 }
 
