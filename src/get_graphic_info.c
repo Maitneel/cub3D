@@ -156,6 +156,23 @@ static bool is_texture_empty(t_graphic_info *graphic_info, char identifier_first
 		return false;
 }
 
+static bool is_color_empty(t_graphic_info *graphic_info, char identifier_first_char)
+{
+	// TODO
+	return false;
+}
+
+// なんかいい感じの関数名が思いつかない //
+static bool is_element_empyt(const t_graphic_info *graphic_info, const char *line)
+{
+	if (is_texture_line(line))
+		return is_texture_empty(graphic_info, line[0]);
+	else if (is_color_line(line))
+		return is_color_empty(graphic_info, line[0]);
+	else
+		return false;
+}
+
 char *get_texture_file_name(char *line)
 {
 	char *file_name;
@@ -196,11 +213,6 @@ static void set_texture(t_graphic_info *graphic_info, char *line)
 	char *file_name;
 	const char identifier_first_char = line[0];
 
-	if (!is_texture_empty(graphic_info, line[0]))
-	{
-		print_error(false, "inccorected map\n");
-		// exit?
-	}
 	file_name = get_texture_file_name(line);
 	if (identifier_first_char == 'N')
 		graphic_info->north_texture = new_texture(file_name);
@@ -244,7 +256,8 @@ t_graphic_info	*get_graphic_info(const int fd)
 	while (!is_graphic_info_element_filled(graphic_info))
 	{
 		line = get_next_line(fd);
-		if (line == NULL || !is_correct_format(line))
+		fprintf(stderr, "line : '%s'\n", line);
+		if (line == NULL || !is_correct_format(line) || !is_element_empyt(graphic_info, line))
 		{
 			if (errno != 0)
 				print_error(true, "read");
