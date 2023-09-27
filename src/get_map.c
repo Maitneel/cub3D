@@ -6,6 +6,7 @@
 #include "print_lib.h"
 #include "free_lib.h"
 #include "cub3d_structs.h"
+#include "valid_map.h"
 
 #include <stdio.h>
 #include "debug.h"
@@ -33,12 +34,6 @@ char	**read_map(const int fd)
 		line = get_next_line(fd);
 	}
 	return (map);
-}
-
-bool	is_correct_map(const t_map_element **map)
-{
-	// TODO
-	return (true);
 }
 
 static size_t	get_max_length(const char **map)
