@@ -49,6 +49,7 @@ static t_cub3d	*get_cub3d_data(const int fd)
 	cub3d->map = get_map(fd);
 	if (cub3d->graphic_info == NULL || cub3d->map == NULL)
 	{
+		print_error(false, "inccorect map\n");
 		free_cub3d(cub3d);
 		return (NULL);
 	}

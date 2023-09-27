@@ -308,7 +308,6 @@ t_graphic_info	*get_graphic_info(const int fd)
 		if (line == NULL || !is_correct_format(line) || \
 				!is_element_empyt(graphic_info, line))
 		{
-			print_error(false, "inccorect map\n");
 			free_graphic_info(graphic_info);
 			return (NULL);
 		}

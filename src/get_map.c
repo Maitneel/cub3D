@@ -127,7 +127,6 @@ t_map_element	**get_map(const int fd_of_move_to_end_of_graphic_info)
 	char_map = read_map(fd_of_move_to_end_of_graphic_info);
 	if (!is_correct_map((const char **)(char_map)))
 	{
-		print_error(false, "inccorect map");
 		free_string_array(char_map);
 		return (NULL);
 	}
