@@ -56,7 +56,7 @@ static size_t	get_max_length(const char **map)
 
 static t_map_element	get_element_type(const char c)
 {
-	if (c == ' ')
+	if (c == ' ' || c == '\n')
 		return (OUT_OF_MAP);
 	else if (c == '0')
 		return (EMPTY);
@@ -86,9 +86,9 @@ t_map_element	*convert_line_to_map_element(const char *line,
 		converted_line[i + 1] = get_element_type(line[i]);
 		i++;
 	}
-	while (i < width + 2)
+	while (i < width + 1)
 	{
-		converted_line[i] = OUT_OF_MAP;
+		converted_line[i + 1] = OUT_OF_MAP;
 		i++;
 	}
 	converted_line[width + 2] = END_OF_LINE;
