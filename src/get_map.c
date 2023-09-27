@@ -35,7 +35,7 @@ char	**read_map(const int fd)
 	return (map);
 }
 
-bool	is_correct_map(const char **map)
+bool	is_correct_map(const t_map_element **map)
 {
 	// TODO
 	return (true);
@@ -125,13 +125,14 @@ t_map_element	**get_map(const int fd_of_move_to_end_of_graphic_info)
 	t_map_element	**converted_map;
 
 	char_map = read_map(fd_of_move_to_end_of_graphic_info);
-	// これいるか？ ここでエラー処理するより、もう一個親でやった方がいい気がする //
-	if (!is_correct_map((const char **)(char_map)))
-	{
-		free_string_array(char_map);
-		return (NULL);
-	}
 	converted_map = convert_to_map_element((const char **)(char_map));
 	free_string_array(char_map);
+	// ここでエラーチェックしてエラーだったらNULL返すことにします //
+	// 関数の名前変えた方がいいかも get_correct_map みたいな //
+	if (!is_correct_map((const t_map_element **)(converted_map)))
+	{
+		free_map(converted_map);
+		return (NULL);
+	}
 	return (converted_map);
 }
