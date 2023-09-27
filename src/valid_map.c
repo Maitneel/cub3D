@@ -6,8 +6,8 @@
 
 static bool	is_not_using_incorrect_element(const t_map_element **map)
 {
-	size_t i;
-	size_t j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	while (map[i] != NULL)
@@ -24,9 +24,49 @@ static bool	is_not_using_incorrect_element(const t_map_element **map)
 	return (true);
 }
 
+static bool	is_there_only_wall_next_to(const t_map_element **map,
+		const int point_i, const int point_j)
+{
+	int	i;
+	int	j;
+
+	i = point_i - 1 - 1;
+	while (++i <= point_i + 1)
+	{
+		if (i < 0 || map[i] == NULL)
+			continue ;
+		j = point_j - 1 - 1;
+		while (++j <= point_j + 1)
+		{
+			if (j < 0 || map[i][j] == END_OF_LINE)
+				continue ;
+			if (map[i][j] != WALL && map[i][j] != OUT_OF_MAP)
+				return (false);
+		}
+	}
+	return (true);
+}
+
 static bool	is_surrounded_by_wall(const t_map_element **map)
 {
-	// TODO
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	while (map[i] != NULL)
+	{
+		j = 0;
+		while (map[i][j] != END_OF_LINE)
+		{
+			if (map[i][j] == OUT_OF_MAP)
+			{
+				if (!is_there_only_wall_next_to(map, i, j))
+					return (false);
+			}
+			j++;
+		}
+		i++;
+	}
 	return (true);
 }
 
