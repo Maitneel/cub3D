@@ -46,6 +46,8 @@ void	free_map(t_map_element **map)
 {
 	size_t	i;
 
+	if (map == NULL)
+		return ;
 	i = 0;
 	while (map[i] != NULL)
 	{
