@@ -3,12 +3,15 @@
 #include <stdlib.h>
 
 #include "cub3d_structs.h"
+#include <stdio.h>
 
 static bool	is_not_using_incorrect_element(const t_map_element **map)
 {
 	size_t	i;
 	size_t	j;
+	size_t	start_count;
 
+	start_count = 0;
 	i = 0;
 	while (map[i] != NULL)
 	{
@@ -17,10 +20,16 @@ static bool	is_not_using_incorrect_element(const t_map_element **map)
 		{
 			if (map[i][j] == INCORRECTED_MAP_ELEMENT)
 				return (false);
+			if (map[i][j] == START_N || map[i][j] == START_S || \
+				map[i][j] == START_E || map[i][j] == START_W)
+				start_count++;
 			j++;
 		}
 		i++;
 	}
+	fprintf(stderr, "start_count : '%zu'\n", start_count);
+	if (start_count != 1)
+		return (false);
 	return (true);
 }
 
