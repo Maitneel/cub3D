@@ -54,4 +54,7 @@ fclean: clean
 
 re: fclean all
 
+test: ${NAME}
+	./${NAME} ./map/subject.cub
+
 .PHONY: all clean fclean re
