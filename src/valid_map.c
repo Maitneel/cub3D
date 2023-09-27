@@ -15,7 +15,7 @@ static bool	is_not_using_incorrect_element(const t_map_element **map)
 		j = 0;
 		while (map[i][j] != END_OF_LINE)
 		{
-			if (map[i][j] == INCORRECTED_MAP_CHAR)
+			if (map[i][j] == INCORRECTED_MAP_ELEMENT)
 				return (false);
 			j++;
 		}

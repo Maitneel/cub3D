@@ -70,7 +70,7 @@ static t_map_element	get_element_type(const char c)
 		return (START_E);
 	else if (c == 'W')
 		return (START_W);
-	return (INCORRECTED_MAP_CHAR);
+	return (INCORRECTED_MAP_ELEMENT);
 }
 
 t_map_element	*convert_line_to_map_element(const char *line,
