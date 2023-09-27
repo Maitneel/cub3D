@@ -75,7 +75,7 @@ static t_map_element	get_element_type(const char c)
 		return (START_E);
 	else if (c == 'W')
 		return (START_W);
-	return (OUT_OF_MAP);
+	return (INCORRECTED_MAP_CHAR);
 }
 
 t_map_element	*convert_line_to_map_element(const char *line,
@@ -125,6 +125,7 @@ t_map_element	**get_map(const int fd_of_move_to_end_of_graphic_info)
 	t_map_element	**converted_map;
 
 	char_map = read_map(fd_of_move_to_end_of_graphic_info);
+	// これいるか？ ここでエラー処理するより、もう一個親でやった方がいい気がする //
 	if (!is_correct_map((const char **)(char_map)))
 	{
 		free_string_array(char_map);
