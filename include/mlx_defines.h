@@ -1,5 +1,5 @@
-#ifndef MLX_DEFINE_H
-# define MLX_DEFINE_H
+#ifndef MLX_DEFINES_H
+# define MLX_DEFINES_H
 
 # define ARROW_UP 65362
 # define ARROW_DOWN 65364
