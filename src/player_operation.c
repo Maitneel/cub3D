@@ -5,7 +5,7 @@
 
 #include <stdio.h>
 
-#define ROTATE_ANGLE (M_PI_2)
+#define ROTATE_ANGLE (M_PI_2 / 9)
 #define MOVING_COEFFICIENT (0.5)
 
 void	rotate_player(int key_code, t_player *player)
@@ -28,8 +28,6 @@ void	move_player(int key_code, t_player *player)
 	double moving_direction;
 
 	moving_direction = 0;
-	fprintf(stderr, "------------------------------------------------------\n");
-	fprintf(stderr, "player->direction : '%f'\n", player->direction);
 	if (key_code == KEY_W)
 		moving_direction = player->direction;
 	else if (key_code == KEY_S)
@@ -38,9 +36,10 @@ void	move_player(int key_code, t_player *player)
 		moving_direction = player->direction - M_PI_2;
 	else if (key_code == KEY_D)
 		moving_direction = player->direction + M_PI_2;
-	fprintf(stderr, "moving_direction : '%f'\n", moving_direction);
-	fprintf(stderr, "cos(moving_direction) : '%f'\n", cos(moving_direction));
-	fprintf(stderr, "sin(moving_direction) : '%fm'\n", sin(moving_direction));
 	player->point.x += sin(moving_direction) * MOVING_COEFFICIENT;
 	player->point.y -= cos(moving_direction) * MOVING_COEFFICIENT;
+	fprintf(stderr, "------------------------------------------------------\n");
+	fprintf(stderr, "moving_direction : '%f'\n", moving_direction);
+	fprintf(stderr, "cos(moving_direction) : '%+f'\n", cos(moving_direction));
+	fprintf(stderr, "sin(moving_direction) : '%+f'\n", sin(moving_direction));
 }
