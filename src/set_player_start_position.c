@@ -51,7 +51,6 @@ void	set_player_start_position(t_player *player, t_map_element **map)
 				player->point.x = j + 0.5;
 				player->point.y = i + 0.5;
 				player->direction = get_start_direction(map[i][j]);
-				fprintf(stderr, "map[i][j] : '%d'\n", map[i][j]);
 				return ;
 			}
 			j++;
