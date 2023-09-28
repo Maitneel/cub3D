@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+#include <stdio.h>
+
 static bool	is_start_element(t_map_element element)
 {
 	return (
@@ -13,24 +15,25 @@ static bool	is_start_element(t_map_element element)
 
 static double	get_start_direction(t_map_element element)
 {
-	if (element == START_E)
+	if (element == START_N)
 	{
 		return (M_PI_2 * 0);
 	}
-	else if (element == START_N)
+	else if (element == START_E)
 	{
 		return (M_PI_2 * 1);
 	}
-	else if (element == START_W)
+	else if (element == START_S)
 	{
 		return (M_PI_2 * 2);
 	}
-	else if (element == START_S)
+	else if (element == START_W)
 	{
 		return (M_PI_2 * 3);
 	}
 	else
 	{
+		printf("error? \n");
 		return (-1);
 	}
 }
@@ -51,6 +54,7 @@ void	set_player_start_position(t_player *player, t_map_element **map)
 				player->point.x = j + 0.5;
 				player->point.y = i + 0.5;
 				player->direction = get_start_direction(map[i][j]);
+				fprintf(stderr, "map[i][j] : '%d'\n", map[i][j]);
 				return ;
 			}
 			j++;
