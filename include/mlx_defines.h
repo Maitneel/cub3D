@@ -7,9 +7,9 @@
 # define ARROW_RIGHT 65363
 
 # define KEY_A 97
-# define KEY_S 119
-# define KEY_D 115
-# define KEY_W 100
+# define KEY_S 115
+# define KEY_D 100
+# define KEY_W 119
 
 # define KEY_Q 113
 # define KEY_E 101
