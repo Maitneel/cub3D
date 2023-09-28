@@ -4,6 +4,7 @@
 #include "cub3d_structs.h"
 #include "debug.h"
 #include "ansi_escape_code.h"
+#include "mlx_defines.h"
 
 void print_color(t_color *color) {
 	fprintf(stderr, "color : [%3d, %3d, %3d]\n", color->red, color->green, color->blue);
@@ -52,4 +53,25 @@ void print_cub3d(t_cub3d *cub3d) {
 	fprintf(stderr, "-------------------------------------------------\n");
 	print_player(cub3d->player);
 	print_map(cub3d->map);
+}
+
+void print_key_code(int key_code) {
+	if (key_code == ARROW_UP)
+		fprintf(stderr, "UP\n");
+	else if (key_code == ARROW_DOWN)
+		fprintf(stderr, "DOWN\n");
+	else if (key_code == ARROW_LEFT)
+		fprintf(stderr, "LEFT\n");
+	else if (key_code == ARROW_RIGHT)
+		fprintf(stderr, "RIGHT\n");
+	else if (key_code == KEY_A)
+		fprintf(stderr, "KEY_A\n");
+	else if (key_code == KEY_S)
+		fprintf(stderr, "KEY_S\n");
+	else if (key_code == KEY_D)
+		fprintf(stderr, "KEY_D\n");
+	else if (key_code == KEY_W)
+		fprintf(stderr, "KEY_W\n");
+	else 
+		fprintf(stderr, "key_code : '%d'\n", key_code);
 }

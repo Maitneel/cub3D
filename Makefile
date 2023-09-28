@@ -22,6 +22,9 @@ SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/get_map.c \
 		${SRCS_DIR}/set_player_start_position.c \
 		${SRCS_DIR}/init_cub3d.c \
+		${SRCS_DIR}/init_mlx_struct.c \
+		${SRCS_DIR}/player_operation.c \
+		${SRCS_DIR}/hooks.c \
 		${SRCS_DIR}/xalloc.c \
 		${SRCS_DIR}/expand_memory.c \
 		${SRCS_DIR}/util_free.c \

@@ -9,14 +9,14 @@
 #include "libft.h"
 #include "print_lib.h"
 #include "free_lib.h"
+#include "util_lib.h"
+#include "mlx_related.h"
 
 #include "debug.h"
 
 int	main(const int argc, const char **argv)
 {
-	void	*mlx;
-	void	*mlx_win;
-	t_cub3d	*cub3d;
+	t_mlx_hook_arg	*mlx_hook_arg;
 
 	if (argc != 2)
 	{
@@ -24,15 +24,17 @@ int	main(const int argc, const char **argv)
 		write(STDERR_FILENO, "few argument\n", 14);
 		return (1);
 	}
-	cub3d = init_cub3d(argv[1]);
-	if (cub3d == NULL)
+	mlx_hook_arg = ft_xcalloc(1, sizeof(t_mlx_hook_arg));
+	mlx_hook_arg->cub3d = init_cub3d(argv[1]);
+	mlx_hook_arg->mlx = init_mlx_struct("hogehoge");
+	if (mlx_hook_arg->cub3d == NULL || mlx_hook_arg->mlx == NULL)
+	{
+		free_mlx_hook_arg(mlx_hook_arg);
 		return (1);
-	print_cub3d(cub3d);
-	free_cub3d(cub3d);
+	}
+	add_hooks(mlx_hook_arg);
+	mlx_loop(mlx_hook_arg->mlx->mlx);
 	return (0);
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 200, 200, "Hello world!");
-	mlx_loop(mlx);
 }
 
 // __attribute__((destructor))

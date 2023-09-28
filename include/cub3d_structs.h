@@ -1,6 +1,8 @@
 #ifndef CUB3D_STRUCTS_H
 # define CUB3D_STRUCTS_H
 
+# define IMAGE_SIZE 100
+
 typedef struct s_texture
 {
 	char			*file_name;
@@ -57,6 +59,20 @@ typedef struct s_cub3d
 	t_player		player;
 }					t_cub3d;
 
+typedef struct s_mlx
+{
+	void			*mlx;
+	void			*window;
+	void			*image[IMAGE_SIZE];
+}					t_mlx;
+
+typedef struct s_mlx_hook_arg
+{
+	t_mlx			*mlx;
+	t_cub3d			*cub3d;
+}				t_mlx_hook_arg;
+
 t_cub3d				*init_cub3d(const char *filename);
+t_mlx				*init_mlx_struct(char *title);
 
 #endif

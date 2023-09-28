@@ -10,4 +10,6 @@ void	free_graphic_info(t_graphic_info *graphic_info);
 void	free_map(t_map_element **map);
 
 void	free_cub3d(t_cub3d *cub3d);
+void	free_mlx_struct(t_mlx *mlx);
+void	free_mlx_hook_arg(t_mlx_hook_arg *mlx_hook_arg);
 #endif
