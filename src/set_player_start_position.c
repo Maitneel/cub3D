@@ -3,13 +3,11 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#include <stdio.h>
-
 static bool	is_start_element(t_map_element element)
 {
 	return (
 		element == START_N || element == START_S || \
-		element == START_E || element == START_E
+		element == START_E || element == START_W
 	);
 }
 
@@ -33,7 +31,6 @@ static double	get_start_direction(t_map_element element)
 	}
 	else
 	{
-		printf("error? \n");
 		return (-1);
 	}
 }
