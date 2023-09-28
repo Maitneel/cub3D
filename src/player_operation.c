@@ -5,7 +5,8 @@
 
 #include <stdio.h>
 
-#define ROTATE_ANGLE (M_PI / 18.0f);
+#define ROTATE_ANGLE (M_PI_2)
+#define MOVING_COEFFICIENT (0.5)
 
 void	rotate_player(int key_code, t_player *player)
 {
@@ -24,5 +25,25 @@ void	rotate_player(int key_code, t_player *player)
 
 void	move_player(int key_code, t_player *player)
 {
+	double moving_direction;
 
+	moving_direction = 0;
+	fprintf(stderr, "------------------------------------------------------\n");
+	fprintf(stderr, "player->direction : '%f'\n", player->direction);
+	if (key_code == KEY_W)
+		moving_direction = player->direction;
+	else if (key_code == KEY_S)
+		moving_direction = player->direction - M_PI;
+	else if (key_code == KEY_A)
+		moving_direction = player->direction + M_PI_2;
+	else if (key_code == KEY_D)
+		moving_direction = player->direction - M_PI_2;
+	fprintf(stderr, "moving_direction : '%f'\n", moving_direction);
+	fprintf(stderr, "cos(moving_direction) : '%f'\n", cos(moving_direction));
+	fprintf(stderr, "sin(moving_direction) : '%fm'\n", sin(moving_direction));
+	player->point.x += cos(moving_direction) * MOVING_COEFFICIENT;
+	if (key_code == KEY_A || key_code == KEY_D)
+		player->point.y += sin(moving_direction) * MOVING_COEFFICIENT;
+	else
+		player->point.y -= sin(moving_direction) * MOVING_COEFFICIENT;
 }

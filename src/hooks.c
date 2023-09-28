@@ -12,9 +12,11 @@ int	key_hook(int key_code, void *arg)
 {
 	const t_mlx_hook_arg	*mlx_hook_arg = arg;
 
+	fprintf(stderr, "key_code : '%d'\n", key_code);
 	if (key_code == ARROW_LEFT || key_code == ARROW_RIGHT)
 		rotate_player(key_code, &(mlx_hook_arg->cub3d->player));
-
+	if (key_code == KEY_A || key_code == KEY_S || key_code == KEY_D || key_code == KEY_W)
+		move_player(key_code, &(mlx_hook_arg->cub3d->player));
 	if (key_code == ARROW_UP)
 		printf("UP\n");
 	if (key_code == ARROW_DOWN)
