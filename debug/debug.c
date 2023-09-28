@@ -2,6 +2,7 @@
 
 #include "cub3d_structs.h"
 #include "debug.h"
+#include "ansi_escape_code.h"
 
 void print_color(t_color *color) {
 	fprintf(stderr, "color : [%3d, %3d, %3d]\n", color->red, color->green, color->blue);
@@ -12,7 +13,14 @@ void print_map(t_map_element **map) {
 	{
 		for (size_t j = 0; map[i][j] != END_OF_LINE; j++)
 		{
-			fprintf(stderr, "%d", map[i][j]);
+			if (map[i][j] == WALL) {
+				fprintf(stderr, "%s", B_BRIGHT_WHIT);
+			} else if (map[i][j] == EMPTY) {
+				fprintf(stderr, "%s", B_CYAN);
+			} else if (map[i][j] != OUT_OF_MAP) {
+				fprintf(stderr, "%s", B_RED);
+			}
+			fprintf(stderr, " %s", RESET_COLOR);
 		}
 		fprintf(stderr, "\n");
 	}

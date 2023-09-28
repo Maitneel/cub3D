@@ -18,6 +18,7 @@ MLX_FLAG = -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I$
 SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/print_error.c \
 		${SRCS_DIR}/get_graphic_info.c \
+		${SRCS_DIR}/valid_map.c \
 		${SRCS_DIR}/get_map.c \
 		${SRCS_DIR}/init_cub3d.c \
 		${SRCS_DIR}/xalloc.c \
@@ -53,5 +54,8 @@ fclean: clean
 	# make -C ${MLX_DIR} clean
 
 re: fclean all
+
+test: ${NAME}
+	./${NAME} ./map/subject.cub
 
 .PHONY: all clean fclean re

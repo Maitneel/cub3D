@@ -6,6 +6,7 @@
 #include "print_lib.h"
 #include "free_lib.h"
 #include "cub3d_structs.h"
+#include "valid_map.h"
 
 #include <stdio.h>
 #include "debug.h"
@@ -35,12 +36,6 @@ char	**read_map(const int fd)
 	return (map);
 }
 
-bool	is_correct_map(const char **map)
-{
-	// TODO
-	return (true);
-}
-
 static size_t	get_max_length(const char **map)
 {
 	size_t	max_length;
@@ -61,7 +56,7 @@ static size_t	get_max_length(const char **map)
 
 static t_map_element	get_element_type(const char c)
 {
-	if (c == ' ')
+	if (c == ' ' || c == '\n')
 		return (OUT_OF_MAP);
 	else if (c == '0')
 		return (EMPTY);
@@ -75,7 +70,7 @@ static t_map_element	get_element_type(const char c)
 		return (START_E);
 	else if (c == 'W')
 		return (START_W);
-	return (OUT_OF_MAP);
+	return (INCORRECTED_MAP_ELEMENT);
 }
 
 t_map_element	*convert_line_to_map_element(const char *line,
@@ -91,9 +86,9 @@ t_map_element	*convert_line_to_map_element(const char *line,
 		converted_line[i + 1] = get_element_type(line[i]);
 		i++;
 	}
-	while (i < width + 2)
+	while (i < width + 1)
 	{
-		converted_line[i] = OUT_OF_MAP;
+		converted_line[i + 1] = OUT_OF_MAP;
 		i++;
 	}
 	converted_line[width + 2] = END_OF_LINE;
@@ -125,13 +120,14 @@ t_map_element	**get_map(const int fd_of_move_to_end_of_graphic_info)
 	t_map_element	**converted_map;
 
 	char_map = read_map(fd_of_move_to_end_of_graphic_info);
-	if (!is_correct_map((const char **)(char_map)))
-	{
-		print_error(false, "inccorect map");
-		free_string_array(char_map);
-		return (NULL);
-	}
 	converted_map = convert_to_map_element((const char **)(char_map));
 	free_string_array(char_map);
+	// ここでエラーチェックしてエラーだったらNULL返すことにします //
+	// 関数の名前変えた方がいいかも get_correct_map みたいな //
+	if (!is_correct_map((const t_map_element **)(converted_map)))
+	{
+		free_map(converted_map);
+		return (NULL);
+	}
 	return (converted_map);
 }
