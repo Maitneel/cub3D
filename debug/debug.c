@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 
 #include "cub3d_structs.h"
 #include "debug.h"
@@ -26,6 +27,11 @@ void print_map(t_map_element **map) {
 	}
 }
 
+void print_player(t_player player) {
+	fprintf(stderr, "player position  : [%f, %f]\n", player.point.x, player.point.y);
+	fprintf(stderr, "player direction : %d\n", (int)(round(player.direction / (2 * M_PI) * 360)));
+}
+
 void print_cub3d(t_cub3d *cub3d) {
 	if (cub3d == NULL) {
 		fprintf(stderr, "cub3d is NULL\n");
@@ -44,5 +50,6 @@ void print_cub3d(t_cub3d *cub3d) {
 	fprintf(stderr, "cub3d->graphic_info->ceiling_color ");
 	print_color(cub3d->graphic_info->ceiling_color);
 	fprintf(stderr, "-------------------------------------------------\n");
+	print_player(cub3d->player);
 	print_map(cub3d->map);
 }

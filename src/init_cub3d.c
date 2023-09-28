@@ -53,6 +53,7 @@ static t_cub3d	*get_cub3d_data(const int fd)
 		free_cub3d(cub3d);
 		return (NULL);
 	}
+	set_player_start_position(&(cub3d->player), cub3d->map);
 	return (cub3d);
 }
 
