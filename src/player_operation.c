@@ -35,15 +35,12 @@ void	move_player(int key_code, t_player *player)
 	else if (key_code == KEY_S)
 		moving_direction = player->direction - M_PI;
 	else if (key_code == KEY_A)
-		moving_direction = player->direction + M_PI_2;
-	else if (key_code == KEY_D)
 		moving_direction = player->direction - M_PI_2;
+	else if (key_code == KEY_D)
+		moving_direction = player->direction + M_PI_2;
 	fprintf(stderr, "moving_direction : '%f'\n", moving_direction);
 	fprintf(stderr, "cos(moving_direction) : '%f'\n", cos(moving_direction));
 	fprintf(stderr, "sin(moving_direction) : '%fm'\n", sin(moving_direction));
-	player->point.x += cos(moving_direction) * MOVING_COEFFICIENT;
-	if (key_code == KEY_A || key_code == KEY_D)
-		player->point.y += sin(moving_direction) * MOVING_COEFFICIENT;
-	else
-		player->point.y -= sin(moving_direction) * MOVING_COEFFICIENT;
+	player->point.x += sin(moving_direction) * MOVING_COEFFICIENT;
+	player->point.y -= cos(moving_direction) * MOVING_COEFFICIENT;
 }
