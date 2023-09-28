@@ -48,11 +48,13 @@ void	set_player_start_position(t_player *player, t_map_element **map)
 		{
 			if (is_start_element(map[i][j]))
 			{
-				player->point.x = j;
-				player->point.y = i;
+				player->point.x = j + 0.5;
+				player->point.y = i + 0.5;
 				player->direction = get_start_direction(map[i][j]);
 				return ;
 			}
+			j++;
 		}
+		i++;
 	}
 }
