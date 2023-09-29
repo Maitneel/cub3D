@@ -34,14 +34,19 @@ int	loop_hook(void *arg)
 {
 	const t_mlx_hook_arg *mlx_hook_arg = arg;
 	t_mlx *mlx;
-	t_mlx_image *new_images[IMAGE_SIZE];
+	size_t i;
 	static int count;
 
 	mlx = mlx_hook_arg->mlx;
-	new_images[0] = new_minimap(mlx_hook_arg->cub3d, mlx, 160, 120);
 	free_and_detroy_mlx_image(mlx->image[0], mlx);
-	mlx->image[0] = new_images[0];
-	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image[0]->image_ptr, 10, 10);
+	mlx->image[0] = new_minimap(mlx_hook_arg->cub3d, mlx, 160, 120);	
+	i = 0;
+	while (i < IMAGE_SIZE)
+	{
+		if (mlx->image[i] != NULL)
+			mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image[i]->image_ptr, 10, 10);
+		i++;
+	}
 	fprintf(stderr, "count : '%d'\n", count);
 	count++;
 	usleep(1 * 1000);
