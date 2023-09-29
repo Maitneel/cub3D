@@ -4,6 +4,8 @@
 #include "cub3d_structs.h"
 #include "mlx_defines.h"
 #include "player_operation.h"
+#include "minimap.h"
+#include "free_lib.h"
 
 #include <stdio.h>
 #include <unistd.h>
@@ -31,12 +33,18 @@ int	key_hook(int key_code, void *arg)
 int	loop_hook(void *arg)
 {
 	const t_mlx_hook_arg *mlx_hook_arg = arg;
-	const t_mlx *mlx = mlx_hook_arg->mlx;
+	t_mlx *mlx;
+	t_mlx_image *new_images[IMAGE_SIZE];
 	static int count;
 
+	mlx = mlx = mlx_hook_arg->mlx;
+	new_images[0] = new_minimap(mlx_hook_arg->cub3d, mlx, 160, 120);
+	free_mlx_image(mlx->image[0]);
+	mlx->image[0] = new_images[0];
+	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image[0]->image_ptr, 10, 10);
 	fprintf(stderr, "count : '%d'\n", count);
 	count++;
-	usleep(100 * 1000);
+	usleep(1 * 1000);
 	return (0);
 }
 

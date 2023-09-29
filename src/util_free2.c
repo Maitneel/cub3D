@@ -26,3 +26,8 @@ void	free_mlx_hook_arg(t_mlx_hook_arg *mlx_hook_arg)
 	free(mlx_hook_arg);
 	return ;
 }
+
+void free_mlx_image()
+{
+
+}
