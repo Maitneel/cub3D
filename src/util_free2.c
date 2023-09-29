@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include "mlx.h"
 
 #include "cub3d_structs.h"
 #include "free_lib.h"
@@ -27,7 +28,10 @@ void	free_mlx_hook_arg(t_mlx_hook_arg *mlx_hook_arg)
 	return ;
 }
 
-void free_mlx_image()
+void	free_and_detroy_mlx_image(t_mlx_image *image, const t_mlx *mlx)
 {
-
+	if (image == NULL)
+		return ;
+	mlx_destroy_image(mlx->mlx, image->image_ptr);
+	free(image);
 }

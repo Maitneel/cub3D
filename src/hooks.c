@@ -37,14 +37,15 @@ int	loop_hook(void *arg)
 	t_mlx_image *new_images[IMAGE_SIZE];
 	static int count;
 
-	mlx = mlx = mlx_hook_arg->mlx;
+	mlx = mlx_hook_arg->mlx;
 	new_images[0] = new_minimap(mlx_hook_arg->cub3d, mlx, 160, 120);
-	free_mlx_image(mlx->image[0]);
+	free_and_detroy_mlx_image(mlx->image[0], mlx);
 	mlx->image[0] = new_images[0];
 	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image[0]->image_ptr, 10, 10);
 	fprintf(stderr, "count : '%d'\n", count);
 	count++;
 	usleep(1 * 1000);
+	// system("leaks cub3D");
 	return (0);
 }
 
