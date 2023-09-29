@@ -6,6 +6,7 @@
 #include "player_operation.h"
 
 #include <stdio.h>
+#include <unistd.h>
 #include "debug.h"
 
 int	key_hook(int key_code, void *arg)
@@ -27,7 +28,20 @@ int	key_hook(int key_code, void *arg)
 	return (0);
 }
 
+int	loop_hook(void *arg)
+{
+	const t_mlx_hook_arg *mlx_hook_arg = arg;
+	const t_mlx *mlx = mlx_hook_arg->mlx;
+	static int count;
+
+	fprintf(stderr, "count : '%d'\n", count);
+	count++;
+	usleep(100 * 1000);
+	return (0);
+}
+
 void	add_hooks(t_mlx_hook_arg *mlx_hook_arg)
 {
 	mlx_key_hook(mlx_hook_arg->mlx->window, key_hook, mlx_hook_arg);
+	mlx_loop_hook(mlx_hook_arg->mlx->mlx, loop_hook, mlx_hook_arg);
 }
