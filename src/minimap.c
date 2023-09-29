@@ -35,6 +35,26 @@ int	get_minimap_color(t_map_element type)
 		return (MINIMAP_EMPYT_COLOR);
 }
 
+void put_player_position(t_mlx_image *minimap)
+{
+	size_t i;
+	size_t j;
+	const size_t player_position_size = 4;
+	
+	i = (minimap->height / 2) - (player_position_size / 2);
+	while (i < (minimap->height / 2) + (player_position_size / 2))
+	{
+		j = (minimap->width / 2) - (player_position_size / 2);
+		while (j < (minimap->width / 2) + (player_position_size / 2))
+		{
+			put_pixel_to_mlx_image(minimap, j, i, 0x80ff0000);
+			j++;
+		}
+		i++;
+	}
+
+}
+
 t_mlx_image *new_minimap(const t_cub3d *cub3d, const t_mlx *mlx, const int width, const int height)
 {
 	t_mlx_image	*minimap;
@@ -57,5 +77,6 @@ t_mlx_image *new_minimap(const t_cub3d *cub3d, const t_mlx *mlx, const int width
 		}
 		i++;
 	}
+	put_player_position(minimap);
 	return (minimap);
 }
