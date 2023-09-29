@@ -55,6 +55,8 @@ typedef enum e_map_element
 typedef struct s_cub3d
 {
 	t_map_element	**map;
+	int				map_width;
+	int				map_height;
 	t_graphic_info	*graphic_info;
 	t_player		player;
 }					t_cub3d;
