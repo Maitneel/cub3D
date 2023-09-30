@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 17:13:47 by taksaito          #+#    #+#             */
-/*   Updated: 2023/09/30 17:42:22 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/09/30 19:20:39 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_ray2d
 	t_vector2d	*way;
 }	t_ray2d;
 
+t_ray2d		*new_ray2d(t_vector2d *begin, t_vector2d *end);
 t_vector2d	*get_begin(t_ray2d *ray);
 t_vector2d	*get_end(t_ray2d *ray);
 t_vector2d	*intersection(t_ray2d *ray1, t_ray2d *ray2);
