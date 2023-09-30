@@ -55,15 +55,32 @@ typedef enum e_map_element
 typedef struct s_cub3d
 {
 	t_map_element	**map;
+	int				map_width;
+	int				map_height;
 	t_graphic_info	*graphic_info;
 	t_player		player;
 }					t_cub3d;
+
+typedef struct s_mlx_image
+{
+	void		*image_ptr;
+	int			width;
+	int			height;
+
+	char		*data_addr;
+	int			bit_per_pixel;
+	int			size_line;
+	int			endian;
+
+	int			x_coord_to_put_image;
+	int			y_coord_to_put_image;
+}				t_mlx_image;
 
 typedef struct s_mlx
 {
 	void			*mlx;
 	void			*window;
-	void			*image[IMAGE_SIZE];
+	t_mlx_image		*image[IMAGE_SIZE];
 }					t_mlx;
 
 typedef struct s_mlx_hook_arg

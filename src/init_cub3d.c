@@ -40,6 +40,30 @@ static bool	is_valid_filename(const char *filename)
 	return (true);
 }
 
+static int get_map_width(t_map_element **map)
+{
+	int i;
+	if (map == NULL)
+		return -1;
+	if (map[0] == NULL)
+		return 0;
+	i = 0;
+	while (map[0][i] != END_OF_LINE)
+		i++;
+	return i;
+}
+
+static int get_map_height(t_map_element **map)
+{
+	int i;
+	if (map == NULL)
+		return (-1);
+	i = 0;
+	while (map[i] != NULL)
+		i++;
+	return i;
+}
+
 static t_cub3d	*get_cub3d_data(const int fd)
 {
 	t_cub3d	*cub3d;
@@ -53,6 +77,8 @@ static t_cub3d	*get_cub3d_data(const int fd)
 		free_cub3d(cub3d);
 		return (NULL);
 	}
+	cub3d->map_width = get_map_width(cub3d->map);
+	cub3d->map_height = get_map_height(cub3d->map);
 	set_player_start_position(&(cub3d->player), cub3d->map);
 	return (cub3d);
 }

@@ -24,6 +24,9 @@ SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/init_cub3d.c \
 		${SRCS_DIR}/init_mlx_struct.c \
 		${SRCS_DIR}/player_operation.c \
+		${SRCS_DIR}/new_mlx_image_struct.c \
+		${SRCS_DIR}/put_pixel_to_mlx_image.c \
+		${SRCS_DIR}/minimap.c \
 		${SRCS_DIR}/hooks.c \
 		${SRCS_DIR}/xalloc.c \
 		${SRCS_DIR}/expand_memory.c \
