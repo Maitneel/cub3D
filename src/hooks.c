@@ -19,7 +19,7 @@ int	key_hook(int key_code, void *arg)
 		rotate_player(key_code, &(mlx_hook_arg->cub3d->player));
 	if (key_code == KEY_A || key_code == KEY_S || \
 			key_code == KEY_D || key_code == KEY_W)
-		move_player(key_code, &(mlx_hook_arg->cub3d->player));
+		move_player(key_code, &(mlx_hook_arg->cub3d->player), mlx_hook_arg->cub3d->map);
 	if (key_code == KEY_ESC)
 	{
 		// TODO
