@@ -6,12 +6,13 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 17:13:47 by taksaito          #+#    #+#             */
-/*   Updated: 2023/09/30 19:20:39 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/10/01 16:35:10 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RAY2D_H
 # define RAY2D_H
+# define EPS 1e-08
 
 # include "vector2d.h"
 

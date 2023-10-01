@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 17:13:37 by taksaito          #+#    #+#             */
-/*   Updated: 2023/09/30 19:45:17 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/10/01 17:35:18 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,19 @@ t_vector2d	*get_end(t_ray2d *ray)
 
 t_vector2d	*intersection(t_ray2d *ray1, t_ray2d *ray2)
 {
-	// TODO: 現在は線分の延長線上に交点があった場合も返すような実装になっているので、あとで修正する。
-	double t1, t2, x1, x2, y1, y2, sx, sy;
+	double	t1;
+	double	t2;
+	double	sx;
+	double	sy;
+
+	if (ray1->pos->x < EPS)
+		ray1->pos->x = EPS;
+	if (ray2->pos->x < EPS)
+		ray2->pos->x = EPS;
 	t1 = ray1->way->y / ray1->way->x;
 	t2 = ray2->way->y / ray2->way->x;
-	x1 = ray1->pos->x;
-	x2 = ray2->pos->x;
-	y1 = ray1->pos->y;
-	y2 = ray2->pos->y;
-	sx = (t1 * x1 - t2 * x2 - y1 + y2) / (t1 - t2);
-	sy = t1 * (sx - x1) + y1;
+	sx = (t1 * ray1->pos->x - t2
+			* ray2->pos->x - ray1->pos->y + ray2->pos->y) / (t1 - t2);
+	sy = t1 * (sx - ray1->pos->x) + ray1->pos->y;
 	return (new_vector(sy, sx));
 }
