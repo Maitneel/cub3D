@@ -1,0 +1,18 @@
+#ifndef RAY2D_H
+# define RAY2D_H
+# define EPS 1e-08
+
+# include "vector2d.h"
+
+typedef struct s_ray2d
+{
+	t_vector2d	*pos;
+	t_vector2d	*way;
+}	t_ray2d;
+
+t_ray2d		*new_ray2d(t_vector2d *begin, t_vector2d *end);
+t_vector2d	*get_begin(t_ray2d *ray);
+t_vector2d	*get_end(t_ray2d *ray);
+t_vector2d	*intersection(t_ray2d *ray1, t_ray2d *ray2);
+
+#endif // RAY2D_H
