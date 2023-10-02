@@ -27,9 +27,9 @@ t_vector2d	*intersection(t_ray2d *ray1, t_ray2d *ray2)
 	double	sx;
 	double	sy;
 
-	if (ray1->pos->x < EPS)
+	if (fabs(ray1->pos->x) < EPS)
 		ray1->pos->x = EPS;
-	if (ray2->pos->x < EPS)
+	if (fabs(ray2->pos->x) < EPS)
 		ray2->pos->x = EPS;
 	t1 = ray1->way->y / ray1->way->x;
 	t2 = ray2->way->y / ray2->way->x;
