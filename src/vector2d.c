@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 15:52:49 by taksaito          #+#    #+#             */
-/*   Updated: 2023/09/30 18:48:41 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/10/07 18:25:15 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,10 @@ double	mag(t_vector2d *vec)
 t_vector2d	*deep_copy(t_vector2d *vec)
 {
 	return (new_vector(vec->y, vec->x));
+}
+
+t_vector2d unit_vector(double theta)
+{
+	// TODO: implement
+	return (new_vector(1, 1));
 }
