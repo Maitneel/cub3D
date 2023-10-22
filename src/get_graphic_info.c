@@ -4,6 +4,8 @@
 #include "print_lib.h"
 #include "util_lib.h"
 #include "free_lib.h"
+#include "get_xpm_data.h"
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -218,6 +220,7 @@ char	*get_texture_file_name(const char *line)
 t_texture	*new_texture(const char *file_name)
 {
 	t_texture	*texture;
+	char		**file_content;
 
 	texture = ft_xcalloc(1, sizeof(t_texture));
 	texture->file_name = ft_strdup(file_name);
@@ -226,6 +229,11 @@ t_texture	*new_texture(const char *file_name)
 		print_error(true, "malloc");
 		exit(1);
 	}
+	file_content = get_xpm_file_data(texture->file_name);
+	texture->height = get_xpm_width((const char **)(file_content));
+	texture->width = get_xpm_width((const char **)(file_content));
+	texture->pixel_color = get_xpm_pixel_color((const char **)(file_content), texture->height, texture->width);
+	free_string_array(file_content);
 	return (texture);
 }
 
