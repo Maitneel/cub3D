@@ -230,7 +230,7 @@ t_texture	*new_texture(const char *file_name)
 		exit(1);
 	}
 	file_content = get_xpm_file_content(texture->file_name);
-	texture->height = get_xpm_width((const char **)(file_content));
+	texture->height = get_xpm_height((const char **)(file_content));
 	texture->width = get_xpm_width((const char **)(file_content));
 	texture->pixel_color = get_xpm_pixel_color((const char **)(file_content), texture->height, texture->width);
 	free_string_array(file_content);
