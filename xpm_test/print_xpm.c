@@ -44,7 +44,9 @@ int main(const int argc, const char **argv) {
 	for (int i = 0; i < y; i++) {
 		for (int j = 0; j < x; j++) {
 			unsigned int value = *(int *)(data + (i * size_line + sizeof(int) * j));
-			fprintf(stderr, "'%08x' ", value);
+			// fprintf(stderr, "'%08x' ", value);
+			char c = (value == 0 ? '.' : 'x');
+			fprintf(stderr, "%c", c);
 		}
 		fprintf(stderr, "\n");
 	}
