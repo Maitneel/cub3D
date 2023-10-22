@@ -229,7 +229,7 @@ t_texture	*new_texture(const char *file_name)
 		print_error(true, "malloc");
 		exit(1);
 	}
-	file_content = get_xpm_file_data(texture->file_name);
+	file_content = get_xpm_file_content(texture->file_name);
 	texture->height = get_xpm_width((const char **)(file_content));
 	texture->width = get_xpm_width((const char **)(file_content));
 	texture->pixel_color = get_xpm_pixel_color((const char **)(file_content), texture->height, texture->width);
