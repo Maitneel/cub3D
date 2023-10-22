@@ -18,6 +18,7 @@ MLX_FLAG = -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I$
 SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/print_error.c \
 		${SRCS_DIR}/get_graphic_info.c \
+		${SRCS_DIR}/xpm/get_xpm_file_content.c \
 		${SRCS_DIR}/valid_map.c \
 		${SRCS_DIR}/get_map.c \
 		${SRCS_DIR}/set_player_start_position.c \
