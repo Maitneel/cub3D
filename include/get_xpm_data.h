@@ -14,7 +14,7 @@ t_color_index_pair	get_color_index_pair(const char *line,
 		const size_t char_per_pixel);
 t_color	*get_row_of_pixel_color(const char *line,
 								const t_color_index_pair *color_map,
-								const size_t height, const size_t width);
+								const size_t width, const size_t char_per_pixel);
 t_color	**get_xpm_pixel_color(const char **file_content, const size_t height,
 			const size_t width);
 
