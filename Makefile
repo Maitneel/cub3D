@@ -21,6 +21,7 @@ SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/xpm/get_xpm_file_content.c \
 		${SRCS_DIR}/xpm/get_xpm_size.c \
 		${SRCS_DIR}/xpm/get_xpm_pixel_color.c \
+		${SRCS_DIR}/xpm/get_color_index_pair.c \
 		${SRCS_DIR}/valid_map.c \
 		${SRCS_DIR}/get_map.c \
 		${SRCS_DIR}/set_player_start_position.c \
