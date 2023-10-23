@@ -36,9 +36,9 @@ t_color	get_color_visual(const char *line)
 	char	*front;
 
 	front = (char *)(line);
-	while (ft_isspace(*line) && *line != '\0')
+	while (ft_isspace(*front) && *front != '\0')
 		front++;
-	if (*line != '#')
+	if (*front != '#')
 	{
 		print_error(false, "invalid xpm fromat\n");
 		exit(1);
@@ -145,19 +145,16 @@ t_color	**get_xpm_pixel_color(const char **file_content, const size_t height,
 	size_t				i;
 	size_t				front_of_pixel_info;
 
-printf("end1\n");
 	front_of_pixel_info = get_xpm_number_of_color(file_content) + 1;
 	pixel_color = ft_xcalloc(height + 1, sizeof(t_color *));
 	color_map = get_color_map(file_content);
 	i = 0;
-	printf("end1\n");
 	while (i < height && file_content[front_of_pixel_info + i] != NULL)
 	{
 		pixel_color[i] = get_row_of_pixel_color(file_content[front_of_pixel_info
 				+ i], color_map, height, width);
 		i++;
 	}
-	printf("end2\n");
 	if (i != height || file_content[front_of_pixel_info + i] != NULL)
 	{
 		print_error(false, "invalid xpm format\n");
