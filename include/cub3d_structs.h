@@ -20,6 +20,12 @@ typedef struct s_texture
 	t_color			**pixel_color;
 }					t_texture;
 
+typedef struct s_color_index_pair
+{
+	char			*key;
+	t_color			color;
+}					t_color_index_pair;
+
 typedef struct s_graphic_info
 {
 	t_texture		*north_texture;
