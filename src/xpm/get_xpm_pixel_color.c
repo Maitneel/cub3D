@@ -5,9 +5,6 @@
 #include "util_lib.h"
 #include <stdlib.h>
 
-
-#include <stdio.h>
-
 t_color_index_pair	*get_color_map(const char **file_content)
 {
 	const size_t		char_per_pixel = get_xpm_char_per_pixel(file_content);
@@ -24,19 +21,6 @@ t_color_index_pair	*get_color_map(const char **file_content)
 		i++;
 	}
 	return (color_index);
-}
-
-t_color	*get_row_of_pixel_color(const char *line,
-								const t_color_index_pair *color_map,
-								const size_t height, const size_t width)
-{
-	size_t i;
-
-	i = 0;
-	while (i < height) {
-		fprintf(stderr, "'%s' 0x%2X%2X%2X\n", color_map[i].key, color_map[i].color.red, color_map[i].color.green, color_map[i].color.blue);
-		i++;
-	}
 }
 
 t_color	**get_xpm_pixel_color(const char **file_content, const size_t height,
