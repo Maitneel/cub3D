@@ -14,7 +14,7 @@
 #include "mlx_image_proc.h"
 
 #include "debug.h"
-
+// /*
 int	main(const int argc, const char **argv)
 {
 	t_mlx_hook_arg	*mlx_hook_arg;
@@ -51,6 +51,7 @@ int	main(const int argc, const char **argv)
 	mlx_loop(mlx_hook_arg->mlx->mlx);
 	return (0);
 }
+// */
 
 // __attribute__((destructor))
 // void destructor() {
