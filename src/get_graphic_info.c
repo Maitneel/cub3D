@@ -319,6 +319,7 @@ t_graphic_info	*get_graphic_info(const int fd)
 			!is_element_empyt(graphic_info, line)
 		)
 		{
+			// これなに? //
 			free_graphic_info(graphic_info);
 			return (NULL);
 		}
