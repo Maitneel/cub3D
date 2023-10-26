@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include "debug.h"
 
+
 int	key_hook(int key_code, void *arg)
 {
 	const t_mlx_hook_arg	*mlx_hook_arg = arg;
@@ -30,6 +31,26 @@ int	key_hook(int key_code, void *arg)
 	return (0);
 }
 
+
+
+/******************  TEST FUNCTION ******************/
+#include "mlx_image_proc.h"
+#include "paste_texture.h"
+t_mlx_image *paste_texture_test(t_mlx *mlx, t_texture *texture) {
+	t_mlx_image *image;
+	image = new_image_struct(mlx, 200, 200);
+
+	for(size_t i = 0; i < 200; i++) {
+		paste_texture(image, 1, (double)(i) / (double)(200), texture, i);
+		fprintf(stderr, "i : '%zu'\n", i);
+	}
+	usleep(100);
+	printf("==============================================\n");
+	return image;
+}
+/****************************************************/
+
+
 int	loop_hook(void *arg)
 {
 	const t_mlx_hook_arg *mlx_hook_arg = arg;
@@ -39,7 +60,9 @@ int	loop_hook(void *arg)
 
 	mlx = mlx_hook_arg->mlx;
 	free_and_detroy_mlx_image(mlx->image[0], mlx);
-	mlx->image[0] = new_minimap(mlx_hook_arg->cub3d, mlx, 160, 120);	
+	// mlx->image[0] = new_minimap(mlx_hook_arg->cub3d, mlx, 160, 120);	
+	mlx->image[0] = NULL;
+	mlx->image[1] = paste_texture_test(mlx, mlx_hook_arg->cub3d->graphic_info->north_texture); // for test function
 	i = 0;
 	while (i < IMAGE_SIZE)
 	{
@@ -50,6 +73,7 @@ int	loop_hook(void *arg)
 	fprintf(stderr, "count : '%d'\n", count);
 	count++;
 	usleep(1 * 1000);
+
 	// system("leaks cub3D");
 	return (0);
 }
