@@ -31,13 +31,12 @@ void paste_texture(t_mlx_image *image, const double magnification, const double 
 	{
 		size_t y = ((double)(i) / magnification / image->height) * texture->height;
 		if (texture->height <= y)
-			y = texture->height - 1;
+			break;
+			// y = texture->height - 1;
 		size_t color_x = (double)(texture_position) * (double)(texture->width);
 		if (texture->width <= color_x)
 			color_x = texture->width - 1;
 		put_pixel_to_mlx_image(image, image_x, i, convert_color_to_int(texture->pixel_color[y][color_x]));
 		i++;
 	}	
-	fprintf(stderr, "image_x : '%zu'\n", image_x);
-	fprintf(stderr, "texture_position : '%f'\n", texture_position);
 }
