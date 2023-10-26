@@ -29,7 +29,7 @@ void paste_texture(t_mlx_image *image, const double magnification, const double 
 	i = 0;
 	while (i < image->height)
 	{
-		size_t y = ((double)(i) * magnification / image->height) * texture->height;
+		size_t y = ((double)(i) / magnification / image->height) * texture->height;
 		if (texture->height <= y)
 			y = texture->height - 1;
 		size_t color_x = (double)(texture_position) * (double)(texture->width);
