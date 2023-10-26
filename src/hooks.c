@@ -41,7 +41,11 @@ t_mlx_image *paste_texture_test(t_mlx *mlx, t_texture *texture) {
 	image = new_image_struct(mlx, 200, 200);
 
 	for(size_t i = 0; i < 200; i++) {
-		paste_texture(image, (double)(i) / 100.0f, (double)(i) / (double)(200), texture, i);
+		// if (i < 100)
+		// 	paste_texture(image, (double)(i) / 100.0f, (double)(i) / (double)(200), texture, i);
+		// else 
+		// 	paste_texture(image,  (1.0f - (double)(i) / 200.0f), (double)(i) / (double)(200), texture, i);
+			paste_texture(image, 0.5f + ((double)(i) / 400.0f), (double)(i) / (double)(200), texture, i);
 	}
 	usleep(100);
 	return image;
@@ -60,7 +64,7 @@ int	loop_hook(void *arg)
 	free_and_detroy_mlx_image(mlx->image[0], mlx);
 	// mlx->image[0] = new_minimap(mlx_hook_arg->cub3d, mlx, 160, 120);	
 	mlx->image[0] = NULL;
-	mlx->image[1] = paste_texture_test(mlx, mlx_hook_arg->cub3d->graphic_info->north_texture); // for test function
+	mlx->image[1] = paste_texture_test(mlx, mlx_hook_arg->cub3d->graphic_info->south_texture); // for test function
 	i = 0;
 	while (i < IMAGE_SIZE)
 	{
