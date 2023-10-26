@@ -41,8 +41,7 @@ t_mlx_image *paste_texture_test(t_mlx *mlx, t_texture *texture) {
 	image = new_image_struct(mlx, 200, 200);
 
 	for(size_t i = 0; i < 200; i++) {
-		paste_texture(image, 0.5f, (double)(i) / (double)(200), texture, i);
-		fprintf(stderr, "i : '%zu'\n", i);
+		paste_texture(image, (double)(i) / 100.0f, (double)(i) / (double)(200), texture, i);
 	}
 	usleep(100);
 	return image;

@@ -27,12 +27,16 @@ void paste_texture(t_mlx_image *image, const double magnification, const double 
 		col = texture->width - 1;
 
 	i = 0;
+	int axis_correction = (image->height - (image->height * magnification)) / 2;
 	while (i < image->height)
 	{
-		size_t y = ((double)(i) / magnification / image->height) * texture->height;
+		int y = ((double)(i - axis_correction) / magnification / image->height) * texture->height;
+		if (y < 0){
+			i++;
+			continue;
+		}
 		if (texture->height <= y)
 			break;
-			// y = texture->height - 1;
 		size_t color_x = (double)(texture_position) * (double)(texture->width);
 		if (texture->width <= color_x)
 			color_x = texture->width - 1;
