@@ -1,0 +1,22 @@
+#define XFACE_format 1
+#define XFACE_width 48
+#define XFACE_height 10
+#define XFACE_ncolors 2
+#define XFACE_chars_per_pixel 1
+static char *XFACE_colors[] = {
+"a", "#ffffff",
+"b", "#000000"
+};
+static char *XFACE_pixels[] = {
+"abaabaababaaabaabababaabaabaababaabaaababaabaaab",
+"abaabaababaaabaabababaabaabaababaabaaababaabaaab",
+"abaabaababaaabaabababaabaabaababaabaaababaabaaab",
+"abaabaababaaabaabababaabaabaababaabaaababaabaaab",
+"abaabaababaaabaabababaabaabaababaabaaababaabaaab",
+"abaabaababaaabaabababaabaabaababaabaaababaabaaab",
+"abaabaababaaabaabababaabaabaababaabaaababaabaaab",
+"abaabaababaaabaabababaabaabaababaabaaababaabaaab",
+"abaabaababaaabaabababaabaabaababaabaaababaabaaab",
+"abaabaababaaabaabababaabaabaababaabaaababaabaaab",
+"abaabaababaaabaabababaabaabaababaabaaababaabaaab"
+}

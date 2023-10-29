@@ -1,39 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_lien.c                                    :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 16:20:12 by dummy             #+#    #+#             */
-/*   Updated: 2023/09/25 14:30:57 by dummy            ###   ########.fr       */
+/*   Updated: 2023/10/24 03:36:26 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdlib.h>
 
+#include <stdio.h>
+
 char	*get_next_line(int fd)
 {
-	static t_buffer	buf;
+	static t_buffer	buf[FD_MAX];
 	t_string		result;
 	char			temp[1];
 
 	result.str = NULL;
 	result.max_size = 0;
 	result.size = 0;
-	buf.loop_flag = read(fd, temp, 0);
-	while (buf.loop_flag == 0)
+	if (fd < 0 || FD_MAX <= fd)
+		return (NULL);
+	buf[fd].loop_flag = read(fd, temp, 0);
+	while (buf[fd].loop_flag == 0)
 	{
-		if (buf.start == 0)
+		if (buf[fd].start == 0)
 		{
-			buf.read_ret = read(fd, buf.str, BUFFER_SIZE);
-			if (buf.read_ret <= 0)
+			buf[fd].read_ret = read(fd, buf[fd].str, BUFFER_SIZE);
+			if (buf[fd].read_ret <= 0)
 				break ;
 		}
-		add_back_string(&result, &buf);
+		add_back_string(&result, &buf[fd]);
 	}
-	if (buf.loop_flag == -1 || buf.read_ret == -1)
+	if (buf[fd].loop_flag == -1 || buf[fd].read_ret == -1)
 	{
 		free(result.str);
 		result.str = NULL;
