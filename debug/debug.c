@@ -29,7 +29,7 @@ void print_map(t_map_element **map) {
 }
 
 void print_player(t_player player) {
-	fprintf(stderr, "player position  : [%f, %f]\n", player.point.x, player.point.y);
+	fprintf(stderr, "player position  : [%lld, %lld]\n", player.point.x_hoge, player.point.y_hoge);
 	fprintf(stderr, "player direction : %d\n", (int)(round(player.direction / (2 * M_PI) * 360)));
 }
 

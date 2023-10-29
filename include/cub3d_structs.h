@@ -39,10 +39,12 @@ typedef struct s_graphic_info
 
 typedef struct s_point
 {
-	double			y;
-	double			x;
+	long long		y_hoge;
+	long long		x_hoge;
 }					t_point;
 
+
+#define  PLAYER_MAGFICATION 100
 typedef struct s_player
 {
 	t_point			point;

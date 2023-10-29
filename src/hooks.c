@@ -72,7 +72,7 @@ int	loop_hook(void *arg)
 			mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image[i]->image_ptr, 10, 10);
 		i++;
 	}
-	fprintf(stderr, "count : '%d'\n", count);
+	// fprintf(stderr, "count : '%d'\n", count);
 	count++;
 	usleep(1 * 1000);
 

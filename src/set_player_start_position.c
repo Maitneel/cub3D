@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+
 static bool	is_start_element(t_map_element element)
 {
 	return (
@@ -48,8 +49,8 @@ void	set_player_start_position(t_player *player, t_map_element **map)
 		{
 			if (is_start_element(map[i][j]))
 			{
-				player->point.x = j + 0.5;
-				player->point.y = i + 0.5;
+				player->point.x_hoge = j * PLAYER_MAGFICATION + (PLAYER_MAGFICATION / 2);
+				player->point.y_hoge = i * PLAYER_MAGFICATION + (PLAYER_MAGFICATION / 2);
 				player->direction = get_start_direction(map[i][j]);
 				return ;
 			}
