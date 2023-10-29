@@ -3,11 +3,7 @@
 
 # define IMAGE_SIZE 100
 
-typedef struct s_texture
-{
-	char			*file_name;
-	// TODO;
-}					t_texture;
+#include "stddef.h"
 
 typedef struct s_color
 {
@@ -15,6 +11,20 @@ typedef struct s_color
 	int				green;
 	int				blue;
 }					t_color;
+
+typedef struct s_texture
+{
+	char			*file_name;
+	size_t			height;
+	size_t			width;
+	t_color			**pixel_color;
+}					t_texture;
+
+typedef struct s_color_index_pair
+{
+	char			*key;
+	t_color			color;
+}					t_color_index_pair;
 
 typedef struct s_graphic_info
 {
@@ -29,10 +39,12 @@ typedef struct s_graphic_info
 
 typedef struct s_point
 {
-	double			y;
-	double			x;
+	long long		y_hoge;
+	long long		x_hoge;
 }					t_point;
 
+
+#define  PLAYER_MAGFICATION 100
 typedef struct s_player
 {
 	t_point			point;
