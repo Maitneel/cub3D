@@ -1,4 +1,5 @@
 #include "mlx.h"
+#include <math.h>
 
 #include "cub3d_structs.h"
 #include "mlx_image_proc.h"
@@ -12,6 +13,7 @@
 #define MINIMAP_OUT_OF_MAP_COLOR 0x80000000
 #define MINIMAP_EMPYT_COLOR 0x80ffffff
 #define MINIMAP_WALL_COLOR 0x80303030
+#define MINIMAP_FILED_OF_VIEW_COLOR 0x80ff0000
 
 t_map_element get_map_element_type(const t_cub3d *cub3d, const int x, const int y)
 {
@@ -84,6 +86,51 @@ unsigned int	**get_default_color_map(const t_cub3d *cub3d, const int width, cons
 	return (color_map);
 }
 
+
+
+void	put_line(unsigned int **color_map, const int height, const int width, const double direction)
+{
+	const int center_x = width / 2;
+	const int center_y = height / 2;
+	int magfication;
+	int i;
+	int j;
+
+	i = center_y;
+	j = center_x;
+	magfication = 0;
+	while (0 <= i && i < height && 0 <= j && j < width)
+	{
+		if (color_map[i][j] == MINIMAP_WALL_COLOR || color_map[i][j] == MINIMAP_OUT_OF_MAP_COLOR)
+			return ;
+		color_map[i][j] = MINIMAP_FILED_OF_VIEW_COLOR;
+		i = center_y + (int)(cos(direction) * magfication);
+		j = center_x + (int)(sin(direction) * magfication);
+		magfication++;
+	}
+
+}
+
+void	coloring_filed_of_view(const t_cub3d *cub3d, unsigned int **color_map, const int height, const int width)
+{
+	size_t i;
+	int greater_size;
+
+	if (width < height) 
+		greater_size = height;
+	else
+		greater_size = width;
+	greater_size = (double)(greater_size) * 1.001;
+	i = 0;
+	while (i < greater_size) {
+		// ここ計算量やばい //
+		put_line(color_map, height, width, cub3d->player.direction - M_PI_4 + ((double)(i) * M_PI_2 / (double)(greater_size)));
+		i++;
+	}
+	put_line(color_map, height, width, cub3d->player.direction);
+	put_line(color_map, height, width, cub3d->player.direction + M_PI_4);
+}
+
 void put_to_image_front_int_array(t_mlx_image *image, unsigned int **color_map)
 {
 	int i;
@@ -109,6 +156,7 @@ t_mlx_image *new_minimap(const t_cub3d *cub3d, const t_mlx *mlx, const int width
 
 	minimap = new_image_struct(mlx, width, height);
 	color_map = get_default_color_map(cub3d, width, height);
+	coloring_filed_of_view(cub3d, color_map, height, width); // direction 怪しい //
 	put_to_image_front_int_array(minimap, color_map);
 	free_uint_array_array(color_map, height);
 	put_player_position(minimap);
