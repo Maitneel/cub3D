@@ -15,17 +15,18 @@
 #define MINIMAP_WALL_COLOR 0x80303030
 #define MINIMAP_FILED_OF_VIEW_COLOR 0x80ff0000
 
-t_map_element get_map_element_type(const t_cub3d *cub3d, const int x, const int y)
+t_map_element	get_map_element_type(
+	const t_cub3d *cub3d, const int x, const int y
+)
 {
-	t_map_element type;
+	t_map_element	type;
 
 	if ((0 <= x && x < cub3d->map_width) && (0 <= y && y < cub3d->map_height))
 		type = cub3d->map[y][x];
-	else 
+	else
 		type = OUT_OF_MAP;
 	return (type);
 }
-
 
 // TODO //
 // START_*をEMPTYに置き換えてない関係でこうなってるけど、OUT_OF_MAPをelseで返すようにしたい //
@@ -35,16 +36,16 @@ int	get_minimap_color(t_map_element type)
 		return (MINIMAP_OUT_OF_MAP_COLOR);
 	else if (type == WALL)
 		return (MINIMAP_WALL_COLOR);
-	else 
+	else
 		return (MINIMAP_EMPYT_COLOR);
 }
 
-void put_player_position(t_mlx_image *minimap)
+void	put_player_position(t_mlx_image *minimap)
 {
-	size_t i;
-	size_t j;
-	const size_t player_position_size = 4;
-	
+	size_t			i;
+	size_t			j;
+	const size_t	player_position_size = 4;
+
 	i = (minimap->height / 2) - (player_position_size / 2);
 	while (i < (minimap->height / 2) + (player_position_size / 2))
 	{
@@ -56,16 +57,17 @@ void put_player_position(t_mlx_image *minimap)
 		}
 		i++;
 	}
-
 }
 
-unsigned int	**get_default_color_map(const t_cub3d *cub3d, const int width, const int height)
+unsigned int	**get_default_color_map(
+	const t_cub3d *cub3d, const int width, const int height
+)
 {
-	int **color_map;
-	int x;
-	int y;
-	int i;
-	int j;
+	int	**color_map;
+	int	x;
+	int	y;
+	int	i;
+	int	j;
 
 	i = 0;
 	color_map = ft_xcalloc(height + 1, sizeof(int *));
@@ -76,9 +78,12 @@ unsigned int	**get_default_color_map(const t_cub3d *cub3d, const int width, cons
 		while (j < width)
 		{
 			// TODO 何が TODO なのかぶっちゃけわからない //
-			x = ((int)(cub3d->player.point.x_hoge * 15 / PLAYER_MAGFICATION + j) - (width / 2)) / 15;
-			y = ((int)(cub3d->player.point.y_hoge * 15 / PLAYER_MAGFICATION  + i - (height / 2))) / 15;
-			color_map[i][j] = get_minimap_color(get_map_element_type(cub3d, x, y));
+			x = ((int)(cub3d->player.point.x_hoge * 15 / PLAYER_MAGFICATION \
+				+ j) - (width / 2)) / 15;
+			y = ((int)(cub3d->player.point.y_hoge * 15 / PLAYER_MAGFICATION \
+				+ i - (height / 2))) / 15;
+			color_map[i][j] = get_minimap_color(get_map_element_type(\
+				cub3d, x, y));
 			j++;
 		}
 		i++;
@@ -86,56 +91,63 @@ unsigned int	**get_default_color_map(const t_cub3d *cub3d, const int width, cons
 	return (color_map);
 }
 
-
-
-void	put_line(unsigned int **color_map, const int height, const int width, const double direction)
+void	put_line(
+	unsigned int **color_map,
+	const int height, const int width, const double direction
+)
 {
-	const int center_x = width / 2;
-	const int center_y = height / 2;
-	int magfication;
-	int i;
-	int j;
+	const int	center_x = width / 2;
+	const int	center_y = height / 2;
+	int			magfication;
+	int			i;
+	int			j;
 
 	i = center_y;
 	j = center_x;
 	magfication = 0;
 	while (0 <= i && i < height && 0 <= j && j < width)
 	{
-		if (color_map[i][j] == MINIMAP_WALL_COLOR || color_map[i][j] == MINIMAP_OUT_OF_MAP_COLOR)
+		if (color_map[i][j] == MINIMAP_WALL_COLOR || \
+			color_map[i][j] == MINIMAP_OUT_OF_MAP_COLOR)
 			return ;
 		color_map[i][j] = MINIMAP_FILED_OF_VIEW_COLOR;
 		i = center_y + (int)(cos(direction) * magfication);
 		j = center_x + (int)(sin(direction) * magfication);
 		magfication++;
 	}
-
 }
 
-void	coloring_filed_of_view(const t_cub3d *cub3d, unsigned int **color_map, const int height, const int width)
+void	coloring_filed_of_view(const t_cub3d *cub3d,
+	unsigned int **color_map, const int height, const int width
+)
 {
-	size_t i;
-	int greater_size;
+	size_t	i;
+	int		greater_size;
 
-	if (width < height) 
+	if (width < height)
 		greater_size = height;
 	else
 		greater_size = width;
-	greater_size = (double)(greater_size) * 1.001;
+	greater_size = ((double)(greater_size) *1.001);
 	i = 0;
-	while (i < greater_size) {
+	while (i < greater_size)
+	{
 		// ここ計算量やばい //
-		put_line(color_map, height, width, cub3d->player.direction - M_PI_4 + ((double)(i) * M_PI_2 / (double)(greater_size)));
+		put_line(color_map, height, width, cub3d->player.direction - M_PI_4 + \
+			((double)(i) *M_PI_2 / (double)(greater_size)));
 		i++;
 	}
 	put_line(color_map, height, width, cub3d->player.direction);
 	put_line(color_map, height, width, cub3d->player.direction + M_PI_4);
 }
 
-void put_to_image_front_int_array(t_mlx_image *image, unsigned int **color_map)
+void	put_to_image_front_int_array(
+	t_mlx_image *image, unsigned int **color_map
+)
 {
-	int i;
-	int j;
-	
+	int	i;
+	int	j;
+
 	i = 0;
 	while (i < image->height)
 	{
@@ -149,10 +161,12 @@ void put_to_image_front_int_array(t_mlx_image *image, unsigned int **color_map)
 	}
 }
 
-t_mlx_image *new_minimap(const t_cub3d *cub3d, const t_mlx *mlx, const int width, const int height)
+t_mlx_image	*new_minimap(
+	const t_cub3d *cub3d, const t_mlx *mlx, const int width, const int height
+)
 {
-	t_mlx_image	*minimap;
-	unsigned int **color_map;
+	t_mlx_image		*minimap;
+	unsigned int	**color_map;
 
 	minimap = new_image_struct(mlx, width, height);
 	color_map = get_default_color_map(cub3d, width, height);
