@@ -71,6 +71,6 @@ fclean: clean
 re: fclean all
 
 test: ${NAME}
-	./${NAME} ./map/subject.cub
+	./${NAME} ./map/my_map.cub
 
 .PHONY: all clean fclean re
