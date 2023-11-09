@@ -128,17 +128,15 @@ void	coloring_filed_of_view(const t_cub3d *cub3d,
 		greater_size = height;
 	else
 		greater_size = width;
-	greater_size = ((double)(greater_size) *1.001);
+	greater_size += 30;
 	i = 0;
 	while (i < greater_size)
 	{
 		// ここ計算量やばい //
-		put_line(color_map, height, width, cub3d->player.direction - M_PI_4 + \
-			((double)(i) *M_PI_2 / (double)(greater_size)));
+		put_line(color_map, height, width, M_PI - (cub3d->player.direction - M_PI_4 + \
+			((double)(i) *M_PI_2 / (double)(greater_size))));
 		i++;
 	}
-	put_line(color_map, height, width, cub3d->player.direction);
-	put_line(color_map, height, width, cub3d->player.direction + M_PI_4);
 }
 
 void	put_to_image_front_int_array(
