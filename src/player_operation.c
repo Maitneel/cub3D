@@ -37,8 +37,8 @@ void	move_player(int key_code, t_player *player)
 		moving_direction = player->direction - M_PI_2;
 	else if (key_code == KEY_D)
 		moving_direction = player->direction + M_PI_2;
-	player->point.x_hoge += (long long)((sin(moving_direction) * g_moving_coefficient) * (double)(PLAYER_MAGFICATION));
-	player->point.y_hoge -= (long long)((cos(moving_direction) * g_moving_coefficient) * (double)(PLAYER_MAGFICATION));
+	player->point.x += (long long)((sin(moving_direction) * g_moving_coefficient) * (double)(PLAYER_MAGFICATION));
+	player->point.y -= (long long)((cos(moving_direction) * g_moving_coefficient) * (double)(PLAYER_MAGFICATION));
 	fprintf(stderr, "------------------------------------------------------\n");
 	fprintf(stderr, "moving_direction : '%f'\n", moving_direction);
 	fprintf(stderr, "cos(moving_direction) : '%+f'\n", cos(moving_direction));
