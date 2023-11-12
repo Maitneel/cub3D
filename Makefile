@@ -73,4 +73,7 @@ re: fclean all
 test: ${NAME}
 	./${NAME} ./map/subject.cub
 
-.PHONY: all clean fclean re
+test2: ${NAME}
+	./${NAME} ./map/my_map.cub
+
+.PHONY: all clean fclean re test test2
