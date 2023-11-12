@@ -76,4 +76,7 @@ test: ${NAME}
 test2: ${NAME}
 	./${NAME} ./map/my_map.cub
 
+test3: ${NAME}
+	./${NAME} ./map/my_map2.cub
+
 .PHONY: all clean fclean re test test2
