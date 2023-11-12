@@ -39,8 +39,8 @@ typedef struct s_graphic_info
 
 typedef struct s_point
 {
-	long long		y_hoge;
-	long long		x_hoge;
+	long long		y;
+	long long		x;
 }					t_point;
 
 
