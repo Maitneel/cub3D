@@ -56,28 +56,28 @@ bool dose_x_colides_first(const t_point from, const t_point to)
 	return ((left_bottom_angle < line_angle && line_angle < left_top_angle) || (right_top_angle < line_angle && line_angle < right_bottom_angle));
 }
 
-void	collision_correction(t_point *after_move, t_point *before_move, const t_map_element **map)
+void	collision_correction(t_point *to, t_point *from, const t_map_element **map)
 {
-	if (is_div_mag_equal_coord(*after_move, *before_move, 'x') && is_div_mag_equal_coord(*after_move, *before_move, 'y'))
+	if (is_div_mag_equal_coord(*to, *from, 'x') && is_div_mag_equal_coord(*to, *from, 'y'))
 		return ;
 	// ここ衝突判定が常に正しくできていて、かつマップがすべて壁に囲まれている場合は問題ないが、どれか一つでも満たせないとout_of_rangeする //
-	if (is_div_mag_equal_coord(*after_move, *before_move, 'x') || is_div_mag_equal_coord(*after_move, *before_move, 'y')) {
-		if (map[after_move->y / PLAYER_MAGFICATION][after_move->x / PLAYER_MAGFICATION] == WALL)
+	if (is_div_mag_equal_coord(*to, *from, 'x') || is_div_mag_equal_coord(*to, *from, 'y')) {
+		if (map[to->y / PLAYER_MAGFICATION][to->x / PLAYER_MAGFICATION] == WALL)
 		{
-			if (is_div_mag_equal_coord(*after_move, *before_move, 'x'))
-				after_move->y = get_boundary(before_move->y, after_move->y);
-			else if (is_div_mag_equal_coord(*after_move, *before_move, 'y'))
-				after_move->x = get_boundary(before_move->x, after_move->x);
+			if (is_div_mag_equal_coord(*to, *from, 'x'))
+				to->y = get_boundary(from->y, to->y);
+			else if (is_div_mag_equal_coord(*to, *from, 'y'))
+				to->x = get_boundary(from->x, to->x);
 		}
 	}
 	else 
 	{
 		// TODO 
-		fprintf(stderr, "%s\n", (dose_x_colides_first(*before_move, *after_move) ? "x_first" : "y_first"));
-		if (map[after_move->y / PLAYER_MAGFICATION][before_move->x / PLAYER_MAGFICATION] == WALL && map[before_move->y / PLAYER_MAGFICATION][after_move->x / PLAYER_MAGFICATION] == WALL)
+		fprintf(stderr, "%s\n", (dose_x_colides_first(*from, *to) ? "x_first" : "y_first"));
+		if (map[to->y / PLAYER_MAGFICATION][from->x / PLAYER_MAGFICATION] == WALL && map[from->y / PLAYER_MAGFICATION][to->x / PLAYER_MAGFICATION] == WALL)
 		{
-			after_move->y = get_boundary(before_move->y, after_move->y);
-			after_move->x = get_boundary(before_move->x, after_move->x);
+			to->y = get_boundary(from->y, to->y);
+			to->x = get_boundary(from->x, to->x);
 			fprintf(stderr, "x and y collision\n");
 		}
 	}
@@ -86,10 +86,10 @@ void	collision_correction(t_point *after_move, t_point *before_move, const t_map
 void	move_player(int key_code, t_player *player, t_map_element **map)
 {
 	double	moving_direction;
-	t_point before_move;
+	t_point from;
 
 	moving_direction = 0;
-	before_move = player->point;
+	from = player->point;
 	if (key_code == KEY_W)
 		moving_direction = player->direction;
 	else if (key_code == KEY_S)
@@ -100,7 +100,7 @@ void	move_player(int key_code, t_player *player, t_map_element **map)
 		moving_direction = player->direction + M_PI_2;
 	player->point.x += (long long)((sin(moving_direction) * g_moving_coefficient) * (double)(PLAYER_MAGFICATION));
 	player->point.y -= (long long)((cos(moving_direction) * g_moving_coefficient) * (double)(PLAYER_MAGFICATION));
-	collision_correction(&player->point, &before_move, map);
+	collision_correction(&player->point, &from, map);
 	fprintf(stderr, "------------------------------------------------------\n");
 	fprintf(stderr, "moving_direction : '%f'\n", moving_direction);
 	fprintf(stderr, "cos(moving_direction) : '%+f'\n", cos(moving_direction));
