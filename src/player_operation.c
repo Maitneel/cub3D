@@ -56,7 +56,7 @@ bool dose_x_colides_first(const t_point from, const t_point to)
 	return ((left_bottom_angle < line_angle && line_angle < left_top_angle) || (right_top_angle < line_angle && line_angle < right_bottom_angle));
 }
 
-void	collision_correction(t_point *after_move, const t_point *before_move, const t_map_element **map)
+void	collision_correction(t_point *after_move, t_point *before_move, const t_map_element **map)
 {
 	if (is_div_mag_equal_coord(*after_move, *before_move, 'x') && is_div_mag_equal_coord(*after_move, *before_move, 'y'))
 		return ;
@@ -74,6 +74,12 @@ void	collision_correction(t_point *after_move, const t_point *before_move, const
 	{
 		// TODO 
 		fprintf(stderr, "%s\n", (dose_x_colides_first(*before_move, *after_move) ? "x_first" : "y_first"));
+		if (map[after_move->y / PLAYER_MAGFICATION][before_move->x / PLAYER_MAGFICATION] == WALL && map[before_move->y / PLAYER_MAGFICATION][after_move->x / PLAYER_MAGFICATION] == WALL)
+		{
+			after_move->y = get_boundary(before_move->y, after_move->y);
+			after_move->x = get_boundary(before_move->x, after_move->x);
+			fprintf(stderr, "x and y collision\n");
+		}
 	}
 }
 
