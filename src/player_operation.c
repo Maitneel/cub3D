@@ -45,15 +45,30 @@ int get_boundary(const int before, const int after)
 		return ((before / PLAYER_MAGFICATION) * PLAYER_MAGFICATION);
 }
 
-bool dose_x_colides_first(const t_point from, const t_point to)
+
+/*--------------------------------------------------*/
+/*                         N                        */
+/*                    o---------o                   */
+/*                    |         |                   */
+/*                W   |         |   E               */
+/*                    |         |                   */
+/*                    o---------o                   */
+/*                         S                        */
+/*--------------------------------------------------*/
+bool dose_we_colides_first(const t_point from, const t_point to)
 {
-	const double line_angle = atan((double)(to.y - from.x) / (double)(to.x - from.x));
+	const double line_angle = atan((double)(to.y - from.y) / (double)(to.x - from.x));
 	const double left_top_angle = atan((double)((from.y - (from.y % PLAYER_MAGFICATION)) - from.y) / (double)((from.x - (from.x % PLAYER_MAGFICATION)) - from.x));
 	const double right_top_angle = atan((double)((from.y - (from.y % PLAYER_MAGFICATION)) - from.y) / (double)((from.x - (from.x % PLAYER_MAGFICATION) + PLAYER_MAGFICATION) - from.x));
 	const double left_bottom_angle = atan((double)((from.y - (from.y % PLAYER_MAGFICATION) + PLAYER_MAGFICATION) - from.y) / (double)((from.x - (from.x % PLAYER_MAGFICATION)) - from.x));
 	const double right_bottom_angle = atan((double)((from.y - (from.y % PLAYER_MAGFICATION) + PLAYER_MAGFICATION) - from.y) / (double)((from.x - (from.x % PLAYER_MAGFICATION) + PLAYER_MAGFICATION) - from.x));
 
-	return ((left_bottom_angle < line_angle && line_angle < left_top_angle) || (right_top_angle < line_angle && line_angle < right_bottom_angle));
+	if (from.x == to.x)
+		return false;
+	else if (to.x < from.x)
+		return (right_top_angle < line_angle && line_angle < right_bottom_angle);
+	else
+		return (left_bottom_angle < line_angle && line_angle < left_top_angle);
 }
 
 void	collision_correction(t_point *to, t_point *from, const t_map_element **map)
@@ -73,7 +88,7 @@ void	collision_correction(t_point *to, t_point *from, const t_map_element **map)
 	else 
 	{
 		// TODO 
-		fprintf(stderr, "%s\n", (dose_x_colides_first(*from, *to) ? "x_first" : "y_first"));
+		fprintf(stderr, "%s\n", (dose_we_colides_first(*from, *to) ? "west east first" : "north south first"));
 		if (map[to->y / PLAYER_MAGFICATION][from->x / PLAYER_MAGFICATION] == WALL && map[from->y / PLAYER_MAGFICATION][to->x / PLAYER_MAGFICATION] == WALL)
 		{
 			to->y = get_boundary(from->y, to->y);
