@@ -55,7 +55,8 @@ int get_boundary(const int before, const int after)
 /*                    o---------o                   */
 /*                         S                        */
 /*--------------------------------------------------*/
-bool dose_we_colides_first(const t_point from, const t_point to)
+// こいつうまく動いてない //
+bool dose_we_colides_first(const t_point from, const t_point to, const double direction)
 {
 	const double line_angle = atan((double)(to.y - from.y) / (double)(to.x - from.x));
 	const double left_top_angle = atan((double)((from.y - (from.y % PLAYER_MAGFICATION)) - from.y) / (double)((from.x - (from.x % PLAYER_MAGFICATION)) - from.x));
@@ -63,9 +64,25 @@ bool dose_we_colides_first(const t_point from, const t_point to)
 	const double left_bottom_angle = atan((double)((from.y - (from.y % PLAYER_MAGFICATION) + PLAYER_MAGFICATION) - from.y) / (double)((from.x - (from.x % PLAYER_MAGFICATION)) - from.x));
 	const double right_bottom_angle = atan((double)((from.y - (from.y % PLAYER_MAGFICATION) + PLAYER_MAGFICATION) - from.y) / (double)((from.x - (from.x % PLAYER_MAGFICATION) + PLAYER_MAGFICATION) - from.x));
 
+
+	fprintf(stderr, "direction          : '%f'\n", direction / M_PI * 180);
+	fprintf(stderr, "line_angle         : '%f'\n", line_angle / M_PI * 180);
+	fprintf(stderr, "left_top_angle     : '%f'\n", left_top_angle / M_PI * 180 + 270);
+	fprintf(stderr, "left_bottom_angle  : '%f'\n", left_bottom_angle / M_PI * 180 + 270);
+	fprintf(stderr, "right_top_angle    : '%f'\n", right_top_angle / M_PI * 180);
+	fprintf(stderr, "right_bottom_angle : '%f'\n", right_bottom_angle / M_PI * 180);
+
+	if (from.x == to.x)
+		fprintf(stderr, "stat %d flag1\n", false);
+	else if (from.x < to.x)
+		fprintf(stderr, "stat %d flag2\n", (right_top_angle < line_angle && line_angle < right_bottom_angle));
+	else
+		fprintf(stderr, "stat %d flag3\n", (left_bottom_angle < line_angle && line_angle < left_top_angle));
+
+	printf("hogehoge------------------------------------------\n");
 	if (from.x == to.x)
 		return false;
-	else if (to.x < from.x)
+	else if (from.x < to.x)
 		return (right_top_angle < line_angle && line_angle < right_bottom_angle);
 	else
 		return (left_bottom_angle < line_angle && line_angle < left_top_angle);
@@ -100,15 +117,15 @@ void correct_misalingment(const t_point *from, t_point *to, const t_point *misal
 	fprintf(stderr, "to->y : '%lld'\n", to->y);
 }
 
-void	collision_correction(t_point *to, t_point *from, const t_map_element **map)
+void	collision_correction(t_point *to, t_point *from, const double direction, const t_map_element **map)
 {
-	fprintf(stderr,  "callied ------------------------------\n");
+	// fprintf(stderr,  "callied ------------------------------\n");
 	t_point misalingment;
 	if (is_div_mag_equal_coord(*to, *from, 'x') && is_div_mag_equal_coord(*to, *from, 'y'))
 		return ;
 	// ここ衝突判定が常に正しくできていて、かつマップがすべて壁に囲まれている場合は問題ないが、どれか一つでも満たせないとout_of_rangeする //
-	fprintf(stderr, "is_eq x: '%d' ", is_div_mag_equal_coord(*to, *from, 'x'));
-	fprintf(stderr, "is_eq y: '%d'\n", is_div_mag_equal_coord(*to, *from, 'y'));
+	// fprintf(stderr, "is_eq x: '%d' ", is_div_mag_equal_coord(*to, *from, 'x'));
+	// fprintf(stderr, "is_eq y: '%d'\n", is_div_mag_equal_coord(*to, *from, 'y'));
 	fprintf(stderr, "from->x : '%d' ", from->x);
 	fprintf(stderr, "from->y : '%d'\n", from->y);
 
@@ -127,29 +144,41 @@ void	collision_correction(t_point *to, t_point *from, const t_map_element **map)
 	else 
 	{
 		// TODO 
-		fprintf(stderr, "%s\n", (dose_we_colides_first(*from, *to) ? "west east first" : "north south first"));
+		// fprintf(stderr, "%s\n", (dose_we_colides_first(*from, *to, direction) ? "west east first" : "north south first"));
 		if (map[to->y / PLAYER_MAGFICATION][from->x / PLAYER_MAGFICATION] == WALL && map[from->y / PLAYER_MAGFICATION][to->x / PLAYER_MAGFICATION] == WALL)
 		{
 			to->y = get_boundary(from->y, to->y);
 			to->x = get_boundary(from->x, to->x);
-			fprintf(stderr, "x and y collision\n");
+			// fprintf(stderr, "x and y collision\n");
 		}
-		else if (dose_we_colides_first(*from, *to))
+		else if (dose_we_colides_first(*from, *to, direction))
 		{
-			misalingment.x = get_boundary(to->x, from->x);
-			misalingment.y = get_boundary(from->y, to->y);
+			fprintf(stderr, "\x1b[47m\x1b[30m");
+			fprintf(stderr ,"WE                            ");
+			fprintf(stderr, "\x1b[39m");
+			fprintf(stderr, "\x1b[49m");
+			fprintf(stderr, "\n");
+			
+			misalingment.x = get_boundary(from->x, to->x);
+			misalingment.y = get_boundary(to->y, from->y);
 			if (map[from->y / PLAYER_MAGFICATION][to->x / PLAYER_MAGFICATION] == WALL)
 			{
 				correct_misalingment(from, to, &misalingment, 'x');
 			}
 			*from = misalingment;
-			fprintf(stderr, "we'\n");
-			fprintf(stderr, "misalingment.x : '%d'\n", misalingment.x);
-			fprintf(stderr, "misalingment.y : '%d'\n", misalingment.y);
-			collision_correction(to, from, map);
+			// fprintf(stderr, "we'\n");
+			// fprintf(stderr, "misalingment.x : '%d'\n", misalingment.x);
+			// fprintf(stderr, "misalingment.y : '%d'\n", misalingment.y);
+			collision_correction(to, from, direction, map);
 		}
 		else
 		{
+			fprintf(stderr, "\x1b[47m\x1b[30m");
+			fprintf(stderr ,"NS                          ");
+			fprintf(stderr, "\x1b[39m");
+			fprintf(stderr, "\x1b[49m");
+			fprintf(stderr, "\n");
+
 			misalingment.x = get_boundary(to->x, from->x);
 			misalingment.y = get_boundary(from->y, to->y);
 			if (map[to->y / PLAYER_MAGFICATION][from->x / PLAYER_MAGFICATION] == WALL)
@@ -157,10 +186,10 @@ void	collision_correction(t_point *to, t_point *from, const t_map_element **map)
 				correct_misalingment(from, to, &misalingment, 'y');
 			}
 			*from = misalingment;
-			fprintf(stderr, "ns'\n");
-			fprintf(stderr, "misalingment.x : '%d'\n", misalingment.x);
-			fprintf(stderr, "misalingment.y : '%d'\n", misalingment.y);
-			collision_correction(to, from, map);
+			// fprintf(stderr, "ns'\n");
+			// fprintf(stderr, "misalingment.x : '%d'\n", misalingment.x);
+			// fprintf(stderr, "misalingment.y : '%d'\n", misalingment.y);
+			collision_correction(to, from, direction, map);
 		}
 	}
 }
@@ -183,7 +212,7 @@ void	move_player(int key_code, t_player *player, t_map_element **map)
 	player->point.x += (long long)((sin(moving_direction) * g_moving_coefficient) * (double)(PLAYER_MAGFICATION));
 	player->point.y -= (long long)((cos(moving_direction) * g_moving_coefficient) * (double)(PLAYER_MAGFICATION));
 	fprintf(stderr, "======================================================================\n");
-	collision_correction(&player->point, &from, map);
+	collision_correction(&player->point, &from, moving_direction, map);
 	fprintf(stderr, "------------------------------------------------------\n");
 	fprintf(stderr, "moving_direction : '%f'\n", moving_direction);
 	fprintf(stderr, "cos(moving_direction) : '%+f'\n", cos(moving_direction));
