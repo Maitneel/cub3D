@@ -71,11 +71,50 @@ bool dose_we_colides_first(const t_point from, const t_point to)
 		return (left_bottom_angle < line_angle && line_angle < left_top_angle);
 }
 
+void correct_misalingment(const t_point *from, t_point *to, const t_point *misalingment_from, const char coord)
+{
+	long long diff;
+	double raito;
+
+	fprintf(stderr, "before-----------------------------------\n");
+	fprintf(stderr, "to->x : '%lld'\n", to->x);
+	fprintf(stderr, "to->y : '%lld'\n", to->y);
+	if (coord == 'x')
+	{
+		if (from->y == to->y)
+			return;
+		raito = fabs((double)(from->y) - (double)(misalingment_from->y)) /fabs((double)(from->y) - (double)(to->y));
+		diff = (int)((double)(to->x - from->x) * raito);
+		to->x -= diff;
+	}
+	else if (coord == 'y')
+	{
+		if (from->x == to->x)
+			return;
+		raito = fabs((double)(from->x) - (double)(misalingment_from->x)) /fabs((double)(from->x) - (double)(to->x));
+		diff = (int)((double)(to->y - from->y) * raito);
+		to->y -= diff;
+	}
+	fprintf(stderr, "after------------------------------------\n");
+	fprintf(stderr, "to->x : '%lld'\n", to->x);
+	fprintf(stderr, "to->y : '%lld'\n", to->y);
+}
+
 void	collision_correction(t_point *to, t_point *from, const t_map_element **map)
 {
+	fprintf(stderr,  "callied ------------------------------\n");
+	t_point misalingment;
 	if (is_div_mag_equal_coord(*to, *from, 'x') && is_div_mag_equal_coord(*to, *from, 'y'))
 		return ;
 	// ここ衝突判定が常に正しくできていて、かつマップがすべて壁に囲まれている場合は問題ないが、どれか一つでも満たせないとout_of_rangeする //
+	fprintf(stderr, "is_eq x: '%d' ", is_div_mag_equal_coord(*to, *from, 'x'));
+	fprintf(stderr, "is_eq y: '%d'\n", is_div_mag_equal_coord(*to, *from, 'y'));
+	fprintf(stderr, "from->x : '%d' ", from->x);
+	fprintf(stderr, "from->y : '%d'\n", from->y);
+
+	fprintf(stderr, "to->x : '%d' ", to->x);
+	fprintf(stderr, "to->y : '%d'\n", to->y);
+
 	if (is_div_mag_equal_coord(*to, *from, 'x') || is_div_mag_equal_coord(*to, *from, 'y')) {
 		if (map[to->y / PLAYER_MAGFICATION][to->x / PLAYER_MAGFICATION] == WALL)
 		{
@@ -94,6 +133,34 @@ void	collision_correction(t_point *to, t_point *from, const t_map_element **map)
 			to->y = get_boundary(from->y, to->y);
 			to->x = get_boundary(from->x, to->x);
 			fprintf(stderr, "x and y collision\n");
+		}
+		else if (dose_we_colides_first(*from, *to))
+		{
+			misalingment.x = get_boundary(to->x, from->x);
+			misalingment.y = get_boundary(from->y, to->y);
+			if (map[from->y / PLAYER_MAGFICATION][to->x / PLAYER_MAGFICATION] == WALL)
+			{
+				correct_misalingment(from, to, &misalingment, 'x');
+			}
+			*from = misalingment;
+			fprintf(stderr, "we'\n");
+			fprintf(stderr, "misalingment.x : '%d'\n", misalingment.x);
+			fprintf(stderr, "misalingment.y : '%d'\n", misalingment.y);
+			collision_correction(to, from, map);
+		}
+		else
+		{
+			misalingment.x = get_boundary(to->x, from->x);
+			misalingment.y = get_boundary(from->y, to->y);
+			if (map[to->y / PLAYER_MAGFICATION][from->x / PLAYER_MAGFICATION] == WALL)
+			{
+				correct_misalingment(from, to, &misalingment, 'y');
+			}
+			*from = misalingment;
+			fprintf(stderr, "ns'\n");
+			fprintf(stderr, "misalingment.x : '%d'\n", misalingment.x);
+			fprintf(stderr, "misalingment.y : '%d'\n", misalingment.y);
+			collision_correction(to, from, map);
 		}
 	}
 }
@@ -115,9 +182,14 @@ void	move_player(int key_code, t_player *player, t_map_element **map)
 		moving_direction = player->direction + M_PI_2;
 	player->point.x += (long long)((sin(moving_direction) * g_moving_coefficient) * (double)(PLAYER_MAGFICATION));
 	player->point.y -= (long long)((cos(moving_direction) * g_moving_coefficient) * (double)(PLAYER_MAGFICATION));
+	fprintf(stderr, "======================================================================\n");
 	collision_correction(&player->point, &from, map);
 	fprintf(stderr, "------------------------------------------------------\n");
 	fprintf(stderr, "moving_direction : '%f'\n", moving_direction);
 	fprintf(stderr, "cos(moving_direction) : '%+f'\n", cos(moving_direction));
 	fprintf(stderr, "sin(moving_direction) : '%+f'\n", sin(moving_direction));
 }
+
+// int main() {
+
+// }
