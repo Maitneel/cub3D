@@ -58,7 +58,8 @@ int get_boundary(const int before, const int after)
 // こいつうまく動いてない //
 bool dose_we_colides_first(const t_point from, const t_point to, const double direction)
 {
-	const double line_angle = atan((double)(to.y - from.y) / (double)(to.x - from.x));
+	// const double line_angle = atan((double)(to.y - from.y) / (double)(to.x - from.x));
+	const double line_angle = direction;
 	const double left_top_angle = atan((double)((from.y - (from.y % PLAYER_MAGFICATION)) - from.y) / (double)((from.x - (from.x % PLAYER_MAGFICATION)) - from.x));
 	const double right_top_angle = atan((double)((from.y - (from.y % PLAYER_MAGFICATION)) - from.y) / (double)((from.x - (from.x % PLAYER_MAGFICATION) + PLAYER_MAGFICATION) - from.x));
 	const double left_bottom_angle = atan((double)((from.y - (from.y % PLAYER_MAGFICATION) + PLAYER_MAGFICATION) - from.y) / (double)((from.x - (from.x % PLAYER_MAGFICATION)) - from.x));

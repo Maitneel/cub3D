@@ -10,10 +10,43 @@
 #include <stdio.h>
 #include <unistd.h>
 #include "debug.h"
+#include <stdbool.h>
+
+#define DEBUGGING
 
 int	key_hook(int key_code, void *arg)
 {
 	const t_mlx_hook_arg	*mlx_hook_arg = arg;
+
+#ifdef DEBUGGING
+	static bool is_debug_inputing = false;
+	static bool is_y = false;
+	static long long coord;
+	if (is_debug_inputing || key_code == 59) {
+		if (is_debug_inputing == false) {
+			fprintf(stderr, "-------------- debug --------------------\n");
+		}
+		is_debug_inputing = true;
+		if (key_code == 65293) {
+			if (is_y) {
+				mlx_hook_arg->cub3d->player.point.y = coord;
+				is_y = false;
+				is_debug_inputing = false;
+			} else{
+				mlx_hook_arg->cub3d->player.point.x = coord;
+				is_y = true;
+			}
+			fprintf(stderr, "x: %lld, y: %lld\n", mlx_hook_arg->cub3d->player.point.x, mlx_hook_arg->cub3d->player.point.y);
+			coord = 0;
+		} else if (48 <= key_code && key_code <= 57) {
+			coord *= 10;
+			coord += key_code - 48;
+			fprintf(stderr, "coord : '%d'\n", coord);
+		}
+		return 0;
+	}
+#endif
+
 
 	if (key_code == ARROW_LEFT || key_code == ARROW_RIGHT)
 		rotate_player(key_code, &(mlx_hook_arg->cub3d->player));
