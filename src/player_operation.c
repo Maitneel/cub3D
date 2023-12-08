@@ -56,22 +56,29 @@ int get_boundary(const int before, const int after)
 /*                         S                        */
 /*--------------------------------------------------*/
 // こいつうまく動いてない //
-bool dose_we_colides_first(const t_point from, const t_point to, const double direction)
+bool dose_we_colides_first(const t_point from, const t_point to, double direction)
 {
-	// const double line_angle = atan((double)(to.y - from.y) / (double)(to.x - from.x));
-	const double line_angle = direction;
-	const double left_top_angle = atan((double)((from.y - (from.y % PLAYER_MAGFICATION)) - from.y) / (double)((from.x - (from.x % PLAYER_MAGFICATION)) - from.x));
-	const double right_top_angle = atan((double)((from.y - (from.y % PLAYER_MAGFICATION)) - from.y) / (double)((from.x - (from.x % PLAYER_MAGFICATION) + PLAYER_MAGFICATION) - from.x));
-	const double left_bottom_angle = atan((double)((from.y - (from.y % PLAYER_MAGFICATION) + PLAYER_MAGFICATION) - from.y) / (double)((from.x - (from.x % PLAYER_MAGFICATION)) - from.x));
-	const double right_bottom_angle = atan((double)((from.y - (from.y % PLAYER_MAGFICATION) + PLAYER_MAGFICATION) - from.y) / (double)((from.x - (from.x % PLAYER_MAGFICATION) + PLAYER_MAGFICATION) - from.x));
+	const double line_angle = ((double)(to.y - from.y) / (double)(to.x - from.x));
+	// double line_angle;
+	const double left_top_angle = ((double)((from.y - (from.y % PLAYER_MAGFICATION)) - from.y) / (double)((from.x - (from.x % PLAYER_MAGFICATION) - 1) - from.x));
+	const double right_top_angle = ((double)((from.y - (from.y % PLAYER_MAGFICATION)) - from.y) / (double)((from.x - (from.x % PLAYER_MAGFICATION) + PLAYER_MAGFICATION) - from.x));
+	const double left_bottom_angle = ((double)((from.y - (from.y % PLAYER_MAGFICATION) + PLAYER_MAGFICATION) - from.y) / (double)((from.x - (from.x % PLAYER_MAGFICATION) - 1) - from.x));
+	const double right_bottom_angle = ((double)((from.y - (from.y % PLAYER_MAGFICATION) + PLAYER_MAGFICATION) - from.y) / (double)((from.x - (from.x % PLAYER_MAGFICATION) + PLAYER_MAGFICATION) - from.x));
 
+	// if (direction < 0) {
+	// 	direction += M_PI * 2;
+	// }
 
-	fprintf(stderr, "direction          : '%f'\n", direction / M_PI * 180);
-	fprintf(stderr, "line_angle         : '%f'\n", line_angle / M_PI * 180);
-	fprintf(stderr, "left_top_angle     : '%f'\n", left_top_angle / M_PI * 180 + 270);
-	fprintf(stderr, "left_bottom_angle  : '%f'\n", left_bottom_angle / M_PI * 180 + 270);
-	fprintf(stderr, "right_top_angle    : '%f'\n", right_top_angle / M_PI * 180);
-	fprintf(stderr, "right_bottom_angle : '%f'\n", right_bottom_angle / M_PI * 180);
+	// line_angle = tan(direction);
+	// if (direction < 0) {
+	// 	line_angle += M_PI;
+	// }
+	fprintf(stderr, "direction          : '%f'\n", direction * 180 / M_PI);
+	fprintf(stderr, "line_angle         : '%f'\n", line_angle);
+	fprintf(stderr, "left_top_angle     : '%f'\n", left_top_angle);
+	fprintf(stderr, "left_bottom_angle  : '%f'\n", left_bottom_angle);
+	fprintf(stderr, "right_top_angle    : '%f'\n", right_top_angle);
+	fprintf(stderr, "right_bottom_angle : '%f'\n", right_bottom_angle);
 
 	if (from.x == to.x)
 		fprintf(stderr, "stat %d flag1\n", false);
@@ -80,7 +87,7 @@ bool dose_we_colides_first(const t_point from, const t_point to, const double di
 	else
 		fprintf(stderr, "stat %d flag3\n", (left_bottom_angle < line_angle && line_angle < left_top_angle));
 
-	printf("hogehoge------------------------------------------\n");
+	fprintf(stderr, "hogehoge------------------------------------------\n");
 	if (from.x == to.x)
 		return false;
 	else if (from.x < to.x)
@@ -146,13 +153,9 @@ void	collision_correction(t_point *to, t_point *from, const double direction, co
 	{
 		// TODO 
 		// fprintf(stderr, "%s\n", (dose_we_colides_first(*from, *to, direction) ? "west east first" : "north south first"));
-		if (map[to->y / PLAYER_MAGFICATION][from->x / PLAYER_MAGFICATION] == WALL && map[from->y / PLAYER_MAGFICATION][to->x / PLAYER_MAGFICATION] == WALL)
-		{
-			to->y = get_boundary(from->y, to->y);
-			to->x = get_boundary(from->x, to->x);
-			// fprintf(stderr, "x and y collision\n");
-		}
-		else if (dose_we_colides_first(*from, *to, direction))
+		// else if (dose_we_colides_first(*from, *to, direction) || (from->x % PLAYER_MAGFICATION == 0 || from->x % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1))
+		// この条件だとワンチャン積む //
+		if (dose_we_colides_first(*from, *to, direction) && map[to->y / PLAYER_MAGFICATION][from->x / PLAYER_MAGFICATION] != WALL)
 		{
 			fprintf(stderr, "\x1b[47m\x1b[30m");
 			fprintf(stderr ,"WE                            ");
@@ -172,8 +175,11 @@ void	collision_correction(t_point *to, t_point *from, const double direction, co
 			// fprintf(stderr, "misalingment.y : '%d'\n", misalingment.y);
 			collision_correction(to, from, direction, map);
 		}
-		else
+		else if (map[from->y / PLAYER_MAGFICATION][to->x / PLAYER_MAGFICATION] != WALL)
 		{
+			if (dose_we_colides_first(*from, *to, direction)) {
+				fprintf(stderr, "error----------------------------\n");
+			}
 			fprintf(stderr, "\x1b[47m\x1b[30m");
 			fprintf(stderr ,"NS                          ");
 			fprintf(stderr, "\x1b[39m");
@@ -191,6 +197,12 @@ void	collision_correction(t_point *to, t_point *from, const double direction, co
 			// fprintf(stderr, "misalingment.x : '%d'\n", misalingment.x);
 			// fprintf(stderr, "misalingment.y : '%d'\n", misalingment.y);
 			collision_correction(to, from, direction, map);
+		}
+		else
+		{
+			to->y = get_boundary(from->y, to->y);
+			to->x = get_boundary(from->x, to->x);
+			// fprintf(stderr, "x and y collision\n");
 		}
 	}
 }
@@ -220,6 +232,30 @@ void	move_player(int key_code, t_player *player, t_map_element **map)
 	fprintf(stderr, "sin(moving_direction) : '%+f'\n", sin(moving_direction));
 }
 
-// int main() {
-
-// }
+/*
+int main() {
+	t_point from = {-1, -1};
+	t_point to = {0, 0};
+	bool before = true;
+	bool now;
+	for (long long  i = 0; i < PLAYER_MAGFICATION; i++)
+	{
+		from.x = i;
+		for (long long  j = -1 * PLAYER_MAGFICATION * 3; j < PLAYER_MAGFICATION * 3; j++)
+		{
+			to.x = j;
+			for (long long k = 0; k < PLAYER_MAGFICATION * 2; k++)
+			{
+				to.y = k;
+				now = dose_we_colides_first(from, to, 0.0);
+				if (now != before ) {
+					before = now;
+					fprintf(stdout, "now : %d, from : '%lld, %lld' ", now, from.x, from.y);
+					fprintf(stdout, "to : '%lld, %lld'\n", to.x, to.y);
+				}
+			}
+			
+		}
+	}
+}
+// */
