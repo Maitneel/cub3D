@@ -132,8 +132,6 @@ void	collision_correction(t_point *to, t_point *from, const double direction, co
 	if (is_div_mag_equal_coord(*to, *from, 'x') && is_div_mag_equal_coord(*to, *from, 'y'))
 		return ;
 	// ここ衝突判定が常に正しくできていて、かつマップがすべて壁に囲まれている場合は問題ないが、どれか一つでも満たせないとout_of_rangeする //
-	// fprintf(stderr, "is_eq x: '%d' ", is_div_mag_equal_coord(*to, *from, 'x'));
-	// fprintf(stderr, "is_eq y: '%d'\n", is_div_mag_equal_coord(*to, *from, 'y'));
 	fprintf(stderr, "from->x : '%d' ", from->x);
 	fprintf(stderr, "from->y : '%d'\n", from->y);
 
@@ -154,15 +152,14 @@ void	collision_correction(t_point *to, t_point *from, const double direction, co
 		// TODO 
 		// fprintf(stderr, "%s\n", (dose_we_colides_first(*from, *to, direction) ? "west east first" : "north south first"));
 		// else if (dose_we_colides_first(*from, *to, direction) || (from->x % PLAYER_MAGFICATION == 0 || from->x % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1))
+
+		fprintf(stderr, "dose_we_colides_first(*from, *to, direction) : '%d'\n", dose_we_colides_first(*from, *to, direction));
+		fprintf(stderr, "map[to->y / PLAYER_MAGFICATION][from->x / PLAYER_MAGFICATION] != WALL : '%d'\n", map[to->y / PLAYER_MAGFICATION][from->x / PLAYER_MAGFICATION] != WALL);
+		fprintf(stderr, "map[from->y / PLAYER_MAGFICATION][to->x / PLAYER_MAGFICATION] != WALL : '%d'\n", map[from->y / PLAYER_MAGFICATION][to->x / PLAYER_MAGFICATION] != WALL);
+
 		// この条件だとワンチャン積む //
-		if (dose_we_colides_first(*from, *to, direction) && map[to->y / PLAYER_MAGFICATION][from->x / PLAYER_MAGFICATION] != WALL)
-		{
-			fprintf(stderr, "\x1b[47m\x1b[30m");
-			fprintf(stderr ,"WE                            ");
-			fprintf(stderr, "\x1b[39m");
-			fprintf(stderr, "\x1b[49m");
-			fprintf(stderr, "\n");
-			
+		if (dose_we_colides_first(*from, *to, direction) && map[to->y / PLAYER_MAGFICATION][from->x / PLAYER_MAGFICATION] != WALL || map[from->y / PLAYER_MAGFICATION][to->x / PLAYER_MAGFICATION] == WALL)
+		{	
 			misalingment.x = get_boundary(from->x, to->x);
 			misalingment.y = get_boundary(to->y, from->y);
 			if (map[from->y / PLAYER_MAGFICATION][to->x / PLAYER_MAGFICATION] == WALL)
@@ -180,11 +177,11 @@ void	collision_correction(t_point *to, t_point *from, const double direction, co
 			if (dose_we_colides_first(*from, *to, direction)) {
 				fprintf(stderr, "error----------------------------\n");
 			}
-			fprintf(stderr, "\x1b[47m\x1b[30m");
-			fprintf(stderr ,"NS                          ");
-			fprintf(stderr, "\x1b[39m");
-			fprintf(stderr, "\x1b[49m");
-			fprintf(stderr, "\n");
+			// fprintf(stderr, "\x1b[47m\x1b[30m");
+			// fprintf(stderr ,"NS                          ");
+			// fprintf(stderr, "\x1b[39m");
+			// fprintf(stderr, "\x1b[49m");
+			// fprintf(stderr, "\n");
 
 			misalingment.x = get_boundary(to->x, from->x);
 			misalingment.y = get_boundary(from->y, to->y);
