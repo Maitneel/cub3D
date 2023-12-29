@@ -28,7 +28,7 @@ SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/set_player_start_position.c \
 		${SRCS_DIR}/init_cub3d.c \
 		${SRCS_DIR}/init_mlx_struct.c \
-		${SRCS_DIR}/player_operation.c \
+		${SRCS_DIR}/player_operation_swap.c \
 		${SRCS_DIR}/new_mlx_image_struct.c \
 		${SRCS_DIR}/put_pixel_to_mlx_image.c \
 		${SRCS_DIR}/minimap.c \
