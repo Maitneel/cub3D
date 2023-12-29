@@ -71,8 +71,8 @@ t_mlx_image *new_minimap(const t_cub3d *cub3d, const t_mlx *mlx, const int width
 		while (j < width)
 		{
 			// TODO
-			x = ((int)(cub3d->player.point.x_hoge * 15 / PLAYER_MAGFICATION + j) - (width / 2)) / 15;
-			y = ((int)(cub3d->player.point.y_hoge * 15 / PLAYER_MAGFICATION  + i - (height / 2))) / 15;
+			x = ((int)(cub3d->player.point.x * 15 / PLAYER_MAGFICATION + j) - (width / 2)) / 15;
+			y = ((int)(cub3d->player.point.y * 15 / PLAYER_MAGFICATION  + i - (height / 2))) / 15;
 
 			put_pixel_to_mlx_image(minimap, j, i, get_minimap_color(get_map_element_type(cub3d, x, y)));
 			j++;
