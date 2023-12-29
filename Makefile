@@ -13,7 +13,8 @@ DEBUG_DIR = ./debug
 MLX = ${MLX_DIR}/libmlx.a
 LIBFT = ${LIBFT_DIR}/libft.a
 
-MLX_FLAG = -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I${MLX_DIR}
+# MLX_FLAG = -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I${MLX_DIR}
+MLX_FLAG = -lmlx -framework OpenGL -framework AppKit
 
 SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/print_error.c \
@@ -42,6 +43,7 @@ SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/ft_isspace.c \
 		${SRCS_DIR}/ray2d.c \
 		${SRCS_DIR}/vector2d.c \
+		${SRCS_DIR}/raycasting/new_raycasting_image.c \
 		${DEBUG_DIR}/debug.c \
 		./temp/vector_test.c \
 

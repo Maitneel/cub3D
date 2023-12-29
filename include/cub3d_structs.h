@@ -2,6 +2,8 @@
 # define CUB3D_STRUCTS_H
 
 # define IMAGE_SIZE 100
+# define WINDOW_WIDTH 400
+# define WINDOW_HEIGHT 300
 
 #include "stddef.h"
 

@@ -7,6 +7,9 @@
 #include "minimap.h"
 #include "free_lib.h"
 
+#include "raycasting.h"
+
+
 #include <stdio.h>
 #include <unistd.h>
 #include "debug.h"
@@ -57,19 +60,32 @@ int	loop_hook(void *arg)
 {
 	const t_mlx_hook_arg *mlx_hook_arg = arg;
 	t_mlx *mlx;
+	t_mlx *arg_mlx;
+	t_mlx_image *image[IMAGE_SIZE];
 	size_t i;
 	static int count;
 
-	mlx = mlx_hook_arg->mlx;
-	free_and_detroy_mlx_image(mlx->image[0], mlx);
-	// mlx->image[0] = new_minimap(mlx_hook_arg->cub3d, mlx, 160, 120);	
-	mlx->image[0] = NULL;
-	mlx->image[1] = paste_texture_test(mlx, mlx_hook_arg->cub3d->graphic_info->south_texture); // for test function
 	i = 0;
 	while (i < IMAGE_SIZE)
 	{
-		if (mlx->image[i] != NULL)
-			mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image[i]->image_ptr, 10, 10);
+		image[i] = NULL;
+		i++;
+	}
+
+	arg_mlx = mlx_hook_arg->mlx;
+	mlx = mlx_hook_arg->mlx;
+	image[1] = new_minimap(mlx_hook_arg->cub3d, arg_mlx, 160, 120);	
+	image[0] = new_raycasting_image(mlx_hook_arg->cub3d, arg_mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+	image[2] = NULL;
+	// image[0] = NULL;
+	// image[1] = paste_texture_test(mlx, mlx_hook_arg->cub3d->graphic_info->south_texture); // for test function
+	i = 0;
+	while (i < IMAGE_SIZE)
+	{
+		free_and_detroy_mlx_image(arg_mlx->image[i], arg_mlx);
+		if (image[i] != NULL)
+			mlx_put_image_to_window(arg_mlx->mlx, arg_mlx->window, image[i]->image_ptr, 0, 0);
+		arg_mlx->image[i] = image[i];
 		i++;
 	}
 	// fprintf(stderr, "count : '%d'\n", count);
