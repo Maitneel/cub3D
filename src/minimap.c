@@ -139,7 +139,7 @@ void	coloring_filed_of_view(const t_cub3d *cub3d,
 	}
 }
 
-void	put_to_image_front_int_array(
+void	put_to_image_from_int_array(
 	t_mlx_image *image, unsigned int **color_map
 )
 {
@@ -169,7 +169,7 @@ t_mlx_image	*new_minimap(
 	minimap = new_image_struct(mlx, width, height);
 	color_map = get_default_color_map(cub3d, width, height);
 	coloring_filed_of_view(cub3d, color_map, height, width); // direction 怪しい //
-	put_to_image_front_int_array(minimap, color_map);
+	put_to_image_from_int_array(minimap, color_map);
 	free_uint_array_array(color_map, height);
 	put_player_position(minimap);
 	return (minimap);
