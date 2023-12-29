@@ -10,11 +10,24 @@ SRCS_DIR = ./src
 INCLUDE_DIR = ./include
 DEBUG_DIR = ./debug
 
+
+
+
 MLX = ${MLX_DIR}/libmlx.a
 LIBFT = ${LIBFT_DIR}/libft.a
 
+
+HOSTNAME = ${shell hostname | sed 's/c[0-9]*r[0-9]*s[0-9]\.//g'}
+FT_TOKYO = 42tokyo.jp
+
+# ifeq (${HOSTNAME}, "42tokyo.jp")
+ifeq (${HOSTNAME}, ${FT_TOKYO})
+	MLX_FLAG := -lmlx -framework OpenGL -framework AppKit -D LOCAL_MACHINE
+else 
+	MLX_FLAG := -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I${MLX_DIR}
+endif
 # MLX_FLAG = -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I${MLX_DIR}
-MLX_FLAG = -lmlx -framework OpenGL -framework AppKit
+# MLX_FLAG = -lmlx -framework OpenGL -framework AppKit
 
 SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/print_error.c \
@@ -75,5 +88,9 @@ re: fclean all
 
 test: ${NAME}
 	./${NAME} ./map/my_map.cub
+
+echo :
+	@echo ${HOSTNAME}
+	@echo ${MLX_FLAG}
 
 .PHONY: all clean fclean re
