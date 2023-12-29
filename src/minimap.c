@@ -78,9 +78,9 @@ unsigned int	**get_default_color_map(
 		while (j < width)
 		{
 			// TODO 何が TODO なのかぶっちゃけわからない //
-			x = ((int)(cub3d->player.point.x_hoge * 15 / PLAYER_MAGFICATION \
+			x = ((int)(cub3d->player.point.x * 15 / PLAYER_MAGFICATION \
 				+ j) - (width / 2)) / 15;
-			y = ((int)(cub3d->player.point.y_hoge * 15 / PLAYER_MAGFICATION \
+			y = ((int)(cub3d->player.point.y * 15 / PLAYER_MAGFICATION \
 				+ i - (height / 2))) / 15;
 			color_map[i][j] = get_minimap_color(get_map_element_type(\
 				cub3d, x, y));
