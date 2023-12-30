@@ -37,16 +37,12 @@ t_point *get_collision_point(t_cub3d *cub3d, double dir)
     return new_point(y, x);
 }
 
-void draw_vertical_line(t_mlx_image *img, double distance)
-{
-    // TODO: implement draw
-    return ;
-}
 
-double get_distance(t_point* start, t_point *end)
+
+double get_distance(t_player *player, double ray_dir, t_point* start, t_point *end)
 {
-    // fprintf(stderr, "end->y - start->y : %d, end->x - start->x : %d\n", end->y - start->y ,end->x - start->x);
-    return sqrt(pow(end->y - start->y,2) + pow(end->x - start->x, 2));
+    double dtheta = ray_dir - player->direction - M_PI_2; 
+    return cos(dtheta) * sqrt(pow(end->y - start->y,2) + pow(end->x - start->x, 2));
 }
 
 double get_wall_ratio(double wall_distance)
@@ -68,7 +64,7 @@ t_mlx_image	*new_raycasting_image(
         double ray_dir = ((cub3d->player.direction - (HN_FOV_ANGLE / 2.0)) + ((HN_FOV_ANGLE / (double)(WINDOW_WIDTH)) * x) + M_PI_2);
         // fprintf(stdout, "ray_dir : %d\n", ray_dir * 180.0 / M_PI);
         collision_point = get_collision_point(cub3d, ray_dir);
-        double wall_dis = get_distance(collision_point, &(cub3d->player.point));
+        double wall_dis = get_distance(&cub3d->player, ray_dir, collision_point, &(cub3d->player.point));
         wall_raito = get_wall_ratio(wall_dis);
         paste_texture(image, wall_raito, 0, cub3d->graphic_info->east_texture, x);
     }
