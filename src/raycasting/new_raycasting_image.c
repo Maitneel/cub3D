@@ -7,7 +7,7 @@
 #include <stdio.h>
 
 //TODO: あとでヘッダーに移す(他で同じような定義がありそうな予感)
-#define HORI_FOV_ANGLE (90 * M_PI / 180)
+#define HN_FOV_ANGLE (90 * M_PI / 180)
 #define WALL_HEIGHT 10
 #define VERT_FOV_ANGLE (10 * M_PI / 180)
 
@@ -45,7 +45,7 @@ void draw_vertical_line(t_mlx_image *img, double distance)
 
 double get_distance(t_point* start, t_point *end)
 {
-    fprintf(stderr, "end->y - start->y : %d, end->x - start->x : %d\n", end->y - start->y ,end->x - start->x);
+    // fprintf(stderr, "end->y - start->y : %d, end->x - start->x : %d\n", end->y - start->y ,end->x - start->x);
     return sqrt(pow(end->y - start->y,2) + pow(end->x - start->x, 2));
 }
 
@@ -62,9 +62,11 @@ t_mlx_image	*new_raycasting_image(
     double          wall_raito;
 
     image = new_image_struct(mlx, width, height);
+    // fprintf(stdout, "direction : %f\n", cub3d->player.direction * 180.0 / M_PI);
     for (int x=0; x<WINDOW_WIDTH; x++)
     {
-        double ray_dir = (cub3d->player.direction - (HORI_FOV_ANGLE / 2.0)) + ((HORI_FOV_ANGLE / (double)(WINDOW_WIDTH)) * x);
+        double ray_dir = ((cub3d->player.direction - (HN_FOV_ANGLE / 2.0)) + ((HN_FOV_ANGLE / (double)(WINDOW_WIDTH)) * x) + M_PI_2);
+        // fprintf(stdout, "ray_dir : %d\n", ray_dir * 180.0 / M_PI);
         collision_point = get_collision_point(cub3d, ray_dir);
         double wall_dis = get_distance(collision_point, &(cub3d->player.point));
         wall_raito = get_wall_ratio(wall_dis);

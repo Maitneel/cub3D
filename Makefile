@@ -88,7 +88,7 @@ fclean: clean
 re: fclean all
 
 test: ${NAME}
-	./${NAME} ./map/my_map.cub 2> hoge.txt
+	./${NAME} ./map/my_map.cub
 
 echo :
 	@echo ${HOSTNAME}
