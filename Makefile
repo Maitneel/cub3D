@@ -57,6 +57,7 @@ SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/ray2d.c \
 		${SRCS_DIR}/vector2d.c \
 		${SRCS_DIR}/raycasting/new_raycasting_image.c \
+		${SRCS_DIR}/new_point.c \
 		${DEBUG_DIR}/debug.c \
 		./temp/vector_test.c \
 
@@ -87,7 +88,7 @@ fclean: clean
 re: fclean all
 
 test: ${NAME}
-	./${NAME} ./map/my_map.cub
+	./${NAME} ./map/my_map.cub 2> hoge.txt
 
 echo :
 	@echo ${HOSTNAME}

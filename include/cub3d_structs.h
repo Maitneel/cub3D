@@ -106,4 +106,7 @@ typedef struct s_mlx_hook_arg
 t_cub3d				*init_cub3d(const void *mlx_ptr, const char *filename);
 t_mlx				*init_mlx_struct(char *title);
 
+
+t_point *new_point(int y, int x);
+
 #endif
