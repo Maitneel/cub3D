@@ -1,3 +1,4 @@
+#include "mlx.h"
 #include "cub3d_structs.h"
 #include "get_next_line.h"
 #include "libft.h"
@@ -217,9 +218,28 @@ char	*get_texture_file_name(const char *line)
 	return (file_name);
 }
 
-t_texture	*new_texture(const char *file_name)
+t_mlx_image *get_image_from_xpm_file(const void *mlx_ptr, const char *file_name) 
+{
+	t_mlx_image *image;
+	char *error_massage;
+
+	image = ft_xcalloc(1, sizeof(t_mlx_image));
+	image->image_ptr = mlx_xpm_file_to_image(mlx_ptr, file_name, &(image->width), &(image->height));
+	if (image->image_ptr == NULL)
+	{
+		print_error(false, "mlx_xpm_file_to_image: ");
+		print_error(false, file_name);
+		print_error(false, ": failed\n");
+		exit(1);
+	}
+	image->data_addr = mlx_get_data_addr(image->image_ptr, &(image->bit_per_pixel), &(image->size_line), &(image->endian));
+	return (image);
+}
+
+t_texture	*new_texture(void *mlx_ptr, const char *file_name)
 {
 	t_texture	*texture;
+	t_mlx_image *image;
 	char		**file_content;
 
 	texture = ft_xcalloc(1, sizeof(t_texture));
@@ -229,6 +249,9 @@ t_texture	*new_texture(const char *file_name)
 		print_error(true, "malloc");
 		exit(1);
 	}
+	// image = get_image_from_xpm_file(mlx_ptr, file_name);
+
+
 	file_content = get_xpm_file_content(texture->file_name);
 	texture->height = get_xpm_height((const char **)(file_content));
 	texture->width = get_xpm_width((const char **)(file_content));
@@ -237,20 +260,20 @@ t_texture	*new_texture(const char *file_name)
 	return (texture);
 }
 
-static void	set_texture(t_graphic_info *graphic_info, const char *line)
+static void	set_texture(const void *mlx_ptr, t_graphic_info *graphic_info, const char *line)
 {
 	char		*file_name;
 	const char	identifier = line[0];
 
 	file_name = get_texture_file_name(line);
 	if (identifier == 'N')
-		graphic_info->north_texture = new_texture(file_name);
+		graphic_info->north_texture = new_texture(mlx_ptr, file_name);
 	else if (identifier == 'S')
-		graphic_info->south_texture = new_texture(file_name);
+		graphic_info->south_texture = new_texture(mlx_ptr, file_name);
 	else if (identifier == 'W')
-		graphic_info->west_texture = new_texture(file_name);
+		graphic_info->west_texture = new_texture(mlx_ptr, file_name);
 	else if (identifier == 'E')
-		graphic_info->east_texture = new_texture(file_name);
+		graphic_info->east_texture = new_texture(mlx_ptr, file_name);
 	free(file_name);
 }
 
@@ -290,13 +313,13 @@ static void	set_color(t_graphic_info *graphic_info, const char *line)
 		graphic_info->ceiling_color = new_color(line);
 }
 
-static void	set_to_appropriate_element(t_graphic_info *graphic_info,
+static void	set_to_appropriate_element(const void *mlx_ptr, t_graphic_info *graphic_info,
 	const char *line
 )
 {
 	if (is_texture_line(line))
 	{
-		set_texture(graphic_info, line);
+		set_texture(mlx_ptr, graphic_info, line);
 	}
 	else if (is_color_line(line))
 	{
@@ -304,7 +327,7 @@ static void	set_to_appropriate_element(t_graphic_info *graphic_info,
 	}
 }
 
-t_graphic_info	*get_graphic_info(const int fd)
+t_graphic_info	*get_graphic_info(const void *mlx_ptr, const int fd)
 {
 	t_graphic_info	*graphic_info;
 	char			*line;
@@ -322,7 +345,7 @@ t_graphic_info	*get_graphic_info(const int fd)
 			free_graphic_info(graphic_info);
 			return (NULL);
 		}
-		set_to_appropriate_element(graphic_info, line);
+		set_to_appropriate_element(mlx_ptr, graphic_info, line);
 		free(line);
 	}
 	return (graphic_info);
