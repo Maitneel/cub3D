@@ -224,7 +224,12 @@ t_mlx_image *get_image_from_xpm_file(const void *mlx_ptr, const char *file_name)
 	char *error_massage;
 
 	image = ft_xcalloc(1, sizeof(t_mlx_image));
+	fprintf(stderr, "image->height : '%d'\n", image->height);
+	fprintf(stderr, "image->width : '%d'\n", image->width);
+	fprintf(stderr, "file_name : '%s'\n", file_name);
 	image->image_ptr = mlx_xpm_file_to_image(mlx_ptr, file_name, &(image->width), &(image->height));
+	fprintf(stderr, "image->height : '%d'\n", image->height);
+	fprintf(stderr, "image->width : '%d'\n", image->width);
 	if (image->image_ptr == NULL)
 	{
 		print_error(false, "mlx_xpm_file_to_image: ");
@@ -234,6 +239,109 @@ t_mlx_image *get_image_from_xpm_file(const void *mlx_ptr, const char *file_name)
 	}
 	image->data_addr = mlx_get_data_addr(image->image_ptr, &(image->bit_per_pixel), &(image->size_line), &(image->endian));
 	return (image);
+}
+
+int data_addr_to_int(const unsigned char *data_addr, int byte_per_pixel)
+{
+	int		int_value;
+	size_t 	i;
+
+	int_value = 0;
+	i = 0;
+	while (i < byte_per_pixel / 4)
+	{
+		int_value *= UCHAR_MAX;
+ 		int_value += data_addr[i];
+		// fprintf(stderr, "i : '%d' ", i);
+		fprintf(stderr, "%02x", data_addr[i]);
+		i++;
+	}
+	// fprintf(stderr, "iv : '%u' ", int_value);
+	return (int_value);
+}
+
+t_color convert_data_addr_to_color_struct(const char *data_addr, const int byte_per_pixel)
+{
+	t_color color;
+
+	fprintf(stderr, "[%02x,", (unsigned char)(*(data_addr + 0)));
+	fprintf(stderr, "%02x,", (unsigned char)(*(data_addr + 1)));
+	fprintf(stderr, "%02x,", (unsigned char)(*(data_addr + 2)));
+	fprintf(stderr, "%02x] ", (unsigned char)(*(data_addr + 4)));
+
+	fprintf(stderr , "[");
+	color.red = data_addr_to_int(data_addr + (byte_per_pixel / 4 * 0), byte_per_pixel);
+	color.green = data_addr_to_int(data_addr + (byte_per_pixel / 4 * 1), byte_per_pixel);
+	color.blue = data_addr_to_int(data_addr + (byte_per_pixel / 4 * 2), byte_per_pixel);
+	fprintf(stderr, "]");
+	return color;
+}
+
+t_texture *convert_image_to_texture(const t_mlx_image *image, t_texture *texture)
+{
+	size_t i;
+	size_t j;
+
+	texture->height = image->height;
+	texture->width = image->width;
+	fprintf(stderr, "texture->file_name : '%s'\n", texture->file_name);
+	fprintf(stderr, "image->width : '%d'\n", image->width);
+	fprintf(stderr, "image->height : '%d'\n", image->height);
+	fprintf(stderr, "image->bit_per_pixel : '%d'\n", image->bit_per_pixel);
+	texture->pixel_color = ft_xcalloc(texture->height, sizeof(t_texture *));
+
+	i = 0;
+	while (i < texture->height)
+	{
+		texture->pixel_color[i] = ft_xcalloc(texture->width, sizeof(t_texture));
+		j = 0;
+		fprintf(stderr, "i : '%2d'  ", i);
+		while (j < texture->width)
+		{
+			unsigned int *i_ptr = image->data_addr;
+			char *c_ptr = image->data_addr;
+			fprintf(stderr, "[%06x : ", i_ptr[i * image->width + j]);
+
+			// fprintf(stderr, "ptr : '%p' ", image->data_addr + (i * image->width * 4 + (j * 4 + 0)));
+			// fprintf(stderr, "ptr2 : '%p'\n", &(image->data_addr[i * image->width * 4 + (j * 4 + 0)]));
+
+			// fprintf(stderr, "[%02x,", (unsigned char)(image->data_addr[i * image->width * 4 + (j * 4 + 0)]));
+			// fprintf(stderr, "%02x,", (unsigned char)(image->data_addr[i * image->width * 4 + (j * 4 + 1)]));
+			// fprintf(stderr, "%02x,", (unsigned char)(image->data_addr[i * image->width * 4 + (j * 4 + 2)]));
+			// fprintf(stderr, "%02x,] ", (unsigned char)(image->data_addr[i * image->width * 4 + (j * 4 + 3)]));
+
+			// fprintf(stderr, "i_ptr : '%p' ", i_ptr[i * image->width + j]);
+			// fprintf(stderr, "c_ptr : '%06x']  ", (unsigned int *)(image->data_addr)[(image->bit_per_pixel)]);
+			// fprintf(stderr, "c_ptr : '%06x']  ", (unsigned int *)(image->data_addr)[i * image->width + j]);
+
+			// texture->pixel_color[i][j] = convert_data_addr_to_color_struct(&image->data_addr[(image->bit_per_pixel / CHAR_BIT) * (image->width * i + j)], image->bit_per_pixel / CHAR_BIT);
+			texture->pixel_color[i][j] = convert_data_addr_to_color_struct(image->data_addr + (i * image->width * 4 + (j * 4 + 0)), image->bit_per_pixel / CHAR_BIT);
+			j++;
+		}
+		fprintf(stderr, "\n");
+		i++;
+	}
+	fprintf(stderr, "texture --------------------------------------------\n");
+	fprintf(stderr, "texture->height : '%d'\n", texture->height);
+	fprintf(stderr, "texture->width : '%d'\n", texture->width);
+	for (size_t i = 0; i < texture->height; i++)
+	{
+		fprintf(stderr, "i : '%2d'  ", i);
+		for (size_t j = 0; j < texture->width; j++)
+		{
+			fprintf(stderr, "[%02x, ", 	texture->pixel_color[i][j].red);
+			fprintf(stderr, "%02x, ", texture->pixel_color[i][j].green);
+			fprintf(stderr, "%02x", texture->pixel_color[i][j].blue);
+			fprintf(stderr, "] ");
+
+		}
+		fprintf(stderr, "\n");
+		
+	}
+	
+	// exit(0);
+	fprintf(stderr, "texture end-----------------------------------------\n");
+	return (texture);
 }
 
 t_texture	*new_texture(void *mlx_ptr, const char *file_name)
@@ -249,14 +357,17 @@ t_texture	*new_texture(void *mlx_ptr, const char *file_name)
 		print_error(true, "malloc");
 		exit(1);
 	}
-	// image = get_image_from_xpm_file(mlx_ptr, file_name);
+	image = get_image_from_xpm_file(mlx_ptr, file_name);
+	texture = convert_image_to_texture(image, texture);
+	mlx_destroy_image(mlx_ptr, image->image_ptr);
+	free(image);
 
 
-	file_content = get_xpm_file_content(texture->file_name);
-	texture->height = get_xpm_height((const char **)(file_content));
-	texture->width = get_xpm_width((const char **)(file_content));
-	texture->pixel_color = get_xpm_pixel_color((const char **)(file_content), texture->height, texture->width);
-	free_string_array(file_content);
+	// file_content = get_xpm_file_content(texture->file_name);
+	// texture->height = get_xpm_height((const char **)(file_content));
+	// texture->width = get_xpm_width((const char **)(file_content));
+	// texture->pixel_color = get_xpm_pixel_color((const char **)(file_content), texture->height, texture->width);
+	// free_string_array(file_content);
 	return (texture);
 }
 
