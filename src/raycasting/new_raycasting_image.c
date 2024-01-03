@@ -28,13 +28,21 @@ t_point *get_collision_point(t_cub3d *cub3d, double dir)
     int n = 1;
     int y = cub3d->player.point.y;
     int x = cub3d->player.point.x;
-    while (!is_wall(cub3d, y, x))
+    int before_x = x;
+    int before_y = y;
+
+    while (true)
     {
+        before_x = x;
+        before_y = y;
         y = cub3d->player.point.y + sin(dir) * n;
         x = cub3d->player.point.x + cos(dir) * n;
+        if (is_wall(cub3d, y, x)) {
+            break;
+        }
         n++;
     }
-    return new_point(y, x);
+    return new_point(before_y, before_x);
 }
 
 double get_distance(t_player *player, double ray_dir, t_point* start, t_point *end)
@@ -50,35 +58,67 @@ double get_wall_ratio(double wall_distance)
 
 t_graphic_info *get_graphic_info_by_point(t_cub3d *cub3d, t_point *point)
 {
-    if (point->x % PLAYER_MAGFICATION == 0)
-        return cub3d->graphic_info->east_texture;
-    else if (point->x % PLAYER_MAGFICATION == 99)
+    const t_map_element **map = cub3d->map;
+    const int x = point->x / PLAYER_MAGFICATION;
+    const int y = point->y / PLAYER_MAGFICATION;
+    if (point->x % PLAYER_MAGFICATION == 0 && map[y][x - 1] == WALL)
+    {
         return cub3d->graphic_info->west_texture;
-    else if (point->y % PLAYER_MAGFICATION == 0)
-        return cub3d->graphic_info->south_texture;
-    else if (point->y % PLAYER_MAGFICATION == 99)
+    }
+    else if (point->x % PLAYER_MAGFICATION == 99 && map[y][x + 1] == WALL)
+    {
+        return cub3d->graphic_info->east_texture;
+    }
+    else if (point->y % PLAYER_MAGFICATION == 0 && map[y - 1][x] == WALL)
+    {
         return cub3d->graphic_info->north_texture;
+    }
+    else if (point->y % PLAYER_MAGFICATION == 99&& map[y + 1][x] == WALL)
+    {
+        return cub3d->graphic_info->south_texture;
+    }
     // TODO: 未到達なはず...
     return cub3d->graphic_info->east_texture;
 }
 
-double get_texture_position(t_point *point)
+double get_texture_position(t_cub3d *cub3d, t_point *point)
 {
-    if (point->x % PLAYER_MAGFICATION == 0)
-        return (double)(point->y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
-    else if (point->x % PLAYER_MAGFICATION == 99)
+    const t_map_element **map = cub3d->map;
+    const int x = point->x / PLAYER_MAGFICATION;
+    const int y = point->y / PLAYER_MAGFICATION;
+    if (point->x % PLAYER_MAGFICATION == 0 && map[y][x - 1] == WALL)
+    {
         return 1.0 - (double)(point->y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
-    else if (point->y % PLAYER_MAGFICATION == 0)
+    }
+    else if (point->x % PLAYER_MAGFICATION == 99 && map[y][x + 1] == WALL)
+    {
+        return (double)(point->y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
+    }
+    else if (point->y % PLAYER_MAGFICATION == 0 && map[y - 1][x] == WALL)
+    {
+        return (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;   
+    }
+    else if (point->y % PLAYER_MAGFICATION == 99&& map[y + 1][x] == WALL)
+    {
         return 1.0 - (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
-    else if (point->y % PLAYER_MAGFICATION == 99)
-        return (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;    
+    }
+   
+
+    // if (point->x % PLAYER_MAGFICATION == 0)
+    //     return (double)(point->y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
+    // else if (point->x % PLAYER_MAGFICATION == 99)
+    //     return 1.0 - (double)(point->y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
+    // else if (point->y % PLAYER_MAGFICATION == 0)
+    //     return 1.0 - (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
+    // else if (point->y % PLAYER_MAGFICATION == 99)
+    //     return (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;    
     // TODO: 未到達なはず...
     return 0.0;
 }
 
 void print_point(t_point *point)
 {
-    printf("y: %d, x: %d\n", point->y, point->x);
+    // printf("y: %d, x: %d\n", point->y, point->x);
 }
 
 t_mlx_image	*new_raycasting_image(
@@ -95,9 +135,9 @@ t_mlx_image	*new_raycasting_image(
         collision_point = get_collision_point(cub3d, ray_dir);
         double wall_dis = get_distance(&cub3d->player, ray_dir, collision_point, &(cub3d->player.point));
         wall_raito = get_wall_ratio(wall_dis);
-        paste_texture(cub3d, image, wall_raito, get_texture_position(collision_point), get_graphic_info_by_point(cub3d, collision_point), x);
+        paste_texture(cub3d, image, wall_raito, get_texture_position(cub3d, collision_point), get_graphic_info_by_point(cub3d, collision_point), x);
         print_point(collision_point);
-        fprintf(stderr, "pos: %f\n", get_texture_position(collision_point));
+        // fprintf(stderr, "pos: %f\n", get_texture_position(collision_point));
         free(collision_point);
     }
     return (image);
