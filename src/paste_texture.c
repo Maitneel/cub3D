@@ -30,11 +30,10 @@ void paste_texture(t_cub3d *cub3d, t_mlx_image *image, const double magnificatio
 	while (i < image->height)
 	{
 		if (i < image->height / 2) 
-			// put_pixel_to_mlx_image(image, image_x, i, 0xffffff);
 			put_pixel_to_mlx_image(image, image_x, i, convert_color_to_int(*(cub3d->graphic_info->ceiling_color)));
 
 		else
-			put_pixel_to_mlx_image(image, image_x, i, 0xffff00);
+			put_pixel_to_mlx_image(image, image_x, i, convert_color_to_int(*(cub3d->graphic_info->floor_color)));
 		i++;
 	}
 	i = 0;
