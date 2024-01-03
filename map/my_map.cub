@@ -1,7 +1,7 @@
-NO ./xpm_test/minimamu.xpm
-SO ./xpm_test/minimamu.xpm
-WE ./xpm_test/minimamu.xpm
-EA ./xpm_test/minimamu.xpm
+NO ./xpm_test/minimamu_white.xpm
+SO ./xpm_test/minimamu_red.xpm
+WE ./xpm_test/minimamu_blue.xpm
+EA ./xpm_test/minimamu_green.xpm
 
 F 220,100,0
 C 225,30,0
