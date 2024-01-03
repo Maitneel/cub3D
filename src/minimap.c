@@ -15,11 +15,6 @@
 #define MINIMAP_WALL_COLOR 0x80303030
 #define MINIMAP_FILED_OF_VIEW_COLOR 0x80ff0000
 
-
-
-// あとで消す //
-#define HN_FOV_ANGLE (90 * M_PI / 180)
-
 t_map_element	get_map_element_type(
 	const t_cub3d *cub3d, const int x, const int y
 )

@@ -4,13 +4,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include <stdlib.h>
-
 #include <stdio.h>
-
-//TODO: あとでヘッダーに移す(他で同じような定義がありそうな予感)
-#define HN_FOV_ANGLE (90 * M_PI / 180)
-#define WALL_HEIGHT 10
-#define VERT_FOV_ANGLE (10 * M_PI / 180)
 
 bool is_wall(t_cub3d *cub3d, int y, int x)
 {

@@ -4,6 +4,9 @@
 # define IMAGE_SIZE 100
 # define WINDOW_WIDTH 1000
 # define WINDOW_HEIGHT 800
+# define HN_FOV_ANGLE (90 * M_PI / 180)
+# define WALL_HEIGHT 10
+# define VERT_FOV_ANGLE (10 * M_PI / 180)
 
 #include "stddef.h"
 
