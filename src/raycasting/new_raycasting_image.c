@@ -53,12 +53,15 @@ t_graphic_info *get_graphic_info_by_point(t_cub3d *cub3d, t_point *point)
 }
 
 double get_texture_position(t_point *point)
-{      
-    
+{
     if (point->x % PLAYER_MAGFICATION == 0)
         return (double)(point->y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
+    else if (point->x % PLAYER_MAGFICATION == 99)
+        return 1.0 - (double)(point->y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
     else if (point->y % PLAYER_MAGFICATION == 0)
-        return (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
+        return 1.0 - (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
+    else if (point->y % PLAYER_MAGFICATION == 99)
+        return (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;    
     // TODO: 未到達なはず...
     return 0.0;
 }
