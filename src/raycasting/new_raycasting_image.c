@@ -59,7 +59,7 @@ t_graphic_info *get_graphic_info_by_point(t_cub3d *cub3d, t_point *point)
     {
         return cub3d->graphic_info->west_texture;
     }
-    else if (point->x % PLAYER_MAGFICATION == 99 && map[y][x + 1] == WALL)
+    else if (point->x % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1 && map[y][x + 1] == WALL)
     {
         return cub3d->graphic_info->east_texture;
     }
@@ -67,7 +67,7 @@ t_graphic_info *get_graphic_info_by_point(t_cub3d *cub3d, t_point *point)
     {
         return cub3d->graphic_info->north_texture;
     }
-    else if (point->y % PLAYER_MAGFICATION == 99&& map[y + 1][x] == WALL)
+    else if (point->y % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1 && map[y + 1][x] == WALL)
     {
         return cub3d->graphic_info->south_texture;
     }
@@ -84,7 +84,7 @@ double get_texture_position(t_cub3d *cub3d, t_point *point)
     {
         return 1.0 - (double)(point->y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
     }
-    else if (point->x % PLAYER_MAGFICATION == 99 && map[y][x + 1] == WALL)
+    else if (point->x % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1 && map[y][x + 1] == WALL)
     {
         return (double)(point->y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
     }
@@ -92,7 +92,7 @@ double get_texture_position(t_cub3d *cub3d, t_point *point)
     {
         return (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;   
     }
-    else if (point->y % PLAYER_MAGFICATION == 99&& map[y + 1][x] == WALL)
+    else if (point->y % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1&& map[y + 1][x] == WALL)
     {
         return 1.0 - (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
     }
