@@ -48,7 +48,7 @@ t_mlx_image *paste_texture_test(t_mlx *mlx, t_texture *texture) {
 		// 	paste_texture(image, (double)(i) / 100.0f, (double)(i) / (double)(200), texture, i);
 		// else 
 		// 	paste_texture(image,  (1.0f - (double)(i) / 200.0f), (double)(i) / (double)(200), texture, i);
-			paste_texture(image, 0.5f + ((double)(i) / 400.0f), (double)(i) / (double)(200), texture, i);
+			// paste_texture(image, 0.5f + ((double)(i) / 400.0f), (double)(i) / (double)(200), texture, i);
 	}
 	usleep(100);
 	return image;

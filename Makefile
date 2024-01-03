@@ -22,9 +22,11 @@ FT_TOKYO = 42tokyo.jp
 
 # ifeq (${HOSTNAME}, "42tokyo.jp")
 ifeq (${HOSTNAME}, ${FT_TOKYO})
-	MLX_FLAG := -lmlx -framework OpenGL -framework AppKit -D LOCAL_MACHINE
+	MLX_FLAG := -lmlx -framework OpenGL -framework AppKit
+	 -D LOCAL_MACHINE = -D FT_MACHINE
 else 
 	MLX_FLAG := -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I${MLX_DIR}
+	MACHINE_FLAG = -D LOCAL_MACHINE
 endif
 # MLX_FLAG = -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I${MLX_DIR}
 # MLX_FLAG = -lmlx -framework OpenGL -framework AppKit
@@ -64,7 +66,7 @@ SRCS =	${SRCS_DIR}/main.c \
 OBJS = ${SRCS:%.c=%.o}
 
 %.o: %.c
-	${CC} ${CFLAGS} -I${INCLUDE_DIR} -I${MLX_DIR} -I${LIBFT_DIR} -I${GNL_DIR} -I ${DEBUG_DIR} -c -o $@ $^
+	${CC} ${CFLAGS} -I${INCLUDE_DIR} -I${MLX_DIR} -I${LIBFT_DIR} -I${GNL_DIR} -I ${DEBUG_DIR} ${MACHINE_FLAG} -c -o $@ $^
 
 ${NAME} : ${OBJS} ${MLX} ${LIBFT}
 	${CC} ${CFLAGS} ${MLX_FLAG} ${OBJS} ${MLX} ${LIBFT} -o ${NAME} 

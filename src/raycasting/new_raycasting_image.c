@@ -3,6 +3,7 @@
 #include "paste_texture.h"
 #include <math.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include <stdio.h>
 
@@ -94,7 +95,7 @@ t_mlx_image	*new_raycasting_image(
         collision_point = get_collision_point(cub3d, ray_dir);
         double wall_dis = get_distance(&cub3d->player, ray_dir, collision_point, &(cub3d->player.point));
         wall_raito = get_wall_ratio(wall_dis);
-        paste_texture(image, wall_raito, get_texture_position(collision_point), get_graphic_info_by_point(cub3d, collision_point), x);
+        paste_texture(cub3d, image, wall_raito, get_texture_position(collision_point), get_graphic_info_by_point(cub3d, collision_point), x);
         print_point(collision_point);
         fprintf(stderr, "pos: %f\n", get_texture_position(collision_point));
         free(collision_point);
