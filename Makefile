@@ -10,10 +10,26 @@ SRCS_DIR = ./src
 INCLUDE_DIR = ./include
 DEBUG_DIR = ./debug
 
+
+
+
 MLX = ${MLX_DIR}/libmlx.a
 LIBFT = ${LIBFT_DIR}/libft.a
 
-MLX_FLAG = -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I${MLX_DIR}
+
+HOSTNAME = ${shell hostname | sed 's/c[0-9]*r[0-9]*s[0-9]\.//g'}
+FT_TOKYO = 42tokyo.jp
+
+# ifeq (${HOSTNAME}, "42tokyo.jp")
+ifeq (${HOSTNAME}, ${FT_TOKYO})
+	MLX_FLAG := -lmlx -framework OpenGL -framework AppKit
+	 -D LOCAL_MACHINE = -D FT_MACHINE
+else 
+	MLX_FLAG := -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I${MLX_DIR}
+	MACHINE_FLAG = -D LOCAL_MACHINE
+endif
+# MLX_FLAG = -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I${MLX_DIR}
+# MLX_FLAG = -lmlx -framework OpenGL -framework AppKit
 
 SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/print_error.c \
@@ -42,13 +58,15 @@ SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/ft_isspace.c \
 		${SRCS_DIR}/ray2d.c \
 		${SRCS_DIR}/vector2d.c \
+		${SRCS_DIR}/raycasting/new_raycasting_image.c \
+		${SRCS_DIR}/new_point.c \
 		${DEBUG_DIR}/debug.c \
 		./temp/vector_test.c \
 
 OBJS = ${SRCS:%.c=%.o}
 
 %.o: %.c
-	${CC} ${CFLAGS} -I${INCLUDE_DIR} -I${MLX_DIR} -I${LIBFT_DIR} -I${GNL_DIR} -I ${DEBUG_DIR} -c -o $@ $^
+	${CC} ${CFLAGS} -I${INCLUDE_DIR} -I${MLX_DIR} -I${LIBFT_DIR} -I${GNL_DIR} -I ${DEBUG_DIR} ${MACHINE_FLAG} -c -o $@ $^
 
 ${NAME} : ${OBJS} ${MLX} ${LIBFT}
 	${CC} ${CFLAGS} ${MLX_FLAG} ${OBJS} ${MLX} ${LIBFT} -o ${NAME} 
@@ -73,5 +91,9 @@ re: fclean all
 
 test: ${NAME}
 	./${NAME} ./map/my_map.cub
+
+echo :
+	@echo ${HOSTNAME}
+	@echo ${MLX_FLAG}
 
 .PHONY: all clean fclean re

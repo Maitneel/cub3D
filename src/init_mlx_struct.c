@@ -3,9 +3,6 @@
 #include "util_lib.h"
 #include "free_lib.h"
 
-#define WINDOW_WIDTH 400
-#define WINDOW_HEIGHT 300
-
 t_mlx	*init_mlx_struct(char *title)
 {
 	t_mlx	*mlx;

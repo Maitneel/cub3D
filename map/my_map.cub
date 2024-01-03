@@ -1,7 +1,7 @@
-NO ./xpm_test/for_paste_texture_test.xpm
-SO ./xpm_test/test_xpm.xpm
-WE ./xpm_test/minimamu.xpm
-EA ./xpm_test/minimamu.xpm
+NO ./xpm_test/minimamu_red.xpm
+SO ./textures/minami.xpm
+WE ./textures/nishi.xpm
+EA ./textures/higashi.xpm
 
 F 220,100,0
 C 225,30,0

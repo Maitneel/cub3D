@@ -111,8 +111,8 @@ void	put_line(
 			color_map[i][j] == MINIMAP_OUT_OF_MAP_COLOR)
 			return ;
 		color_map[i][j] = MINIMAP_FILED_OF_VIEW_COLOR;
-		i = center_y + (int)(cos(direction) * magfication);
-		j = center_x + (int)(sin(direction) * magfication);
+		i = center_y + (int)(sin(direction) * magfication);
+		j = center_x + (int)(cos(direction) * magfication);
 		magfication++;
 	}
 }
@@ -133,8 +133,8 @@ void	coloring_filed_of_view(const t_cub3d *cub3d,
 	while (i < greater_size)
 	{
 		// ここ計算量やばい //
-		put_line(color_map, height, width, M_PI - (cub3d->player.direction - M_PI_4 + \
-			((double)(i) *M_PI_2 / (double)(greater_size))));
+		put_line(color_map, height, width,(cub3d->player.direction + HN_FOV_ANGLE / 2.0 - \
+			((double)(i) * HN_FOV_ANGLE / (double)(greater_size))) + M_PI_2);
 		i++;
 	}
 }
@@ -146,7 +146,7 @@ void	put_to_image_from_int_array(
 	int	i;
 	int	j;
 
-	i = 0;
+	i = 0; 
 	while (i < image->height)
 	{
 		j = 0;

@@ -2,6 +2,11 @@
 # define CUB3D_STRUCTS_H
 
 # define IMAGE_SIZE 100
+# define WINDOW_WIDTH 1000
+# define WINDOW_HEIGHT 800
+# define HN_FOV_ANGLE (90 * M_PI / 180)
+# define WALL_HEIGHT 10
+# define VERT_FOV_ANGLE (10 * M_PI / 180)
 
 #include "stddef.h"
 
@@ -103,5 +108,8 @@ typedef struct s_mlx_hook_arg
 
 t_cub3d				*init_cub3d(const void *mlx_ptr, const char *filename);
 t_mlx				*init_mlx_struct(char *title);
+
+
+t_point *new_point(int y, int x);
 
 #endif

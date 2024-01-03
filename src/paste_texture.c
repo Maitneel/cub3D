@@ -15,7 +15,7 @@ int convert_color_to_int(t_color color)
 	return result;
 }
 
-void paste_texture(t_mlx_image *image, const double magnification, const double texture_position, const t_texture *texture, const size_t image_x)
+void paste_texture(t_cub3d *cub3d, t_mlx_image *image, const double magnification, const double texture_position, const t_texture *texture, const size_t image_x)
 {
 	size_t col;
 	int i;
@@ -26,6 +26,15 @@ void paste_texture(t_mlx_image *image, const double magnification, const double 
 	if (texture->width <= col)
 		col = texture->width - 1;
 
+	i = 0;
+	while (i < image->height)
+	{
+		if (i < image->height / 2) 
+			put_pixel_to_mlx_image(image, image_x, i, convert_color_to_int(*(cub3d->graphic_info->ceiling_color)));
+		else
+			put_pixel_to_mlx_image(image, image_x, i, convert_color_to_int(*(cub3d->graphic_info->floor_color)));
+		i++;
+	}
 	i = 0;
 	int axis_correction = (image->height - (image->height * magnification)) / 2;
 	while (i < image->height)
