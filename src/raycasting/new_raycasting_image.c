@@ -49,6 +49,15 @@ double get_wall_ratio(double wall_distance)
 
 t_graphic_info *get_graphic_info_by_point(t_cub3d *cub3d, t_point *point)
 {
+    if (point->x % PLAYER_MAGFICATION == 0)
+        return cub3d->graphic_info->east_texture;
+    else if (point->x % PLAYER_MAGFICATION == 99)
+        return cub3d->graphic_info->west_texture;
+    else if (point->y % PLAYER_MAGFICATION == 0)
+        return cub3d->graphic_info->south_texture;
+    else if (point->y % PLAYER_MAGFICATION == 99)
+        return cub3d->graphic_info->north_texture;
+    // TODO: 未到達なはず...
     return cub3d->graphic_info->east_texture;
 }
 
