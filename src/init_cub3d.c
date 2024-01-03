@@ -64,12 +64,12 @@ static int get_map_height(t_map_element **map)
 	return i;
 }
 
-static t_cub3d	*get_cub3d_data(const int fd)
+static t_cub3d	*get_cub3d_data(const void *mlx_ptr, const int fd)
 {
 	t_cub3d	*cub3d;
 
 	cub3d = ft_xcalloc(1, sizeof(t_cub3d));
-	cub3d->graphic_info = get_graphic_info(fd);
+	cub3d->graphic_info = get_graphic_info(mlx_ptr, fd);
 	cub3d->map = get_map(fd);
 	if (cub3d->graphic_info == NULL || cub3d->map == NULL)
 	{
@@ -83,7 +83,7 @@ static t_cub3d	*get_cub3d_data(const int fd)
 	return (cub3d);
 }
 
-t_cub3d	*init_cub3d(const char *filename)
+t_cub3d	*init_cub3d(const void *mlx_ptr, const char *filename)
 {
 	int		fd;
 	t_cub3d	*cub3d;
@@ -99,7 +99,7 @@ t_cub3d	*init_cub3d(const char *filename)
 		print_error(true, filename);
 		return (NULL);
 	}
-	cub3d = get_cub3d_data(fd);
+	cub3d = get_cub3d_data(mlx_ptr, fd);
 	close(fd);
 	return (cub3d);
 }
