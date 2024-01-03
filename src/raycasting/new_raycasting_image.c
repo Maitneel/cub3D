@@ -102,23 +102,13 @@ double get_texture_position(t_cub3d *cub3d, t_point *point)
     {
         return 1.0 - (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
     }
-   
-
-    // if (point->x % PLAYER_MAGFICATION == 0)
-    //     return (double)(point->y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
-    // else if (point->x % PLAYER_MAGFICATION == 99)
-    //     return 1.0 - (double)(point->y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
-    // else if (point->y % PLAYER_MAGFICATION == 0)
-    //     return 1.0 - (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
-    // else if (point->y % PLAYER_MAGFICATION == 99)
-    //     return (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;    
     // TODO: 未到達なはず...
     return 0.0;
 }
 
 void print_point(t_point *point)
 {
-    // printf("y: %d, x: %d\n", point->y, point->x);
+    printf("y: %d, x: %d\n", point->y, point->x);
 }
 
 t_mlx_image	*new_raycasting_image(
@@ -136,8 +126,6 @@ t_mlx_image	*new_raycasting_image(
         double wall_dis = get_distance(&cub3d->player, ray_dir, collision_point, &(cub3d->player.point));
         wall_raito = get_wall_ratio(wall_dis);
         paste_texture(cub3d, image, wall_raito, get_texture_position(cub3d, collision_point), get_graphic_info_by_point(cub3d, collision_point), x);
-        print_point(collision_point);
-        // fprintf(stderr, "pos: %f\n", get_texture_position(collision_point));
         free(collision_point);
     }
     return (image);
