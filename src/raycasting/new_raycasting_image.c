@@ -105,14 +105,14 @@ void print_point(t_point *point)
     printf("y: %d, x: %d\n", point->y, point->x);
 }
 
-#define SCREEN_MAGFICATION 1000
+#define SCREEN_MAGFICATION 100000
 
 t_point get_screen_point(const t_point focus_point, const double direction)
 {
     t_point screen_point;
 
-    screen_point.x = sin(direction) * focus_point.x;
-    screen_point.y = cos(direction) * focus_point.y;
+    screen_point.x = sin(direction) * SCREEN_MAGFICATION + focus_point.x;
+    screen_point.y = cos(direction) * SCREEN_MAGFICATION + focus_point.y;
     return screen_point;
 }
 
@@ -121,20 +121,19 @@ double get_direction_across_screen_position(const t_point player_position, const
     double position_x;
     double position_y;
     double direction;
+    double diff_x;
+    double diff_y;
 
-    position_x = (screen_left.x + ((screen_right.x - screen_left.x) * (double)(screen_position) / WINDOW_WIDTH)) * PLAYER_MAGFICATION;
-    position_y = (screen_left.y + ((screen_right.y - screen_left.y) * (double)(screen_position) / WINDOW_WIDTH)) * PLAYER_MAGFICATION;
+    position_x = (screen_left.x + ((screen_right.x - screen_left.x) * (double)(screen_position) / WINDOW_WIDTH));
+    position_y = (screen_left.y + ((screen_right.y - screen_left.y) * (double)(screen_position) / WINDOW_WIDTH));
 
-    if ((int)(position_x) == player_position.x)
-    {
-        if (player_position.x < position_x)
-            return 0.0;
-        else
-            return M_PI;
-    }
-    direction = (atan((position_y - player_position.y) / (position_x - player_position.x)));
-    // TODO なんか
-    direction *= -1.0;
+    diff_x = position_x - player_position.x;
+    diff_y = position_y - player_position.y;
+
+    // ここ問題ないかわからない //
+    // atan func は ＋- inf が与えられた時 +- pi/2 を返すが //
+    // float のゼロ除算が inf を返すかがわからない //
+    direction = (atan(diff_y / diff_x)) * -1.0;
     if (position_x < player_position.x) {
         direction += M_PI * 2.0;
     } else {
@@ -165,14 +164,6 @@ t_mlx_image	*new_raycasting_image(
         wall_raito = get_wall_ratio(wall_dis);
         paste_texture(cub3d, image, wall_raito, get_texture_position(cub3d, collision_point), get_graphic_info_by_point(cub3d, collision_point), x);
         free(collision_point);
-
-        // if (ray_dir != 0.0)
-        // {
-        //     fprintf(stderr, "ray_dir : '%3.5f'  ", ray_dir);
-        //     fprintf(stderr, "wall_dis : '%3.10f'  ", wall_dis);
-        //     fprintf(stderr, "wall_raito : '%.10f'\n", wall_raito);
-        // }
     }
-    // fprintf(stderr, "========================================\n");
     return (image);
 }
