@@ -3,6 +3,7 @@
 
 # include "cub3d_structs.h"
 
+double	normDir(double dir);
 t_mlx_image	*new_raycasting_image(
 	const t_cub3d *cub3d, const t_mlx *mlx, const int width, const int height);
 

@@ -16,6 +16,43 @@ bool is_wall(t_cub3d *cub3d, int y, int x)
     return (map[y / PLAYER_MAGFICATION][x / PLAYER_MAGFICATION] == WALL);
 }
 
+double normDir(double dir)
+{
+    return fmod(fabs(dir), 2 * M_PI);
+}
+
+bool is_up_dir(double ray_dir)
+{
+    double dir = normDir(ray_dir - M_PI_2);
+    if (dir > 0 && dir < M_PI)
+        return true;
+    return false;
+}
+
+bool is_down_dir(double ray_dir)
+{
+    double dir = normDir(ray_dir - M_PI_2);
+    if (dir > M_PI && dir < 2 * M_PI)
+        return true;
+    return false;
+}
+
+bool is_right_dir(double ray_dir)
+{
+    double dir = normDir(ray_dir - M_PI_2);
+    if (dir < M_PI_2 || dir > M_PI_2 * 3)
+        return true;
+    return false;
+}
+
+bool is_left_dir(double ray_dir)
+{
+    double dir = normDir(ray_dir - M_PI_2);
+    if (dir > M_PI_2 && dir < M_PI_2 * 3)
+        return true;
+    return false;
+}
+
 // TODO: 直行したベクトルの場合、壁をすり抜ける
 t_point *get_collision_point(t_cub3d *cub3d, double dir)
 {
@@ -142,11 +179,6 @@ double get_direction_across_screen_position(const t_point player_position, const
     return direction;
 }
 
-double normDir(double dir)
-{
-    return fmod(fabs(dir), 2 * M_PI);
-}
-
 t_mlx_image	*new_raycasting_image(
 	const t_cub3d *cub3d, const t_mlx *mlx, const int width, const int height)
 {
@@ -155,7 +187,6 @@ t_mlx_image	*new_raycasting_image(
     double          wall_raito;
     t_point         screen_left;
     t_point         screen_right;
-
 
     screen_left = get_screen_point(cub3d->player.point, cub3d->player.direction - (HN_FOV_ANGLE / 2.0));
     screen_right = get_screen_point(cub3d->player.point, cub3d->player.direction + (HN_FOV_ANGLE / 2.0));
