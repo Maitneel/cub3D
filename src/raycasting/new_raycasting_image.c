@@ -45,9 +45,9 @@ double get_distance(t_player *player, double ray_dir, t_point* start, t_point *e
     return cos(dtheta) * sqrt(pow(end->y - start->y,2) + pow(end->x - start->x, 2));
 }
 
-double get_wall_ratio(double wall_distance)
+double get_wall_ratio(double wall_distance, const double dir)
 {
-    return (WALL_HEIGHT / (tan(VERT_FOV_ANGLE) * wall_distance));
+    return ((double)WALL_HEIGHT / (tan(VERT_FOV_ANGLE) * (double)wall_distance));
 }
 
 t_graphic_info *get_graphic_info_by_point(t_cub3d *cub3d, t_point *point)
@@ -142,6 +142,11 @@ double get_direction_across_screen_position(const t_point player_position, const
     return direction;
 }
 
+double normDir(double dir)
+{
+    return fmod(fabs(dir), 2 * M_PI);
+}
+
 t_mlx_image	*new_raycasting_image(
 	const t_cub3d *cub3d, const t_mlx *mlx, const int width, const int height)
 {
@@ -161,7 +166,7 @@ t_mlx_image	*new_raycasting_image(
         double ray_dir = get_direction_across_screen_position(cub3d->player.point, screen_left, screen_right, x );
         collision_point = get_collision_point(cub3d, ray_dir);
         double wall_dis = get_distance(&cub3d->player, ray_dir, collision_point, &(cub3d->player.point));
-        wall_raito = get_wall_ratio(wall_dis);
+        wall_raito = get_wall_ratio(wall_dis, ray_dir);
         paste_texture(cub3d, image, wall_raito, get_texture_position(cub3d, collision_point), get_graphic_info_by_point(cub3d, collision_point), x);
         free(collision_point);
     }
