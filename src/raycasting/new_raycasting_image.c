@@ -19,36 +19,36 @@ bool is_wall(t_cub3d *cub3d, int y, int x)
 
 double normDir(double dir)
 {
-    return fmod(fabs(dir), 2 * M_PI);
+    return fmod(fabs(dir + 2 * M_PI), 2 * M_PI);
 }
 
-bool is_up_dir(double ray_dir)
+bool is_west(double ray_dir)
 {
-    double dir = normDir(ray_dir - M_PI_2);
-    if (dir > 0 && dir < M_PI)
+    double dir = normDir(ray_dir);
+    if (0 < dir && dir < M_PI)
         return true;
     return false;
 }
 
-bool is_down_dir(double ray_dir)
+bool is_east(double ray_dir)
 {
-    double dir = normDir(ray_dir - M_PI_2);
+    double dir = normDir(ray_dir);
     if (dir > M_PI && dir < 2 * M_PI)
         return true;
     return false;
 }
 
-bool is_right_dir(double ray_dir)
+bool is_south(double ray_dir)
 {
-    double dir = normDir(ray_dir - M_PI_2);
+    double dir = normDir(ray_dir);
     if (dir < M_PI_2 || dir > M_PI_2 * 3)
         return true;
     return false;
 }
 
-bool is_left_dir(double ray_dir)
+bool is_north(double ray_dir)
 {
-    double dir = normDir(ray_dir - M_PI_2);
+    double dir = normDir(ray_dir);
     if (dir > M_PI_2 && dir < M_PI_2 * 3)
         return true;
     return false;
@@ -146,11 +146,11 @@ void print_point(t_point *point)
 void print_dir(double dir)
 {
     printf(
-        "up: %d, down: %d, right: %d, left: %d, dir: %f\n",
-        is_up_dir(dir),
-        is_down_dir(dir),
-        is_right_dir(dir),
-        is_left_dir(dir),
+        "north: %d, south: %d, east: %d, west: %d, dir: %.20f\n",
+        is_north(dir),
+        is_south(dir),
+        is_east(dir),
+        is_west(dir),
         180 * dir / M_PI
     );
 }
