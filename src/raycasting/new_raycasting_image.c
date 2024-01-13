@@ -25,7 +25,7 @@ double normDir(double dir)
 
 bool is_west(double ray_dir)
 {
-    double dir = normDir(ray_dir);
+    double dir = normDir(ray_dir - M_PI_2);
     if (0 < dir && dir < M_PI)
         return true;
     return false;
@@ -33,7 +33,7 @@ bool is_west(double ray_dir)
 
 bool is_east(double ray_dir)
 {
-    double dir = normDir(ray_dir);
+    double dir = normDir(ray_dir - M_PI_2);
     if (dir > M_PI && dir < 2 * M_PI)
         return true;
     return false;
@@ -41,7 +41,7 @@ bool is_east(double ray_dir)
 
 bool is_south(double ray_dir)
 {
-    double dir = normDir(ray_dir);
+    double dir = normDir(ray_dir - M_PI_2);
     if (dir < M_PI_2 || dir > M_PI_2 * 3)
         return true;
     return false;
@@ -49,7 +49,7 @@ bool is_south(double ray_dir)
 
 bool is_north(double ray_dir)
 {
-    double dir = normDir(ray_dir);
+    double dir = normDir(ray_dir - M_PI_2);
     if (dir > M_PI_2 && dir < M_PI_2 * 3)
         return true;
     return false;
@@ -59,11 +59,13 @@ t_point *hz_collition_point(t_cub3d *cub3d, double dir)
 {
     int side_x;
     int side_y;
+    int before_x;
+    int before_y;
 
     int step;
     if (is_north(dir))
     {
-        side_y = -1 * cub3d->player.point.y % PLAYER_MAGFICATION;
+        side_y = -1 * cub3d->player.point.y % PLAYER_MAGFICATION - 1;
         step = -PLAYER_MAGFICATION;
     } else if (is_south(dir))
     {
@@ -76,18 +78,25 @@ t_point *hz_collition_point(t_cub3d *cub3d, double dir)
     if (!(-100000 < side_x && side_x < 100000)) {
         fprintf(stderr, "side_x : %d\n", side_x);
     }
+    before_x = side_x;
+    before_y = side_y;
     while(!is_wall(cub3d, cub3d->player.point.y + side_y,cub3d->player.point.x + side_x))
     {
+        before_x = side_x;
+        before_y = side_y;
         side_y += step;
         side_x = tan(dir + M_PI_2) * side_y;
     }
-    return new_point(cub3d->player.point.y + side_y, cub3d->player.point.x + side_x);
+    return new_point(cub3d->player.point.y + before_y, cub3d->player.point.x + before_x);
 }
 
 t_point *vert_collition_point(t_cub3d *cub3d, double dir)
 {
     int side_x;
     int side_y;
+
+    int before_x;
+    int before_y;
 
     int step;
     if (is_east(dir))
@@ -107,12 +116,16 @@ t_point *vert_collition_point(t_cub3d *cub3d, double dir)
     if (!(-100000 < side_y && side_y < 100000)){
         fprintf(stderr, "side_y : %d\n", side_y);
     }
+    before_x = side_x;
+    before_y = side_y;
     while(!is_wall(cub3d, cub3d->player.point.y + side_y,cub3d->player.point.x + side_x))
     {
+        before_x = side_x;
+        before_y = side_y;
         side_x += step;
         side_y = side_x * tan(dir);
     }
-    return new_point(cub3d->player.point.y + side_y, cub3d->player.point.x + side_x);
+    return new_point(cub3d->player.point.y + before_y, cub3d->player.point.x + before_x);
 }
 double get_distance(t_point *start, t_point *end)
 {
