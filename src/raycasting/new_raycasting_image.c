@@ -2,6 +2,7 @@
 #include "mlx_image_proc.h"
 #include "paste_texture.h"
 #include <math.h>
+#include <float.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -142,6 +143,18 @@ void print_point(t_point *point)
     printf("y: %d, x: %d\n", point->y, point->x);
 }
 
+void print_dir(double dir)
+{
+    printf(
+        "up: %d, down: %d, right: %d, left: %d, dir: %f\n",
+        is_up_dir(dir),
+        is_down_dir(dir),
+        is_right_dir(dir),
+        is_left_dir(dir),
+        180 * dir / M_PI
+    );
+}
+
 #define SCREEN_MAGFICATION 100000
 
 t_point get_screen_point(const t_point focus_point, const double direction)
@@ -191,9 +204,10 @@ t_mlx_image	*new_raycasting_image(
     screen_left = get_screen_point(cub3d->player.point, cub3d->player.direction - (HN_FOV_ANGLE / 2.0));
     screen_right = get_screen_point(cub3d->player.point, cub3d->player.direction + (HN_FOV_ANGLE / 2.0));
     image = new_image_struct(mlx, width, height);
+
+    print_dir(cub3d->player.direction);
     for (int x=0; x<WINDOW_WIDTH; x++)
     {
-        // double ray_dir = ((cub3d->player.direction - (HN_FOV_ANGLE / 2.0)) + ((HN_FOV_ANGLE / (double)(WINDOW_WIDTH)) * x) + M_PI_2);
         double ray_dir = get_direction_across_screen_position(cub3d->player.point, screen_left, screen_right, x );
         collision_point = get_collision_point(cub3d, ray_dir);
         double wall_dis = get_distance(&cub3d->player, ray_dir, collision_point, &(cub3d->player.point));
