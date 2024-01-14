@@ -92,6 +92,9 @@ re: fclean all
 test: ${NAME}
 	./${NAME} ./map/my_map.cub
 
+# test: ${NAME}
+# 	./${NAME} ./map/my_map3.cub
+
 echo :
 	@echo ${HOSTNAME}
 	@echo ${MLX_FLAG}
