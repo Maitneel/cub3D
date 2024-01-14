@@ -61,9 +61,6 @@ t_point *hz_collition_point(t_cub3d *cub3d, double dir)
 {
     int side_x;
     int side_y;
-    int before_x;
-    int before_y;
-
     int step;
     if (is_north(dir))
     {
@@ -82,56 +79,18 @@ t_point *hz_collition_point(t_cub3d *cub3d, double dir)
     if (!(-100000 < side_x && side_x < 100000)) {
         // fprintf(stderr, "side_x : %d\n", side_x);
     }
-    // TODO delete before;
-    before_x = side_x;
-    before_y = side_y;
     while(!is_wall(cub3d, cub3d->player.point.y + side_y,cub3d->player.point.x + side_x))
     {
-        before_x = side_x;
-        before_y = side_y;
         side_y += step;
         side_x = tan(dir + M_PI_2) * side_y * -1;
     }
-    static int py;
-    static int count;
-    if (py != cub3d->player.point.y) {
-        // fprintf(stderr, "cub3d->player.point.x + before_x : '%d'\n", cub3d->player.point.x + before_x);
-        // fprintf(stderr, "side_x : '%d'\n", side_x);
-
-        for (size_t i = 0; i < cub3d->map_height; i++)
-        {
-            fprintf(stderr, "%2d : ", i);
-            for (size_t j = 0; j < cub3d->map_height; j++)
-            {
-                fprintf(stderr, "%d", cub3d->map[i][j]);
-            }
-            fprintf(stderr, "\n");
-            
-        }
-        
-
-        fprintf(stderr, "cub3d->player.point.y + side_y : '%d'\n", cub3d->player.point.y + side_y);
-        fprintf(stderr, "side_y : '%d'\n", side_y);
-
-        count = 0;
-        py = cub3d->player.point.y;
-    }
-    if (0 < side_y) {
-        count++;
-    }
-
     return new_point(cub3d->player.point.y + side_y, cub3d->player.point.x + side_x);
-    // return new_point(cub3d->player.point.y + before_y, cub3d->player.point.x + before_x);
 }
 
 t_point *vert_collition_point(t_cub3d *cub3d, double dir)
 {
     int side_x;
     int side_y;
-
-    int before_x;
-    int before_y;
-
     int step;
     if (is_east(dir))
     {
@@ -150,34 +109,11 @@ t_point *vert_collition_point(t_cub3d *cub3d, double dir)
     if (!(-100000 < side_y && side_y < 100000)){
         // fprintf(stderr, "side_y : %d\n", side_y);
     }
-    before_x = side_x;
-    before_y = side_y;
     while(!is_wall(cub3d, cub3d->player.point.y + side_y,cub3d->player.point.x + side_x))
     {
-        before_x = side_x;
-        before_y = side_y;
         side_x += step;
         side_y = side_x * tan(dir);
     }
-
-
-    static int px;
-    static int count;
-    if (px != cub3d->player.point.x) {
-        fprintf(stderr, "cub3d->player.point.x + before_x : '%d'\n", cub3d->player.point.x + before_x);
-        fprintf(stderr, "side_x : '%d'\n", side_x);
-
-
-        count = 0;
-        px = cub3d->player.point.x;
-    }
-    if (0 < side_y) {
-        count++;
-    }
-
-
-
-    // return new_point(cub3d->player.point.y + before_y, cub3d->player.point.x + before_x);
     return new_point(cub3d->player.point.y + side_y, cub3d->player.point.x + side_x);
 }
 
@@ -281,24 +217,6 @@ t_graphic_info *get_graphic_info_by_point(t_cub3d *cub3d, t_point *point)
     {
         return cub3d->graphic_info->south_texture;
     }
-
-
-    // if (point->x % PLAYER_MAGFICATION == 0 && map[y][x - 1] == WALL)
-    // {
-    //     return cub3d->graphic_info->west_texture;
-    // }
-    // else if (point->x % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1 && map[y][x + 1] == WALL)
-    // {
-    //     return cub3d->graphic_info->east_texture;
-    // }
-    // else if (point->y % PLAYER_MAGFICATION == 0 && map[y - 1][x] == WALL)
-    // {
-    //     return cub3d->graphic_info->north_texture;
-    // }
-    // else if (point->y % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1 && map[y + 1][x] == WALL)
-    // {
-    //     return cub3d->graphic_info->south_texture;
-    // }
     // TODO: 未到達なはず...
     return cub3d->graphic_info->east_texture;
 }
@@ -335,24 +253,6 @@ double get_texture_position(t_cub3d *cub3d, t_point *point)
     {
         return 1.0 - (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
     }
-
-
-    // if (point->x % PLAYER_MAGFICATION == 0 && map[y][x - 1] == WALL)
-    // {
-    //     return 1.0 - (double)(point->y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
-    // }
-    // else if (point->x % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1 && map[y][x + 1] == WALL)
-    // {
-    //     return (double)(point->y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
-    // }
-    // else if (point->y % PLAYER_MAGFICATION == 0 && map[y - 1][x] == WALL)
-    // {
-    //     return (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;   
-    // }
-    // else if (point->y % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1&& map[y + 1][x] == WALL)
-    // {
-    //     return 1.0 - (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
-    // }
     // TODO: 未到達なはず...
     return 0.0;
 }
