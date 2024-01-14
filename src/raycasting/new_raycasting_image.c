@@ -203,19 +203,19 @@ t_graphic_info *get_graphic_info_by_point(t_cub3d *cub3d, t_point *point)
 
     if (point->x % PLAYER_MAGFICATION == 0)
     {
-        return cub3d->graphic_info->west_texture;
+        return cub3d->graphic_info->east_texture;
     }
     else if (point->x % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1)
     {
-        return cub3d->graphic_info->east_texture;
+        return cub3d->graphic_info->west_texture;
     }
     else if (point->y % PLAYER_MAGFICATION == 0)
     {
-        return cub3d->graphic_info->north_texture;
+        return cub3d->graphic_info->south_texture;
     }
     else if (point->y % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1)
     {
-        return cub3d->graphic_info->south_texture;
+        return cub3d->graphic_info->north_texture;
     }
     // TODO: 未到達なはず...
     return cub3d->graphic_info->east_texture;
@@ -239,19 +239,19 @@ double get_texture_position(t_cub3d *cub3d, t_point *point)
 
     if (point->x % PLAYER_MAGFICATION == 0 )
     {
-        return 1.0 - (double)(point->y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
+        return (double)(point->y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
     }
     else if (point->x % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1 )
     {
-        return (double)(point->y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
+        return 1.0 - (double)(point->y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
     }
     else if (point->y % PLAYER_MAGFICATION == 0 )
     {
-        return (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;   
+        return 1.0 - (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
     }
     else if (point->y % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1)
     {
-        return 1.0 - (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
+        return (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;   
     }
     // TODO: 未到達なはず...
     return 0.0;
