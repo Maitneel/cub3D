@@ -1,10 +1,10 @@
 NO ./textures/single_color/white.xpm
-SO ./textures/minami.xpm
-WE ./textures/nishi.xpm
-EA ./textures/higashi.xpm
+SO ./textures/single_color/red.xpm
+WE ./textures/single_color/green.xpm
+EA ./textures/single_color/blue.xpm
 
-F 0,0,0
-C 0,0,0
+F 220,100,0
+C 225,30,0
 
 1111111111111111111111111
 1000000000110000000000001

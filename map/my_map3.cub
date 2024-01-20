@@ -1,0 +1,18 @@
+NO ./textures/kita.xpm
+SO ./textures/minami.xpm
+WE ./textures/nishi.xpm
+EA ./textures/higashi.xpm
+
+F 220,100,0
+C 225,30,0
+
+
+111111111
+111111111
+110000011
+110000011
+1100N0011
+110000011
+110000011
+111111111
+111111111

@@ -27,8 +27,10 @@ int	main(const int argc, const char **argv)
 	}
 	mlx_hook_arg = ft_xcalloc(1, sizeof(t_mlx_hook_arg));
 	mlx_hook_arg->mlx = init_mlx_struct("hogehoge");
+	if (mlx_hook_arg->mlx == NULL)
+		return (1);
 	mlx_hook_arg->cub3d = init_cub3d(mlx_hook_arg->mlx->mlx, argv[1]);
-	if (mlx_hook_arg->cub3d == NULL || mlx_hook_arg->mlx == NULL)
+	if (mlx_hook_arg->cub3d == NULL)
 	{
 		free_mlx_hook_arg(mlx_hook_arg);
 		return (1);
