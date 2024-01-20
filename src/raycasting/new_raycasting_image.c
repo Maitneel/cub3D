@@ -15,7 +15,7 @@ bool is_wall(t_cub3d *cub3d, int y, int x)
     {
         return true;
     }
-    return (map[y / PLAYER_MAGFICATION][x / PLAYER_MAGFICATION] == WALL);
+    return (map[y / PLAYER_MAGFICATION][x / PLAYER_MAGFICATION] == WALL || map[y / PLAYER_MAGFICATION][x / PLAYER_MAGFICATION] == OUT_OF_MAP);
 }
 
 double normDir(double dir)
@@ -313,10 +313,15 @@ t_mlx_image	*new_raycasting_image(
     t_point         screen_left;
     t_point         screen_right;
 
+
     screen_left = get_screen_point(cub3d->player.point, cub3d->player.direction - (HN_FOV_ANGLE / 2.0));
     screen_right = get_screen_point(cub3d->player.point, cub3d->player.direction + (HN_FOV_ANGLE / 2.0));
     image = new_image_struct(mlx, width, height);
 
+    if (is_wall(cub3d, cub3d->player.point.y, cub3d->player.point.x)) {
+        ft_bzero(image->data_addr, image->width * image->height * (image->bit_per_pixel / CHAR_BIT));
+        return image;
+    }
     // print_dir(cub3d->player.direction);
     for (int x=0; x<WINDOW_WIDTH; x++)
     {
