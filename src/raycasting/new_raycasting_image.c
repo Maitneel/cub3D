@@ -2,9 +2,11 @@
 #include "mlx_image_proc.h"
 #include "paste_texture.h"
 #include <math.h>
+#include <float.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <limits.h>
 
 bool is_wall(t_cub3d *cub3d, int y, int x)
 {
@@ -16,7 +18,137 @@ bool is_wall(t_cub3d *cub3d, int y, int x)
     return (map[y / PLAYER_MAGFICATION][x / PLAYER_MAGFICATION] == WALL);
 }
 
-// TODO: 直行したベクトルの場合、壁をすり抜ける
+double normDir(double dir)
+{
+    return fmod(fabs(dir + 2 * M_PI), 2 * M_PI);
+}
+
+bool is_west(double ray_dir)
+{
+    double dir = normDir(ray_dir - M_PI_2);
+    if (0 < dir && dir < M_PI)
+        return true;
+    return false;
+}
+
+bool is_east(double ray_dir)
+{
+    double dir = normDir(ray_dir - M_PI_2);
+    if (dir > M_PI && dir < 2 * M_PI)
+        return true;
+    return false;
+}
+
+bool is_south(double ray_dir)
+{
+    double dir = normDir(ray_dir - M_PI_2);
+    if (dir < M_PI_2 || dir > M_PI_2 * 3)
+        return true;
+    return false;
+}
+
+bool is_north(double ray_dir)
+{
+    double dir = normDir(ray_dir - M_PI_2);
+    if (dir > M_PI_2 && dir < M_PI_2 * 3)
+        return true;
+    return false;
+}
+
+void print_dir(double);
+
+t_point new_point_struct(int y, int x);
+
+t_point hz_collition_point(t_cub3d *cub3d, double dir)
+{
+    int side_x;
+    int side_y;
+    int step;
+    if (is_north(dir))
+    {
+        side_y = -1 * cub3d->player.point.y % PLAYER_MAGFICATION - 1;
+        step = -PLAYER_MAGFICATION;
+    }
+    else if (is_south(dir))
+    {
+        side_y =  PLAYER_MAGFICATION - (cub3d->player.point.y % PLAYER_MAGFICATION);
+        step = PLAYER_MAGFICATION;
+    }
+    else {
+        new_point_struct(INT_MAX, INT_MAX);
+    }
+    side_x = tan(dir + M_PI_2) * side_y * -1;
+    if (!(-100000 < side_x && side_x < 100000)) {
+        // fprintf(stderr, "side_x : %d\n", side_x);
+    }
+    while(!is_wall(cub3d, cub3d->player.point.y + side_y,cub3d->player.point.x + side_x))
+    {
+        side_y += step;
+        side_x = tan(dir + M_PI_2) * side_y * -1;
+    }
+    return new_point_struct(cub3d->player.point.y + side_y, cub3d->player.point.x + side_x);
+}
+
+t_point vert_collition_point(t_cub3d *cub3d, double dir)
+{
+    int side_x;
+    int side_y;
+    int step;
+    if (is_east(dir))
+    {
+        side_x = PLAYER_MAGFICATION - (cub3d->player.point.x % PLAYER_MAGFICATION);
+        side_y = side_x * tan(dir);
+        step = PLAYER_MAGFICATION;
+    } else if (is_west(dir))
+    {
+        // ここの初期値うまう動かないかも //
+        side_x = -1 * cub3d->player.point.x % PLAYER_MAGFICATION - 1;
+        side_y = side_x * tan(dir);
+        step = -PLAYER_MAGFICATION;
+    } else {
+        return (new_point_struct(INT_MAX, INT_MAX));
+    }
+    if (!(-100000 < side_y && side_y < 100000)){
+        // fprintf(stderr, "side_y : %d\n", side_y);
+    }
+    while(!is_wall(cub3d, cub3d->player.point.y + side_y,cub3d->player.point.x + side_x))
+    {
+        side_x += step;
+        side_y = side_x * tan(dir);
+    }
+    return new_point_struct(cub3d->player.point.y + side_y, cub3d->player.point.x + side_x);
+}
+
+double get_distance(t_point *start, t_point *end)
+{
+    if (start->x == INT_MAX || start->y == INT_MAX || end->x == INT_MAX || end->y == INT_MAX)
+        return INFINITY;
+    return (sqrt(pow(end->y - start->y,2) + pow(end->x - start->x, 2)));
+}
+
+t_coll_point new_coll_pt_struct(t_point pt, bool is_vert);
+
+t_coll_point get_collision_point2(t_cub3d *cub3d, double dir)
+{
+    int n = 1;
+    int y = cub3d->player.point.y;
+    int x = cub3d->player.point.x;
+    int before_x = x;
+    int before_y = y;
+
+    t_point hz_point = hz_collition_point(cub3d, dir);
+    t_point vert_point = vert_collition_point(cub3d, dir);
+
+    if (get_distance(&(cub3d->player.point), &hz_point) < get_distance(&(cub3d->player.point), &vert_point))
+    {
+        return new_coll_pt_struct(hz_point, false);
+    }
+    else
+    {
+        return new_coll_pt_struct(vert_point, true);
+    }
+}
+
 t_point *get_collision_point(t_cub3d *cub3d, double dir)
 {
     int n = 1;
@@ -39,62 +171,80 @@ t_point *get_collision_point(t_cub3d *cub3d, double dir)
     return new_point(before_y, before_x);
 }
 
-double get_distance(t_player *player, double ray_dir, t_point* start, t_point *end)
+double get_adj_dis(t_player *player, double ray_dir, t_point* start, t_point *end)
 {
     double dtheta = ray_dir - player->direction - M_PI_2; 
-    return cos(dtheta) * sqrt(pow(end->y - start->y,2) + pow(end->x - start->x, 2));
+    return cos(dtheta) * get_distance(start, end);
 }
 
-double get_wall_ratio(double wall_distance)
+double get_wall_ratio(double wall_distance, const double dir)
 {
-    return (WALL_HEIGHT / (tan(VERT_FOV_ANGLE) * wall_distance));
+    return ((double)WALL_HEIGHT / (tan(VERT_FOV_ANGLE) * (double)wall_distance));
 }
 
-t_graphic_info *get_graphic_info_by_point(t_cub3d *cub3d, t_point *point)
+t_graphic_info *get_graphic_info_by_point(t_cub3d *cub3d, t_coll_point *coll_pt)
 {
+    if (!(0 < coll_pt->pt.y && coll_pt->pt.y < cub3d->map_height * PLAYER_MAGFICATION) || !(0 <= coll_pt->pt.x && coll_pt->pt.x < cub3d->map_width * PLAYER_MAGFICATION))
+    {
+        return cub3d->graphic_info->north_texture;   
+        fprintf(stderr, "dose not wall\n");
+    }
+
     const t_map_element **map = cub3d->map;
-    const int x = point->x / PLAYER_MAGFICATION;
-    const int y = point->y / PLAYER_MAGFICATION;
-    if (point->x % PLAYER_MAGFICATION == 0 && map[y][x - 1] == WALL)
+    const int x = coll_pt->pt.x / PLAYER_MAGFICATION;
+    const int y = coll_pt->pt.y / PLAYER_MAGFICATION;
+    
+    if (!is_wall(cub3d, coll_pt->pt.y, coll_pt->pt.x))
+    {
+        // fprintf(stderr, "dose not wall\n");
+        return cub3d->graphic_info->west_texture;
+    }
+
+    if (coll_pt->pt.x % PLAYER_MAGFICATION == 0 && coll_pt->is_vert)
+    {
+        return cub3d->graphic_info->east_texture;
+    } 
+    else if (coll_pt->pt.x % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1 && coll_pt->is_vert)
     {
         return cub3d->graphic_info->west_texture;
     }
-    else if (point->x % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1 && map[y][x + 1] == WALL)
-    {
-        return cub3d->graphic_info->east_texture;
-    }
-    else if (point->y % PLAYER_MAGFICATION == 0 && map[y - 1][x] == WALL)
-    {
-        return cub3d->graphic_info->north_texture;
-    }
-    else if (point->y % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1 && map[y + 1][x] == WALL)
+    else if (coll_pt->pt.y % PLAYER_MAGFICATION == 0 && !coll_pt->is_vert)
     {
         return cub3d->graphic_info->south_texture;
+    }
+    else if (coll_pt->pt.y % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1 && !coll_pt->is_vert)
+    {
+        return cub3d->graphic_info->north_texture;
     }
     // TODO: 未到達なはず...
     return cub3d->graphic_info->east_texture;
 }
 
-double get_texture_position(t_cub3d *cub3d, t_point *point)
+double get_texture_position(t_cub3d *cub3d, t_coll_point *coll_pt)
 {
     const t_map_element **map = cub3d->map;
-    const int x = point->x / PLAYER_MAGFICATION;
-    const int y = point->y / PLAYER_MAGFICATION;
-    if (point->x % PLAYER_MAGFICATION == 0 && map[y][x - 1] == WALL)
+    const int y = coll_pt->pt.y / PLAYER_MAGFICATION;
+    const int x = coll_pt->pt.x / PLAYER_MAGFICATION;
+
+    if (!(0 < coll_pt->pt.y && coll_pt->pt.y < cub3d->map_height * PLAYER_MAGFICATION) || !(0 <= coll_pt->pt.x && coll_pt->pt.x < cub3d->map_width * PLAYER_MAGFICATION))
     {
-        return 1.0 - (double)(point->y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
+        return 0.0;
     }
-    else if (point->x % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1 && map[y][x + 1] == WALL)
+    if (coll_pt->pt.x % PLAYER_MAGFICATION == 0 && coll_pt->is_vert)
     {
-        return (double)(point->y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
+        return (double)(coll_pt->pt.y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
+    } 
+    else if (coll_pt->pt.x % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1 && coll_pt->is_vert)
+    {
+        return 1.0 - (double)(coll_pt->pt.y % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
     }
-    else if (point->y % PLAYER_MAGFICATION == 0 && map[y - 1][x] == WALL)
+    else if (coll_pt->pt.y % PLAYER_MAGFICATION == 0 && !coll_pt->is_vert)
     {
-        return (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;   
+        return 1.0 - (double)(coll_pt->pt.x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
     }
-    else if (point->y % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1&& map[y + 1][x] == WALL)
+    else if (coll_pt->pt.y % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1 && !coll_pt->is_vert)
     {
-        return 1.0 - (double)(point->x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;
+        return (double)(coll_pt->pt.x % PLAYER_MAGFICATION) / (double)PLAYER_MAGFICATION;   
     }
     // TODO: 未到達なはず...
     return 0.0;
@@ -103,6 +253,18 @@ double get_texture_position(t_cub3d *cub3d, t_point *point)
 void print_point(t_point *point)
 {
     printf("y: %d, x: %d\n", point->y, point->x);
+}
+
+void print_dir(double dir)
+{
+    printf(
+        "north: %d, south: %d, east: %d, west: %d, dir: %.20f\n",
+        is_north(dir),
+        is_south(dir),
+        is_east(dir),
+        is_west(dir),
+        180 * dir / M_PI
+    );
 }
 
 #define SCREEN_MAGFICATION 100000
@@ -146,24 +308,33 @@ t_mlx_image	*new_raycasting_image(
 	const t_cub3d *cub3d, const t_mlx *mlx, const int width, const int height)
 {
     t_mlx_image		*image;
-    t_point         *collision_point;
+    t_coll_point    coll_pt;
     double          wall_raito;
     t_point         screen_left;
     t_point         screen_right;
 
-
     screen_left = get_screen_point(cub3d->player.point, cub3d->player.direction - (HN_FOV_ANGLE / 2.0));
     screen_right = get_screen_point(cub3d->player.point, cub3d->player.direction + (HN_FOV_ANGLE / 2.0));
     image = new_image_struct(mlx, width, height);
+
+    // print_dir(cub3d->player.direction);
     for (int x=0; x<WINDOW_WIDTH; x++)
     {
-        // double ray_dir = ((cub3d->player.direction - (HN_FOV_ANGLE / 2.0)) + ((HN_FOV_ANGLE / (double)(WINDOW_WIDTH)) * x) + M_PI_2);
         double ray_dir = get_direction_across_screen_position(cub3d->player.point, screen_left, screen_right, x );
-        collision_point = get_collision_point(cub3d, ray_dir);
-        double wall_dis = get_distance(&cub3d->player, ray_dir, collision_point, &(cub3d->player.point));
-        wall_raito = get_wall_ratio(wall_dis);
-        paste_texture(cub3d, image, wall_raito, get_texture_position(cub3d, collision_point), get_graphic_info_by_point(cub3d, collision_point), x);
-        free(collision_point);
+        coll_pt = get_collision_point2(cub3d, ray_dir);
+        double wall_dis = get_adj_dis(&cub3d->player, ray_dir, &(coll_pt.pt), &(cub3d->player.point));
+        wall_raito = get_wall_ratio(wall_dis, ray_dir);
+
+        // fprintf(stderr, "wrong_point.x : %d  ", collision_point->x);
+        // fprintf(stderr, " y : %d  ", collision_point->y);
+        // fprintf(stderr, "ray_dir : %f\n", ray_dir);
+        // fprintf(stderr, "correct_point.x  : %d  ", cp->x);
+        // fprintf(stderr, "y : %d\n", cp->y);
+        // fprintf(stderr, "diff        .x : %d  ", collision_point->x - cp->x);
+        // fprintf(stderr, "y : %d\n", collision_point->y - cp->y);
+
+        paste_texture(cub3d, image, wall_raito, get_texture_position(cub3d, &coll_pt), get_graphic_info_by_point(cub3d, &coll_pt.pt), x);
     }
+    // exit(0);m
     return (image);
 }

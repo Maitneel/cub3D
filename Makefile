@@ -89,8 +89,14 @@ fclean: clean
 
 re: fclean all
 
+# test: ${NAME}
+# 	./${NAME} ./map/my_map.cub
+
 test: ${NAME}
-	./${NAME} ./map/my_map.cub
+	./${NAME} ./map/my_map3.cub
+
+test_color: ${NAME}
+	./${NAME} ./map/color_test.cub
 
 echo :
 	@echo ${HOSTNAME}

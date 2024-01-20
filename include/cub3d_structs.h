@@ -2,13 +2,15 @@
 # define CUB3D_STRUCTS_H
 
 # define IMAGE_SIZE 100
-# define WINDOW_WIDTH 1000
-# define WINDOW_HEIGHT 800
+# define WINDOW_WIDTH 800
+# define WINDOW_HEIGHT 600
+# define PLAYER_MAGFICATION 100
 # define HN_FOV_ANGLE (90 * M_PI / 180)
-# define WALL_HEIGHT 10
+# define WALL_HEIGHT (PLAYER_MAGFICATION / 10)
 # define VERT_FOV_ANGLE (10 * M_PI / 180)
 
 #include "stddef.h"
+# include <stdbool.h>
 
 typedef struct s_color
 {
@@ -48,8 +50,12 @@ typedef struct s_point
 	long long		x;
 }					t_point;
 
+typedef struct s_coll_point
+{
+	t_point pt;
+	bool	is_vert;
+}	t_coll_point;
 
-#define  PLAYER_MAGFICATION 100
 typedef struct s_player
 {
 	t_point			point;
@@ -109,7 +115,8 @@ typedef struct s_mlx_hook_arg
 t_cub3d				*init_cub3d(const void *mlx_ptr, const char *filename);
 t_mlx				*init_mlx_struct(char *title);
 
-
 t_point *new_point(int y, int x);
+t_point new_point_struct(const int y, const int x);
+t_coll_point new_coll_pt_struct(const t_point pt, const bool is_vert);
 
 #endif
