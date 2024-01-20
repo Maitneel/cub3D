@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
+#include "libft.h"
 
 bool is_wall(t_cub3d *cub3d, int y, int x)
 {
