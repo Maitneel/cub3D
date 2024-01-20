@@ -10,6 +10,7 @@
 # define VERT_FOV_ANGLE (10 * M_PI / 180)
 
 #include "stddef.h"
+# include <stdbool.h>
 
 typedef struct s_color
 {
@@ -48,6 +49,12 @@ typedef struct s_point
 	long long		y;
 	long long		x;
 }					t_point;
+
+typedef struct s_coll_point
+{
+	t_point pt;
+	bool	is_vert;
+}	t_coll_point;
 
 typedef struct s_player
 {
@@ -109,5 +116,7 @@ t_cub3d				*init_cub3d(const void *mlx_ptr, const char *filename);
 t_mlx				*init_mlx_struct(char *title);
 
 t_point *new_point(int y, int x);
+t_point new_point_struct(const int y, const int x);
+t_coll_point new_coll_pt_struct(const t_point pt, const bool is_vert);
 
 #endif
