@@ -91,29 +91,38 @@ unsigned int	**get_default_color_map(
 	return (color_map);
 }
 
+bool	is_lay_end(unsigned int type)
+{
+	return (type == MINIMAP_WALL_COLOR || type == MINIMAP_OUT_OF_MAP_COLOR);
+}
+
 void	put_line(
 	unsigned int **color_map,
 	const int height, const int width, const double direction
 )
 {
-	const int	center_x = width / 2;
-	const int	center_y = height / 2;
 	int			magfication;
 	int			i;
 	int			j;
+	int			prev_i;
+	int			prev_j;
 
-	i = center_y;
-	j = center_x;
+	i = (height / 2);
+	j = (width / 2);
+	prev_i = i;
+	prev_j = j;
 	magfication = 0;
 	while (0 <= i && i < height && 0 <= j && j < width)
 	{
-		if (color_map[i][j] == MINIMAP_WALL_COLOR || \
-			color_map[i][j] == MINIMAP_OUT_OF_MAP_COLOR)
+		if (is_lay_end(color_map[i][j]) || \
+		(is_lay_end(color_map[i][prev_j]) && is_lay_end(color_map[prev_i][j])))
 			return ;
 		color_map[i][j] = MINIMAP_FILED_OF_VIEW_COLOR;
-		i = center_y + (int)(sin(direction) * magfication);
-		j = center_x + (int)(cos(direction) * magfication);
 		magfication++;
+		prev_i = i;
+		prev_j = j;
+		i = (height / 2) + (int)(sin(direction) * magfication);
+		j = (width / 2) + (int)(cos(direction) * magfication);
 	}
 }
 
@@ -133,8 +142,9 @@ void	coloring_filed_of_view(const t_cub3d *cub3d,
 	while (i < greater_size)
 	{
 		// ここ計算量やばい //
-		put_line(color_map, height, width,(cub3d->player.direction + HN_FOV_ANGLE / 2.0 - \
-			((double)(i) * HN_FOV_ANGLE / (double)(greater_size))) + M_PI_2);
+		put_line(color_map, height, width, (cub3d->player.direction \
+			+ HN_FOV_ANGLE / 2.0 - \
+			((double)(i) *HN_FOV_ANGLE / (double)(greater_size))) + M_PI_2);
 		i++;
 	}
 }
@@ -146,7 +156,7 @@ void	put_to_image_from_int_array(
 	int	i;
 	int	j;
 
-	i = 0; 
+	i = 0;
 	while (i < image->height)
 	{
 		j = 0;
@@ -172,5 +182,6 @@ t_mlx_image	*new_minimap(
 	put_to_image_from_int_array(minimap, color_map);
 	free_uint_array_array(color_map, height);
 	put_player_position(minimap);
+	fprintf(stderr, "------------------------------------------------\n");
 	return (minimap);
 }
