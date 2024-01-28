@@ -6,7 +6,7 @@
 /*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 17:28:17 by taksaito          #+#    #+#             */
-/*   Updated: 2024/01/28 21:11:15 by taksaito         ###   ########.fr       */
+/*   Updated: 2024/01/28 21:53:59 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 #include "mlx_image_proc.h"
 #include "paste_texture.h"
 #include "raycasting.h"
-#include <float.h>
-#include <limits.h>
-#include <math.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 bool	is_wall(t_cub3d *cub3d, int y, int x)
 {
@@ -36,78 +30,6 @@ bool	is_wall(t_cub3d *cub3d, int y, int x)
 		/ PLAYER_MAGFICATION][x / PLAYER_MAGFICATION] == OUT_OF_MAP);
 }
 
-t_point			new_point_struct(int y, int x);
-
-void	set_hz_step_if_north(t_player player, int *step, int *side_y)
-{
-	*side_y = -1 * player.point.y % PLAYER_MAGFICATION - 1;
-	*step = -PLAYER_MAGFICATION;
-}
-
-void	set_hz_step_if_sourth(t_player player, int *step, int *side_y)
-{
-	*side_y = PLAYER_MAGFICATION - (player.point.y % PLAYER_MAGFICATION);
-	*step = PLAYER_MAGFICATION;
-}
-
-t_point	hz_collition_point(t_cub3d *cub3d, double dir)
-{
-	int	side_x;
-	int	side_y;
-	int	step;
-
-	if (is_north(dir))
-		set_hz_step_if_north(cub3d->player, &step, &side_y);
-	else if (is_south(dir))
-		set_hz_step_if_sourth(cub3d->player, &step, &side_y);
-	else
-		return (new_point_struct(INT_MAX, INT_MAX));
-	side_x = tan(dir + M_PI_2) * side_y * -1;
-	while (!is_wall(cub3d, cub3d->player.point.y + side_y, cub3d->player.point.x
-			+ side_x))
-	{
-		side_y += step;
-		side_x = tan(dir + M_PI_2) * side_y * -1;
-	}
-	return (new_point_struct(cub3d->player.point.y + side_y,
-			cub3d->player.point.x + side_x));
-}
-
-void	set_ver_step_if_east(t_player player, int *step, int *side_x)
-{
-	*side_x = PLAYER_MAGFICATION - (player.point.x % PLAYER_MAGFICATION);
-	*step = PLAYER_MAGFICATION;
-}
-
-void	set_ver_step_if_west(t_player player, int *step, int *side_x)
-{
-	*side_x = -1 * player.point.x % PLAYER_MAGFICATION - 1;
-	*step = -PLAYER_MAGFICATION;
-}
-
-t_point	vert_collition_point(t_cub3d *cub3d, double dir)
-{
-	int	side_x;
-	int	side_y;
-	int	step;
-
-	if (is_east(dir))
-		set_ver_step_if_east(cub3d->player, &step, &side_x);
-	else if (is_west(dir))
-		set_ver_step_if_west(cub3d->player, &step, &side_x);
-	else
-		return (new_point_struct(INT_MAX, INT_MAX));
-	side_y = side_x * tan(dir);
-	while (!is_wall(cub3d, cub3d->player.point.y + side_y, cub3d->player.point.x
-			+ side_x))
-	{
-		side_x += step;
-		side_y = side_x * tan(dir);
-	}
-	return (new_point_struct(cub3d->player.point.y + side_y,
-			cub3d->player.point.x + side_x));
-}
-
 double	get_distance(t_point *start, t_point *end)
 {
 	if (start->x == INT_MAX || start->y == INT_MAX || end->x == INT_MAX
@@ -116,55 +38,6 @@ double	get_distance(t_point *start, t_point *end)
 	return (sqrt(pow(end->y - start->y, 2) + pow(end->x - start->x, 2)));
 }
 
-t_coll_point	new_coll_pt_struct(t_point pt, bool is_vert);
-
-t_coll_point	get_collision_point2(t_cub3d *cub3d, double dir)
-{
-	int		n;
-	int		before_x;
-	int		before_y;
-	t_point	hz_point;
-	t_point	vert_point;
-
-	n = 1;
-	before_x = cub3d->player.point.x;
-	before_y = cub3d->player.point.y;
-	hz_point = hz_collition_point(cub3d, dir);
-	vert_point = vert_collition_point(cub3d, dir);
-	if (get_distance(&(cub3d->player.point),
-			&hz_point) < get_distance(&(cub3d->player.point), &vert_point))
-		return (new_coll_pt_struct(hz_point, false));
-	else
-		return (new_coll_pt_struct(vert_point, true));
-}
-
-t_point	*get_collision_point(t_cub3d *cub3d, double dir)
-{
-	int	n;
-	int	y;
-	int	x;
-	int	before_x;
-	int	before_y;
-
-	n = 1;
-	y = cub3d->player.point.y;
-	x = cub3d->player.point.x;
-	before_x = x;
-	before_y = y;
-	while (true)
-	{
-		before_x = x;
-		before_y = y;
-		y = cub3d->player.point.y + sin(dir) * n;
-		x = cub3d->player.point.x + cos(dir) * n;
-		if (is_wall(cub3d, y, x))
-		{
-			break ;
-		}
-		n++;
-	}
-	return (new_point(before_y, before_x));
-}
 
 double	get_adj_dis(t_player *player, double ray_dir, t_point *start,
 		t_point *end)
@@ -231,8 +104,6 @@ double	get_texture_position(t_cub3d *cub3d, t_coll_point *coll_pt)
 	return (0.0);
 }
 
-#define SCREEN_MAGFICATION 100000
-
 t_point	get_screen_point(const t_point focus_point, const double direction)
 {
 	t_point	screen_point;
@@ -290,7 +161,7 @@ t_mlx_image	*draw_world(t_cub3d *cub3d, t_mlx_image *image, t_point screen_left,
 	{
 		ray_dir = get_direction_across_screen_position(cub3d->player.point,
 				screen_left, screen_right, x);
-		coll_pt = get_collision_point2(cub3d, ray_dir);
+		coll_pt = get_collision_point(cub3d, ray_dir);
 		wall_dis = get_adj_dis(&cub3d->player, ray_dir, &(coll_pt.pt),
 				&(cub3d->player.point));
 		wall_raito = get_wall_ratio(wall_dis);
