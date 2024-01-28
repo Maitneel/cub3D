@@ -19,43 +19,6 @@ bool is_wall(t_cub3d *cub3d, int y, int x)
     return (map[y / PLAYER_MAGFICATION][x / PLAYER_MAGFICATION] == WALL || map[y / PLAYER_MAGFICATION][x / PLAYER_MAGFICATION] == OUT_OF_MAP);
 }
 
-double normDir(double dir)
-{
-    return fmod(fabs(dir + 2 * M_PI), 2 * M_PI);
-}
-
-bool is_west(double ray_dir)
-{
-    double dir = normDir(ray_dir - M_PI_2);
-    if (0 < dir && dir < M_PI)
-        return true;
-    return false;
-}
-
-bool is_east(double ray_dir)
-{
-    double dir = normDir(ray_dir - M_PI_2);
-    if (dir > M_PI && dir < 2 * M_PI)
-        return true;
-    return false;
-}
-
-bool is_south(double ray_dir)
-{
-    double dir = normDir(ray_dir - M_PI_2);
-    if (dir < M_PI_2 || dir > M_PI_2 * 3)
-        return true;
-    return false;
-}
-
-bool is_north(double ray_dir)
-{
-    double dir = normDir(ray_dir - M_PI_2);
-    if (dir > M_PI_2 && dir < M_PI_2 * 3)
-        return true;
-    return false;
-}
-
 void print_dir(double);
 
 t_point new_point_struct(int y, int x);
