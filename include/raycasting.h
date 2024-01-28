@@ -6,7 +6,7 @@
 /*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 17:41:53 by taksaito          #+#    #+#             */
-/*   Updated: 2024/01/28 17:44:13 by taksaito         ###   ########.fr       */
+/*   Updated: 2024/01/28 21:10:50 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # include "cub3d_structs.h"
 # include <math.h>
 
-t_mlx_image	*new_raycasting_image(
-	const t_cub3d *cub3d, const t_mlx *mlx, const int width, const int height);
+t_mlx_image	*new_raycasting_image(t_cub3d *cub3d, t_mlx *mlx,
+	const int width, const int height);
 
 // util
 double norm_dir(double dir);

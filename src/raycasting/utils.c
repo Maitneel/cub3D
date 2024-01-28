@@ -6,11 +6,11 @@
 /*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 17:50:19 by taksaito          #+#    #+#             */
-/*   Updated: 2024/01/28 17:51:46 by taksaito         ###   ########.fr       */
+/*   Updated: 2024/01/28 21:18:00 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "raycasting.h"
+#include "raycasting.h"
 
 double	norm_dir(double dir)
 {
