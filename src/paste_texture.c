@@ -35,21 +35,19 @@ void paste_texture(t_cub3d *cub3d, t_mlx_image *image, const double magnificatio
 			put_pixel_to_mlx_image(image, image_x, i, convert_color_to_int(*(cub3d->graphic_info->floor_color)));
 		i++;
 	}
+
+	int paste_height = image->height * magnification;
+	int axis_correction = (image->height - paste_height) / 2;
+	size_t color_x = (double)(texture_position) * (double)(texture->width);
+	
+	if (texture->width <= color_x)
+		color_x = texture->width - 1;
 	i = 0;
-	int axis_correction = (image->height - (image->height * magnification)) / 2;
-	while (i < image->height)
+	while (i < paste_height)
 	{
-		int y = ((double)(i - axis_correction) / magnification / image->height) * texture->height;
-		if ((int)(texture->height) <= y)
-			break;
-		// size_t color_x = (double)(texture_position) * (double)(texture->width);
-		// if (texture->width <= color_x)
-		// 	color_x = texture->width - 1;
-		size_t color_x = (double)(texture_position) * (double)(texture->height);
-		if (texture->height <= color_x)
-			color_x = texture->height - 1;
+		int y = i * texture->height / paste_height;
 		if (0 <= y && y < texture->height)
-			put_pixel_to_mlx_image(image, image_x, i, convert_color_to_int(texture->pixel_color[y][color_x]));
+			put_pixel_to_mlx_image(image, image_x, i + axis_correction, convert_color_to_int(texture->pixel_color[y][color_x]));
 		i++;
 	}	
 }

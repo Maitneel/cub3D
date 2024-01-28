@@ -93,7 +93,7 @@ re: fclean all
 # 	./${NAME} ./map/my_map.cub
 
 test: ${NAME}
-	./${NAME} ./map/my_map4.cub
+	./${NAME} ./map/my_map5.cub
 
 test_color: ${NAME}
 	./${NAME} ./map/color_test.cub
