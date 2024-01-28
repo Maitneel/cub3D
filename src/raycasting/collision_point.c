@@ -1,16 +1,16 @@
-# include "raycasting.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   collision_point.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/28 22:38:06 by taksaito          #+#    #+#             */
+/*   Updated: 2024/01/28 22:41:19 by taksaito         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	set_hz_step_if_north(t_player player, int *step, int *side_y)
-{
-	*side_y = -1 * player.point.y % PLAYER_MAGFICATION - 1;
-	*step = -PLAYER_MAGFICATION;
-}
-
-void	set_hz_step_if_sourth(t_player player, int *step, int *side_y)
-{
-	*side_y = PLAYER_MAGFICATION - (player.point.y % PLAYER_MAGFICATION);
-	*step = PLAYER_MAGFICATION;
-}
+#include "raycasting.h"
 
 t_point	hz_collition_point(t_cub3d *cub3d, double dir)
 {
@@ -33,18 +33,6 @@ t_point	hz_collition_point(t_cub3d *cub3d, double dir)
 	}
 	return (new_point_struct(cub3d->player.point.y + side_y,
 			cub3d->player.point.x + side_x));
-}
-
-void	set_ver_step_if_east(t_player player, int *step, int *side_x)
-{
-	*side_x = PLAYER_MAGFICATION - (player.point.x % PLAYER_MAGFICATION);
-	*step = PLAYER_MAGFICATION;
-}
-
-void	set_ver_step_if_west(t_player player, int *step, int *side_x)
-{
-	*side_x = -1 * player.point.x % PLAYER_MAGFICATION - 1;
-	*step = -PLAYER_MAGFICATION;
 }
 
 t_point	vert_collition_point(t_cub3d *cub3d, double dir)

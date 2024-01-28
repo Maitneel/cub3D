@@ -6,7 +6,7 @@
 /*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 17:28:17 by taksaito          #+#    #+#             */
-/*   Updated: 2024/01/28 21:53:59 by taksaito         ###   ########.fr       */
+/*   Updated: 2024/01/28 22:36:09 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,94 +15,6 @@
 #include "mlx_image_proc.h"
 #include "paste_texture.h"
 #include "raycasting.h"
-
-bool	is_wall(t_cub3d *cub3d, int y, int x)
-{
-	t_map_element	**map;
-
-	map = cub3d->map;
-	if (!(0 < y && y < cub3d->map_height * PLAYER_MAGFICATION) || !(0 <= x
-			&& x < cub3d->map_width * PLAYER_MAGFICATION))
-	{
-		return (true);
-	}
-	return (map[y / PLAYER_MAGFICATION][x / PLAYER_MAGFICATION] == WALL || map[y
-		/ PLAYER_MAGFICATION][x / PLAYER_MAGFICATION] == OUT_OF_MAP);
-}
-
-double	get_distance(t_point *start, t_point *end)
-{
-	if (start->x == INT_MAX || start->y == INT_MAX || end->x == INT_MAX
-		|| end->y == INT_MAX)
-		return (INFINITY);
-	return (sqrt(pow(end->y - start->y, 2) + pow(end->x - start->x, 2)));
-}
-
-
-double	get_adj_dis(t_player *player, double ray_dir, t_point *start,
-		t_point *end)
-{
-	double	dtheta;
-
-	dtheta = ray_dir - player->direction - M_PI_2;
-	return (cos(dtheta) * get_distance(start, end));
-}
-
-double	get_wall_ratio(double wall_distance)
-{
-	return ((double)WALL_HEIGHT / (tan(VERT_FOV_ANGLE)
-			* (double)wall_distance));
-}
-
-t_texture	*get_graphic_info_by_point(t_cub3d *cub3d, t_coll_point *coll_pt)
-{
-	t_map_element	**map;
-
-	map = cub3d->map;
-	if (!(0 < coll_pt->pt.y && coll_pt->pt.y < cub3d->map_height
-			* PLAYER_MAGFICATION) || !(0 <= coll_pt->pt.x
-			&& coll_pt->pt.x < cub3d->map_width * PLAYER_MAGFICATION))
-		return (cub3d->graphic_info->north_texture);
-	if (!is_wall(cub3d, coll_pt->pt.y, coll_pt->pt.x))
-		return (cub3d->graphic_info->west_texture);
-	if (coll_pt->pt.x % PLAYER_MAGFICATION == 0 && coll_pt->is_vert)
-		return (cub3d->graphic_info->east_texture);
-	else if (coll_pt->pt.x % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1
-		&& coll_pt->is_vert)
-		return (cub3d->graphic_info->west_texture);
-	else if (coll_pt->pt.y % PLAYER_MAGFICATION == 0 && !coll_pt->is_vert)
-		return (cub3d->graphic_info->south_texture);
-	else if (coll_pt->pt.y % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1
-		&& !coll_pt->is_vert)
-		return (cub3d->graphic_info->north_texture);
-	return (cub3d->graphic_info->east_texture);
-}
-
-double	get_texture_position(t_cub3d *cub3d, t_coll_point *coll_pt)
-{
-	t_map_element	**map;
-
-	map = cub3d->map;
-	if (!(0 < coll_pt->pt.y && coll_pt->pt.y < cub3d->map_height
-			* PLAYER_MAGFICATION) || !(0 <= coll_pt->pt.x
-			&& coll_pt->pt.x < cub3d->map_width * PLAYER_MAGFICATION))
-		return (0.0);
-	if (coll_pt->pt.x % PLAYER_MAGFICATION == 0 && coll_pt->is_vert)
-		return ((double)(coll_pt->pt.y % PLAYER_MAGFICATION)
-			/ (double)PLAYER_MAGFICATION);
-	else if (coll_pt->pt.x % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1
-		&& coll_pt->is_vert)
-		return (1.0 - (double)(coll_pt->pt.y % PLAYER_MAGFICATION)
-			/ (double)PLAYER_MAGFICATION);
-	else if (coll_pt->pt.y % PLAYER_MAGFICATION == 0 && !coll_pt->is_vert)
-		return (1.0 - (double)(coll_pt->pt.x % PLAYER_MAGFICATION)
-			/ (double)PLAYER_MAGFICATION);
-	else if (coll_pt->pt.y % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1
-		&& !coll_pt->is_vert)
-		return ((double)(coll_pt->pt.x % PLAYER_MAGFICATION)
-			/ (double)PLAYER_MAGFICATION);
-	return (0.0);
-}
 
 t_point	get_screen_point(const t_point focus_point, const double direction)
 {
@@ -166,7 +78,7 @@ t_mlx_image	*draw_world(t_cub3d *cub3d, t_mlx_image *image, t_point screen_left,
 				&(cub3d->player.point));
 		wall_raito = get_wall_ratio(wall_dis);
 		paste_texture(cub3d, image, wall_raito, get_texture_position(cub3d,
-				&coll_pt), get_graphic_info_by_point(cub3d,
+				&coll_pt), get_texture(cub3d,
 				(t_coll_point *)&(coll_pt.pt)), x);
 		x++;
 	}

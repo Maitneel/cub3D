@@ -6,7 +6,7 @@
 /*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 17:41:53 by taksaito          #+#    #+#             */
-/*   Updated: 2024/01/28 21:38:20 by taksaito         ###   ########.fr       */
+/*   Updated: 2024/01/28 22:39:34 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,23 @@ bool is_north(double ray_dir);
 
 // collistion_point
 t_coll_point	get_collision_point(t_cub3d *cub3d, double dir);
+
+void	set_ver_step_if_east(t_player player, int *step, int *side_x);
+void	set_ver_step_if_west(t_player player, int *step, int *side_x);
+void	set_hz_step_if_north(t_player player, int *step, int *side_y);
+void	set_hz_step_if_sourth(t_player player, int *step, int *side_y);
+
+// distance
+
+bool	is_wall(t_cub3d *cub3d, int y, int x);
+double	get_distance(t_point *start, t_point *end);
+double	get_adj_dis(t_player *player, double ray_dir, t_point *start,
+		t_point *end);
+double	get_wall_ratio(double wall_distance);
+
+// texture
+
+t_texture	*get_texture(t_cub3d *cub3d, t_coll_point *coll_pt);
+double	get_texture_position(t_cub3d *cub3d, t_coll_point *coll_pt);
 
 #endif // RAYCASTING_H
