@@ -6,7 +6,7 @@
 /*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 17:28:17 by taksaito          #+#    #+#             */
-/*   Updated: 2024/01/28 17:50:15 by taksaito         ###   ########.fr       */
+/*   Updated: 2024/01/28 19:38:57 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,20 @@ bool	is_wall(t_cub3d *cub3d, int y, int x)
 
 t_point			new_point_struct(int y, int x);
 
+void	set_hz_step_if_north(t_player player, double dir,
+			int *step, int *side_y)
+{
+	*side_y = -1 * player.point.y % PLAYER_MAGFICATION - 1;
+	*step = -PLAYER_MAGFICATION;
+}
+
+void	set_hz_step_if_sourth(t_player player, double dir,
+			int *step, int *side_y)
+{
+	*side_y = PLAYER_MAGFICATION - (player.point.y % PLAYER_MAGFICATION);
+	*step = PLAYER_MAGFICATION;
+}
+
 t_point	hz_collition_point(t_cub3d *cub3d, double dir)
 {
 	int	side_x;
@@ -43,16 +57,9 @@ t_point	hz_collition_point(t_cub3d *cub3d, double dir)
 	int	step;
 
 	if (is_north(dir))
-	{
-		side_y = -1 * cub3d->player.point.y % PLAYER_MAGFICATION - 1;
-		step = -PLAYER_MAGFICATION;
-	}
+		set_hz_step_if_north(cub3d->player, dir, &step, &side_y);
 	else if (is_south(dir))
-	{
-		side_y = PLAYER_MAGFICATION - (cub3d->player.point.y
-				% PLAYER_MAGFICATION);
-		step = PLAYER_MAGFICATION;
-	}
+		set_hz_step_if_sourth(cub3d->player, dir, &step, &side_y);
 	else
 		return (new_point_struct(INT_MAX, INT_MAX));
 	side_x = tan(dir + M_PI_2) * side_y * -1;
@@ -66,6 +73,21 @@ t_point	hz_collition_point(t_cub3d *cub3d, double dir)
 			cub3d->player.point.x + side_x));
 }
 
+void	set_ver_step_if_east(t_player player, double dir,
+			int *step, int *side_x)
+{
+	side_x = PLAYER_MAGFICATION - (player.point.x % PLAYER_MAGFICATION);
+	step = PLAYER_MAGFICATION;
+}
+
+void	set_ver_step_if_west(t_player player, double dir,
+			int *step, int *side_x)
+{
+	side_x = -1 * player.point.x % PLAYER_MAGFICATION - 1;
+	step = -PLAYER_MAGFICATION;	
+}
+
+
 t_point	vert_collition_point(t_cub3d *cub3d, double dir)
 {
 	int	side_x;
@@ -73,23 +95,12 @@ t_point	vert_collition_point(t_cub3d *cub3d, double dir)
 	int	step;
 
 	if (is_east(dir))
-	{
-		side_x = PLAYER_MAGFICATION - (cub3d->player.point.x
-				% PLAYER_MAGFICATION);
-		side_y = side_x * tan(dir);
-		step = PLAYER_MAGFICATION;
-	}
+		set_ver_step_if_east(cub3d->player, dir, &step, &side_x);
 	else if (is_west(dir))
-	{
-		// ここの初期値うまう動かないかも //
-		side_x = -1 * cub3d->player.point.x % PLAYER_MAGFICATION - 1;
-		side_y = side_x * tan(dir);
-		step = -PLAYER_MAGFICATION;
-	}
+		set_ver_step_if_west(cub3d->player, dir, &step, &side_x);
 	else
-	{
 		return (new_point_struct(INT_MAX, INT_MAX));
-	}
+	side_y = side_x * tan(dir);
 	while (!is_wall(cub3d, cub3d->player.point.y + side_y, cub3d->player.point.x
 			+ side_x))
 	{
@@ -113,29 +124,21 @@ t_coll_point	new_coll_pt_struct(t_point pt, bool is_vert);
 t_coll_point	get_collision_point2(t_cub3d *cub3d, double dir)
 {
 	int		n;
-	int		y;
-	int		x;
 	int		before_x;
 	int		before_y;
 	t_point	hz_point;
 	t_point	vert_point;
 
 	n = 1;
-	y = cub3d->player.point.y;
-	x = cub3d->player.point.x;
-	before_x = x;
-	before_y = y;
+	before_x = cub3d->player.point.x;
+	before_y = cub3d->player.point.y;
 	hz_point = hz_collition_point(cub3d, dir);
 	vert_point = vert_collition_point(cub3d, dir);
 	if (get_distance(&(cub3d->player.point),
 			&hz_point) < get_distance(&(cub3d->player.point), &vert_point))
-	{
 		return (new_coll_pt_struct(hz_point, false));
-	}
 	else
-	{
 		return (new_coll_pt_struct(vert_point, true));
-	}
 }
 
 t_point	*get_collision_point(t_cub3d *cub3d, double dir)
@@ -191,31 +194,19 @@ t_graphic_info	*get_graphic_info_by_point(t_cub3d *cub3d,
 	if (!(0 < coll_pt->pt.y && coll_pt->pt.y < cub3d->map_height
 			* PLAYER_MAGFICATION) || !(0 <= coll_pt->pt.x
 			&& coll_pt->pt.x < cub3d->map_width * PLAYER_MAGFICATION))
-	{
 		return (cub3d->graphic_info->north_texture);
-	}
 	if (!is_wall(cub3d, coll_pt->pt.y, coll_pt->pt.x))
-	{
 		return (cub3d->graphic_info->west_texture);
-	}
 	if (coll_pt->pt.x % PLAYER_MAGFICATION == 0 && coll_pt->is_vert)
-	{
 		return (cub3d->graphic_info->east_texture);
-	}
 	else if (coll_pt->pt.x % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1
 		&& coll_pt->is_vert)
-	{
 		return (cub3d->graphic_info->west_texture);
-	}
 	else if (coll_pt->pt.y % PLAYER_MAGFICATION == 0 && !coll_pt->is_vert)
-	{
 		return (cub3d->graphic_info->south_texture);
-	}
 	else if (coll_pt->pt.y % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1
 		&& !coll_pt->is_vert)
-	{
 		return (cub3d->graphic_info->north_texture);
-	}
 	return (cub3d->graphic_info->east_texture);
 }
 
@@ -228,31 +219,21 @@ double	get_texture_position(t_cub3d *cub3d, t_coll_point *coll_pt)
 	if (!(0 < coll_pt->pt.y && coll_pt->pt.y < cub3d->map_height
 			* PLAYER_MAGFICATION) || !(0 <= coll_pt->pt.x
 			&& coll_pt->pt.x < cub3d->map_width * PLAYER_MAGFICATION))
-	{
 		return (0.0);
-	}
 	if (coll_pt->pt.x % PLAYER_MAGFICATION == 0 && coll_pt->is_vert)
-	{
 		return ((double)(coll_pt->pt.y % PLAYER_MAGFICATION)
 			/ (double)PLAYER_MAGFICATION);
-	}
 	else if (coll_pt->pt.x % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1
 		&& coll_pt->is_vert)
-	{
 		return (1.0 - (double)(coll_pt->pt.y % PLAYER_MAGFICATION)
 			/ (double)PLAYER_MAGFICATION);
-	}
 	else if (coll_pt->pt.y % PLAYER_MAGFICATION == 0 && !coll_pt->is_vert)
-	{
 		return (1.0 - (double)(coll_pt->pt.x % PLAYER_MAGFICATION)
 			/ (double)PLAYER_MAGFICATION);
-	}
 	else if (coll_pt->pt.y % PLAYER_MAGFICATION == PLAYER_MAGFICATION - 1
 		&& !coll_pt->is_vert)
-	{
 		return ((double)(coll_pt->pt.x % PLAYER_MAGFICATION)
 			/ (double)PLAYER_MAGFICATION);
-	}
 	return (0.0);
 }
 
@@ -288,39 +269,30 @@ double	get_direction_across_screen_position(const t_point player_position,
 	// float のゼロ除算が inf を返すかがわからない //
 	direction = (atan(diff_y / diff_x)) * -1.0;
 	if (position_x < player_position.x)
-	{
 		direction += M_PI * 2.0;
-	}
 	else
-	{
 		direction += M_PI;
-	}
 	return (direction);
 }
 
-t_mlx_image	*new_raycasting_image(const t_cub3d *cub3d, const t_mlx *mlx,
-		const int width, const int height)
+t_mlx_image*	paste_black_image(t_mlx_image *image, int height, int width)
 {
-	t_mlx_image		*image;
+	ft_bzero(image->data_addr, image->width * image->height
+		* (image->bit_per_pixel / CHAR_BIT));
+	return (image);
+}
+
+t_mlx_image *draw_world(t_cub3d *cub3d, t_mlx_image *image,
+				t_point screen_left, t_point screen_right)
+{
 	t_coll_point	coll_pt;
-	double			wall_raito;
-	t_point			screen_left;
-	t_point			screen_right;
 	double			ray_dir;
 	double			wall_dis;
+	double			wall_raito;
+	int				x;
 
-	screen_left = get_screen_point(cub3d->player.point, cub3d->player.direction
-			- (HN_FOV_ANGLE / 2.0));
-	screen_right = get_screen_point(cub3d->player.point, cub3d->player.direction
-			+ (HN_FOV_ANGLE / 2.0));
-	image = new_image_struct(mlx, width, height);
-	if (is_wall(cub3d, cub3d->player.point.y, cub3d->player.point.x))
-	{
-		ft_bzero(image->data_addr, image->width * image->height
-			* (image->bit_per_pixel / CHAR_BIT));
-		return (image);
-	}
-	for (int x = 0; x < WINDOW_WIDTH; x++)
+	x = 0;
+	while (x < WINDOW_WIDTH)
 	{
 		ray_dir = get_direction_across_screen_position(cub3d->player.point,
 				screen_left, screen_right, x);
@@ -330,6 +302,25 @@ t_mlx_image	*new_raycasting_image(const t_cub3d *cub3d, const t_mlx *mlx,
 		wall_raito = get_wall_ratio(wall_dis, ray_dir);
 		paste_texture(cub3d, image, wall_raito, get_texture_position(cub3d,
 				&coll_pt), get_graphic_info_by_point(cub3d, &coll_pt.pt), x);
+		x++;
 	}
 	return (image);
+}
+
+t_mlx_image	*new_raycasting_image(const t_cub3d *cub3d, const t_mlx *mlx,
+		const int width, const int height)
+{
+	t_mlx_image		*image;
+	t_coll_point	coll_pt;
+	t_point			screen_left;
+	t_point			screen_right;
+
+	screen_left = get_screen_point(cub3d->player.point, cub3d->player.direction
+			- (HN_FOV_ANGLE / 2.0));
+	screen_right = get_screen_point(cub3d->player.point, cub3d->player.direction
+			+ (HN_FOV_ANGLE / 2.0));
+	image = new_image_struct(mlx, width, height);
+	if (is_wall(cub3d, cub3d->player.point.y, cub3d->player.point.x))
+		return (paste_black_image(image, height, width));
+	return (draw_world(cub3d, image, screen_left, screen_right));
 }
