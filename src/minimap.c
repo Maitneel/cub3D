@@ -182,6 +182,5 @@ t_mlx_image	*new_minimap(
 	put_to_image_from_int_array(minimap, color_map);
 	free_uint_array_array(color_map, height);
 	put_player_position(minimap);
-	fprintf(stderr, "------------------------------------------------\n");
 	return (minimap);
 }
