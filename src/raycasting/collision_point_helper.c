@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collision_point_helper.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:40:59 by taksaito          #+#    #+#             */
-/*   Updated: 2024/01/28 22:41:00 by taksaito         ###   ########.fr       */
+/*   Updated: 2024/02/03 04:08:08 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	set_hz_step_if_north(t_player player, int *step, int *side_y)
 	*step = -PLAYER_MAGFICATION;
 }
 
-void	set_hz_step_if_sourth(t_player player, int *step, int *side_y)
+void	set_hz_step_if_south(t_player player, int *step, int *side_y)
 {
 	*side_y = PLAYER_MAGFICATION - (player.point.y % PLAYER_MAGFICATION);
 	*step = PLAYER_MAGFICATION;

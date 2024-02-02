@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collision_point.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 22:38:06 by taksaito          #+#    #+#             */
-/*   Updated: 2024/01/28 22:41:19 by taksaito         ###   ########.fr       */
+/*   Updated: 2024/02/03 04:08:08 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_point	hz_collition_point(t_cub3d *cub3d, double dir)
 	if (is_north(dir))
 		set_hz_step_if_north(cub3d->player, &step, &side_y);
 	else if (is_south(dir))
-		set_hz_step_if_sourth(cub3d->player, &step, &side_y);
+		set_hz_step_if_south(cub3d->player, &step, &side_y);
 	else
 		return (new_point_struct(INT_MAX, INT_MAX));
 	side_x = tan(dir + M_PI_2) * side_y * -1;

@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 17:41:53 by taksaito          #+#    #+#             */
-/*   Updated: 2024/02/03 03:52:59 by dummy            ###   ########.fr       */
+/*   Updated: 2024/02/03 04:08:08 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_coll_point	get_collision_point(t_cub3d *cub3d, double dir);
 void	set_ver_step_if_east(t_player player, int *step, int *side_x);
 void	set_ver_step_if_west(t_player player, int *step, int *side_x);
 void	set_hz_step_if_north(t_player player, int *step, int *side_y);
-void	set_hz_step_if_sourth(t_player player, int *step, int *side_y);
+void	set_hz_step_if_south(t_player player, int *step, int *side_y);
 
 // distance
 
