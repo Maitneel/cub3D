@@ -36,7 +36,7 @@ char	**read_map(const int fd)
 	return (map);
 }
 
-static size_t	get_max_length(const char **map)
+size_t	get_max_length(const char **map)
 {
 	size_t	max_length;
 	size_t	length;
@@ -54,7 +54,7 @@ static size_t	get_max_length(const char **map)
 	return (max_length);
 }
 
-static t_map_element	get_element_type(const char c)
+t_map_element	get_element_type(const char c)
 {
 	if (c == ' ' || c == '\n')
 		return (OUT_OF_MAP);
@@ -111,23 +111,5 @@ t_map_element	**convert_to_map_element(const char **char_map)
 		i++;
 	}
 	converted_map[height + 1] = convert_line_to_map_element("", width);
-	return (converted_map);
-}
-
-t_map_element	**get_map(const int fd_of_move_to_end_of_graphic_info)
-{
-	char			**char_map;
-	t_map_element	**converted_map;
-
-	char_map = read_map(fd_of_move_to_end_of_graphic_info);
-	converted_map = convert_to_map_element((const char **)(char_map));
-	free_string_array(char_map);
-	// ここでエラーチェックしてエラーだったらNULL返すことにします //
-	// 関数の名前変えた方がいいかも get_correct_map みたいな //
-	if (!is_correct_map((const t_map_element **)(converted_map)))
-	{
-		free_map(converted_map);
-		return (NULL);
-	}
 	return (converted_map);
 }

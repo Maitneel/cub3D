@@ -34,6 +34,10 @@ endif
 SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/print_error.c \
 		${SRCS_DIR}/get_graphic_info.c \
+		${SRCS_DIR}/get_graphic_info2.c \
+		${SRCS_DIR}/get_graphic_info3.c \
+		${SRCS_DIR}/get_graphic_info4.c \
+		${SRCS_DIR}/get_graphic_info5.c \
 		${SRCS_DIR}/xpm/get_xpm_file_content.c \
 		${SRCS_DIR}/xpm/get_xpm_size.c \
 		${SRCS_DIR}/xpm/get_xpm_pixel_color.c \
@@ -41,6 +45,7 @@ SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/xpm/get_row_of_pixel_color.c \
 		${SRCS_DIR}/valid_map.c \
 		${SRCS_DIR}/get_map.c \
+		${SRCS_DIR}/get_map2.c \
 		${SRCS_DIR}/set_player_start_position.c \
 		${SRCS_DIR}/init_cub3d.c \
 		${SRCS_DIR}/init_mlx_struct.c \
@@ -49,6 +54,7 @@ SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/put_pixel_to_mlx_image.c \
 		${SRCS_DIR}/paste_texture.c \
 		${SRCS_DIR}/minimap.c \
+		${SRCS_DIR}/minimap2.c \
 		${SRCS_DIR}/hooks.c \
 		${SRCS_DIR}/xalloc.c \
 		${SRCS_DIR}/expand_memory.c \
@@ -57,6 +63,7 @@ SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/array_size.c \
 		${SRCS_DIR}/ft_isspace.c \
 		${SRCS_DIR}/raycasting/new_raycasting_image.c \
+		${SRCS_DIR}/raycasting/raycasting_helper.c \
 		${SRCS_DIR}/raycasting/utils.c \
 		${SRCS_DIR}/raycasting/collision_point.c \
 		${SRCS_DIR}/raycasting/collision_point_helper.c \
