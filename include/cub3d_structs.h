@@ -9,6 +9,10 @@
 # define WALL_HEIGHT (PLAYER_MAGFICATION / 10)
 # define VERT_FOV_ANGLE (10 * M_PI / 180)
 # define SCREEN_MAGFICATION 100000
+# define MINIMAP_OUT_OF_MAP_COLOR 0x80000000
+# define MINIMAP_EMPYT_COLOR 0x80ffffff
+# define MINIMAP_WALL_COLOR 0x80303030
+# define MINIMAP_FILED_OF_VIEW_COLOR 0x80ff0000
 
 # include "stddef.h"
 # include <stdbool.h>
@@ -163,5 +167,23 @@ t_map_element		*convert_line_to_map_element(const char *line,
 						const size_t width);
 t_map_element		**convert_to_map_element(const char **char_map);
 t_map_element		**get_map(const int fd_of_move_to_end_of_graphic_info);
+
+// minimap
+t_map_element		get_map_element_type(const t_cub3d *cub3d, const int x,
+						const int y);
+int					get_minimap_color(t_map_element type);
+void				put_player_position(t_mlx_image *minimap);
+unsigned int		**get_default_color_map(const t_cub3d *cub3d,
+						const int width, const int height);
+bool				is_lay_end(unsigned int type);
+void				put_line(unsigned int **color_map, const int height,
+						const int width, const double direction);
+void				coloring_filed_of_view(const t_cub3d *cub3d,
+						unsigned int **color_map, const int height,
+						const int width);
+void				put_to_image_from_int_array(t_mlx_image *image,
+						unsigned int **color_map);
+t_mlx_image			*new_minimap(const t_cub3d *cub3d, const t_mlx *mlx,
+						const int width, const int height);
 
 #endif
