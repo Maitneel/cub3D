@@ -6,7 +6,7 @@
 /*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 17:28:17 by taksaito          #+#    #+#             */
-/*   Updated: 2024/02/03 15:00:16 by taksaito         ###   ########.fr       */
+/*   Updated: 2024/02/03 15:15:39 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ double	get_direction_across_screen_position(const t_point player_position,
 				* (double)(screen_position) / WINDOW_WIDTH));
 	diff_x = position_x - player_position.x;
 	diff_y = position_y - player_position.y;
-	// ここ問題ないかわからない //
-	// atan func は ＋- inf が与えられた時 +- pi/2 を返すが //
-	// float のゼロ除算が inf を返すかがわからない //
-	direction = (atan(diff_y / diff_x)) * -1.0;
+	if (diff_x == 0.0)
+		direction = (atan(INFINITY)) * -1.0;
+	else
+		direction = (atan(diff_y / diff_x)) * -1.0;
 	if (position_x < player_position.x)
 		direction += M_PI * 2.0;
 	else
