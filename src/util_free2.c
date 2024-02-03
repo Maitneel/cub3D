@@ -16,7 +16,9 @@ void	free_mlx_struct(t_mlx *mlx)
 {
 	if (mlx == NULL)
 		return ;
-	// TODO
+	if (mlx->window != NULL)
+		mlx_destroy_window(mlx->mlx, mlx->window);
+	free(mlx);
 }
 
 void	free_mlx_hook_arg(t_mlx_hook_arg *mlx_hook_arg)

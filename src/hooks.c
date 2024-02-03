@@ -22,7 +22,6 @@ int	key_hook(int key_code, void *arg)
 		move_player(key_code, &(mlx_hook_arg->cub3d->player));
 	if (key_code == KEY_ESC)
 	{
-		// TODO
 		exit(0);
 	}
 	print_key_code(key_code);

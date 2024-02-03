@@ -12,7 +12,10 @@ t_mlx	*init_mlx_struct(char *title)
 		return (NULL);
 	mlx->mlx = mlx_init();
 	if (mlx->mlx == NULL)
+	{
+		free_mlx_struct(mlx);
 		return (NULL);
+	}
 	mlx->window = mlx_new_window(mlx->mlx, WINDOW_WIDTH, WINDOW_HEIGHT, title);
 	if (mlx->window == NULL)
 	{
