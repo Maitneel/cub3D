@@ -63,6 +63,7 @@ SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/array_size.c \
 		${SRCS_DIR}/ft_isspace.c \
 		${SRCS_DIR}/raycasting/new_raycasting_image.c \
+		${SRCS_DIR}/raycasting/raycasting_helper.c \
 		${SRCS_DIR}/raycasting/utils.c \
 		${SRCS_DIR}/raycasting/collision_point.c \
 		${SRCS_DIR}/raycasting/collision_point_helper.c \
