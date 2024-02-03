@@ -34,6 +34,10 @@ endif
 SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/print_error.c \
 		${SRCS_DIR}/get_graphic_info.c \
+		${SRCS_DIR}/get_graphic_info2.c \
+		${SRCS_DIR}/get_graphic_info3.c \
+		${SRCS_DIR}/get_graphic_info4.c \
+		${SRCS_DIR}/get_graphic_info5.c \
 		${SRCS_DIR}/xpm/get_xpm_file_content.c \
 		${SRCS_DIR}/xpm/get_xpm_size.c \
 		${SRCS_DIR}/xpm/get_xpm_pixel_color.c \

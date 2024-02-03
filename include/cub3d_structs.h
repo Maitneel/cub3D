@@ -113,7 +113,7 @@ typedef struct s_mlx_hook_arg
 	t_cub3d			*cub3d;
 }					t_mlx_hook_arg;
 
-typedef struct		s_paste_texture_info
+typedef struct s_paste_texture_info
 {
 	double			mag;
 	double			texture_pos;
@@ -126,5 +126,32 @@ t_mlx				*init_mlx_struct(char *title);
 t_point				*new_point(int y, int x);
 t_point				new_point_struct(const int y, const int x);
 t_coll_point		new_coll_pt_struct(const t_point pt, const bool is_vert);
+
+// get_graphic_info
+bool				is_correct_color_format(const char *line);
+bool				is_correct_format(const char *line);
+bool				is_texture_empty(const t_graphic_info *graphic_info,
+						const char identifier);
+bool				is_color_empty(const t_graphic_info *graphic_info,
+						const char identifier);
+bool				is_element_empyt(const t_graphic_info *graphic_info,
+						const char *line);
+char				*get_texture_file_name(const char *line);
+t_mlx_image			*get_image_from_xpm_file(const void *mlx_ptr,
+						const char *file_name);
+int					data_addr_to_int(const unsigned char *data_addr,
+						int byte_per_pixel);
+t_color				convert_data_addr_to_color_struct(const char *data_addr,
+						const int byte_per_pixel);
+t_texture			*convert_image_to_texture(const t_mlx_image *image,
+						t_texture *texture);
+t_texture			*new_texture(const void *mlx_ptr, const char *file_name);
+void				set_texture(const void *mlx_ptr,
+						t_graphic_info *graphic_info, const char *line);
+t_color				*new_color(const char *line);
+void				set_color(t_graphic_info *graphic_info, const char *line);
+void				set_to_appropriate_element(const void *mlx_ptr,
+						t_graphic_info *graphic_info, const char *line);
+t_graphic_info		*get_graphic_info(const void *mlx_ptr, const int fd);
 
 #endif
