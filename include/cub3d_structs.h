@@ -154,4 +154,14 @@ void				set_to_appropriate_element(const void *mlx_ptr,
 						t_graphic_info *graphic_info, const char *line);
 t_graphic_info		*get_graphic_info(const void *mlx_ptr, const int fd);
 
+// get_map
+
+char				**read_map(const int fd);
+size_t				get_max_length(const char **map);
+t_map_element		get_element_type(const char c);
+t_map_element		*convert_line_to_map_element(const char *line,
+						const size_t width);
+t_map_element		**convert_to_map_element(const char **char_map);
+t_map_element		**get_map(const int fd_of_move_to_end_of_graphic_info);
+
 #endif

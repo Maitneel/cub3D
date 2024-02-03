@@ -45,6 +45,7 @@ SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/xpm/get_row_of_pixel_color.c \
 		${SRCS_DIR}/valid_map.c \
 		${SRCS_DIR}/get_map.c \
+		${SRCS_DIR}/get_map2.c \
 		${SRCS_DIR}/set_player_start_position.c \
 		${SRCS_DIR}/init_cub3d.c \
 		${SRCS_DIR}/init_mlx_struct.c \
