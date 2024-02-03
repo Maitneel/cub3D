@@ -20,9 +20,9 @@ static void	paste_background(
 	size_t	i;
 
 	i = 0;
-	while (i < image->height)
+	while ((int)(i) < (image->height))
 	{
-		if (i < image->height / 2)
+		if ((int)(i) < image->height / 2)
 			put_pixel_to_mlx_image(image, image_x, i,
 				convert_color_to_int(*(cub3d->graphic_info->ceiling_color)));
 		else
