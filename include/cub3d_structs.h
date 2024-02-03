@@ -10,7 +10,7 @@
 # define VERT_FOV_ANGLE (10 * M_PI / 180)
 # define SCREEN_MAGFICATION 100000
 
-#include "stddef.h"
+# include "stddef.h"
 # include <stdbool.h>
 
 typedef struct s_color
@@ -53,14 +53,14 @@ typedef struct s_point
 
 typedef struct s_coll_point
 {
-	t_point pt;
-	bool	is_vert;
-}	t_coll_point;
+	t_point			pt;
+	bool			is_vert;
+}					t_coll_point;
 
 typedef struct s_player
 {
 	t_point			point;
-	double			direction; // 0 ~ 2π
+	double			direction;
 }					t_player;
 
 typedef enum e_map_element
@@ -74,7 +74,7 @@ typedef enum e_map_element
 	START_W,
 	END_OF_LINE,
 	INCORRECTED_MAP_ELEMENT,
-}		t_map_element;
+}					t_map_element;
 
 typedef struct s_cub3d
 {
@@ -87,18 +87,18 @@ typedef struct s_cub3d
 
 typedef struct s_mlx_image
 {
-	void		*image_ptr;
-	int			width;
-	int			height;
+	void			*image_ptr;
+	int				width;
+	int				height;
 
-	char		*data_addr;
-	int			bit_per_pixel;
-	int			size_line;
-	int			endian;
+	char			*data_addr;
+	int				bit_per_pixel;
+	int				size_line;
+	int				endian;
 
-	int			x_coord_to_put_image;
-	int			y_coord_to_put_image;
-}				t_mlx_image;
+	int				x_coord_to_put_image;
+	int				y_coord_to_put_image;
+}					t_mlx_image;
 
 typedef struct s_mlx
 {
@@ -111,13 +111,13 @@ typedef struct s_mlx_hook_arg
 {
 	t_mlx			*mlx;
 	t_cub3d			*cub3d;
-}				t_mlx_hook_arg;
+}					t_mlx_hook_arg;
 
 t_cub3d				*init_cub3d(const void *mlx_ptr, const char *filename);
 t_mlx				*init_mlx_struct(char *title);
 
-t_point *new_point(int y, int x);
-t_point new_point_struct(const int y, const int x);
-t_coll_point new_coll_pt_struct(const t_point pt, const bool is_vert);
+t_point				*new_point(int y, int x);
+t_point				new_point_struct(const int y, const int x);
+t_coll_point		new_coll_pt_struct(const t_point pt, const bool is_vert);
 
 #endif
