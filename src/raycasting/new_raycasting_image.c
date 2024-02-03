@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_raycasting_image.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 17:28:17 by taksaito          #+#    #+#             */
-/*   Updated: 2024/01/28 22:36:09 by taksaito         ###   ########.fr       */
+/*   Updated: 2024/02/03 15:43:35 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,16 @@ t_mlx_image	*paste_black_image(t_mlx_image *image)
 	return (image);
 }
 
+t_paste_texture_info new_paste_texxture_info(double mag, double texture_pos, size_t image_x)
+{
+	t_paste_texture_info	info;
+
+	info.mag = mag;
+	info.texture_pos = texture_pos;
+	info.image_x = image_x;
+	
+}
+
 t_mlx_image	*draw_world(t_cub3d *cub3d, t_mlx_image *image, t_point screen_left,
 		t_point screen_right)
 {
@@ -77,9 +87,7 @@ t_mlx_image	*draw_world(t_cub3d *cub3d, t_mlx_image *image, t_point screen_left,
 		wall_dis = get_adj_dis(&cub3d->player, ray_dir, &(coll_pt.pt),
 				&(cub3d->player.point));
 		wall_raito = get_wall_ratio(wall_dis);
-		paste_texture(cub3d, image, wall_raito, get_texture_position(cub3d,
-				&coll_pt), get_texture(cub3d,
-				(t_coll_point *)&(coll_pt.pt)), x);
+		paste_texture(cub3d, image, get_texture(cub3d, (t_coll_point *)&(coll_pt.pt)), new_paste_texxture_info(wall_raito, get_texture_position(cub3d, &coll_pt), x));
 		x++;
 	}
 	return (image);

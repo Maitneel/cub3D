@@ -14,8 +14,7 @@ int	convert_color_to_int(t_color color)
 }
 
 static void	paste_background(
-	t_cub3d *cub3d, t_mlx_image *image, const size_t image_x
-)
+	t_cub3d *cub3d, t_mlx_image *image, const size_t image_x)
 {
 	size_t	i;
 
@@ -33,30 +32,30 @@ static void	paste_background(
 }
 
 void	paste_texture(t_cub3d *cub3d, t_mlx_image *image,
-		const double magnification, const double texture_position,
-		const t_texture *texture, const size_t image_x)
+		const t_texture *texture, t_paste_texture_info info)
 {
 	int		i;
 	int		axis_correction;
 	int		y;
 	size_t	color_x;
 
-	if (image->width <= (int)(image_x))
+	if (image->width <= (int)(info.image_x))
 		return ;
-	paste_background(cub3d, image, image_x);
+	paste_background(cub3d, image, info.image_x);
 	i = 0;
-	axis_correction = (image->height - (image->height * magnification)) / 2;
+	axis_correction = (image->height - (image->height * info.mag)) / 2;
 	while (i < image->height)
 	{
-		y = ((double)(i - axis_correction) / magnification / image->height)
-			* texture->height;
+		y = ((double)(i - axis_correction) / info.mag
+				/ image->height) * texture->height;
 		if ((int)(texture->height) <= y)
 			break ;
-		color_x = ((double)(texture_position)) * ((double)(texture->width));
+		color_x = ((double)(info.texture_pos))
+			* ((double)(texture->width));
 		if (texture->width <= color_x)
 			color_x = texture->width - 1;
 		if (0 <= y && y < (int)(texture->height))
-			put_pixel_to_mlx_image(image, image_x, i,
+			put_pixel_to_mlx_image(image, info.image_x, i,
 				convert_color_to_int(texture->pixel_color[y][color_x]));
 		i++;
 	}
