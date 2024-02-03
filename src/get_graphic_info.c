@@ -1,12 +1,11 @@
-#include "mlx.h"
 #include "cub3d_structs.h"
+#include "free_lib.h"
 #include "get_next_line.h"
+#include "get_xpm_data.h"
 #include "libft.h"
+#include "mlx.h"
 #include "print_lib.h"
 #include "util_lib.h"
-#include "free_lib.h"
-#include "get_xpm_data.h"
-
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,8 +19,7 @@ static bool	is_graphic_info_element_filled(const t_graphic_info *graphic_info)
 		graphic_info->west_texture != NULL && \
 		graphic_info->east_texture != NULL && \
 		graphic_info->floor_color != NULL && \
-		graphic_info->ceiling_color != NULL
-	);
+		graphic_info->ceiling_color != NULL);
 }
 
 static bool	is_texture_line(const char *line)
@@ -183,8 +181,7 @@ static bool	is_color_empty(
 // なんかいい感じの関数名が思いつかない //
 static bool	is_element_empyt(
 	const t_graphic_info *graphic_info,
-	const char *line
-)
+	const char *line)
 {
 	if (line[0] == '\n')
 		return (true);
@@ -218,13 +215,13 @@ char	*get_texture_file_name(const char *line)
 	return (file_name);
 }
 
-t_mlx_image *get_image_from_xpm_file(const void *mlx_ptr, const char *file_name) 
+t_mlx_image	*get_image_from_xpm_file(const void *mlx_ptr, const char *file_name)
 {
-	t_mlx_image *image;
-	char *error_massage;
+	t_mlx_image	*image;
 
 	image = ft_xcalloc(1, sizeof(t_mlx_image));
-	image->image_ptr = mlx_xpm_file_to_image(mlx_ptr, file_name, &(image->width), &(image->height));
+	image->image_ptr = mlx_xpm_file_to_image((void *)(mlx_ptr),
+			(char *)(file_name), &(image->width), &(image->height));
 	if (image->image_ptr == NULL)
 	{
 		print_error(false, "mlx_xpm_file_to_image: ");
@@ -232,41 +229,47 @@ t_mlx_image *get_image_from_xpm_file(const void *mlx_ptr, const char *file_name)
 		print_error(false, ": failed\n");
 		exit(1);
 	}
-	image->data_addr = mlx_get_data_addr(image->image_ptr, &(image->bit_per_pixel), &(image->size_line), &(image->endian));
+	image->data_addr = mlx_get_data_addr(image->image_ptr,
+			&(image->bit_per_pixel), &(image->size_line), &(image->endian));
 	return (image);
 }
 
-int data_addr_to_int(const unsigned char *data_addr, int byte_per_pixel)
+int	data_addr_to_int(const unsigned char *data_addr, int byte_per_pixel)
 {
-	int		int_value;
-	size_t 	i;
+	int	int_value;
+	int	i;
 
 	int_value = 0;
 	i = 0;
 	while (i < byte_per_pixel / 4)
 	{
 		int_value *= UCHAR_MAX;
- 		int_value += data_addr[i];
+		int_value += data_addr[i];
 		i++;
 	}
 	return (int_value);
 }
 
-t_color convert_data_addr_to_color_struct(const char *data_addr, const int byte_per_pixel)
+t_color	convert_data_addr_to_color_struct(const char *data_addr,
+		const int byte_per_pixel)
 {
-	t_color color;
+	t_color	color;
 
-	color.red = data_addr_to_int(data_addr + (byte_per_pixel / 4 * 2), byte_per_pixel);
-	color.green = data_addr_to_int(data_addr + (byte_per_pixel / 4 * 1), byte_per_pixel);
-	color.blue = data_addr_to_int(data_addr + (byte_per_pixel / 4 * 0), byte_per_pixel);
-	return color;
+	color.red = data_addr_to_int((const unsigned char *)
+			(data_addr + (byte_per_pixel / 4 * 2)), byte_per_pixel);
+	color.green = data_addr_to_int((const unsigned char *)
+			(data_addr + (byte_per_pixel / 4 * 1)), byte_per_pixel);
+	color.blue = data_addr_to_int((const unsigned char *)
+			(data_addr + (byte_per_pixel / 4 * 0)), byte_per_pixel);
+	return (color);
 }
 
-t_texture *convert_image_to_texture(const t_mlx_image *image, t_texture *texture)
+t_texture	*convert_image_to_texture(const t_mlx_image *image,
+		t_texture *texture)
 {
-	size_t i;
-	size_t j;
-	const size_t byte_per_pixel = image->bit_per_pixel / CHAR_BIT;
+	size_t			i;
+	size_t			j;
+	const size_t	byte_per_pixel = image->bit_per_pixel / CHAR_BIT;
 
 	texture->height = image->height;
 	texture->width = image->width;
@@ -278,7 +281,9 @@ t_texture *convert_image_to_texture(const t_mlx_image *image, t_texture *texture
 		j = 0;
 		while (j < texture->width)
 		{
-			texture->pixel_color[i][j] = convert_data_addr_to_color_struct(image->data_addr + (i * image->width * byte_per_pixel + (j * byte_per_pixel)), byte_per_pixel);
+			texture->pixel_color[i][j] = convert_data_addr_to_color_struct(
+					image->data_addr + (i * image->width * byte_per_pixel + (j
+							* byte_per_pixel)), byte_per_pixel);
 			j++;
 		}
 		i++;
@@ -286,11 +291,10 @@ t_texture *convert_image_to_texture(const t_mlx_image *image, t_texture *texture
 	return (texture);
 }
 
-t_texture	*new_texture(void *mlx_ptr, const char *file_name)
+t_texture	*new_texture(const void *mlx_ptr, const char *file_name)
 {
 	t_texture	*texture;
-	t_mlx_image *image;
-	char		**file_content;
+	t_mlx_image	*image;
 
 	texture = ft_xcalloc(1, sizeof(t_texture));
 	texture->file_name = ft_strdup(file_name);
@@ -301,19 +305,19 @@ t_texture	*new_texture(void *mlx_ptr, const char *file_name)
 	}
 	image = get_image_from_xpm_file(mlx_ptr, file_name);
 	texture = convert_image_to_texture(image, texture);
-	mlx_destroy_image(mlx_ptr, image->image_ptr);
+	mlx_destroy_image((void *)(mlx_ptr), image->image_ptr);
 	free(image);
-
-
 	// file_content = get_xpm_file_content(texture->file_name);
 	// texture->height = get_xpm_height((const char **)(file_content));
 	// texture->width = get_xpm_width((const char **)(file_content));
-	// texture->pixel_color = get_xpm_pixel_color((const char **)(file_content), texture->height, texture->width);
+	// texture->pixel_color = get_xpm_pixel_color((const char **)(file_content),
+			// texture->height, texture->width);
 	// free_string_array(file_content);
 	return (texture);
 }
 
-static void	set_texture(const void *mlx_ptr, t_graphic_info *graphic_info, const char *line)
+static void	set_texture(const void *mlx_ptr, t_graphic_info *graphic_info,
+		const char *line)
 {
 	char		*file_name;
 	const char	identifier = line[0];
@@ -366,9 +370,8 @@ static void	set_color(t_graphic_info *graphic_info, const char *line)
 		graphic_info->ceiling_color = new_color(line);
 }
 
-static void	set_to_appropriate_element(const void *mlx_ptr, t_graphic_info *graphic_info,
-	const char *line
-)
+static void	set_to_appropriate_element(const void *mlx_ptr,
+		t_graphic_info *graphic_info, const char *line)
 {
 	if (is_texture_line(line))
 	{
@@ -390,10 +393,8 @@ t_graphic_info	*get_graphic_info(const void *mlx_ptr, const int fd)
 	{
 		line = get_next_line(fd);
 		if (
-			line == NULL || \
-			!is_correct_format(line) || \
-			!is_element_empyt(graphic_info, line)
-		)
+			line == NULL || !is_correct_format(line) || \
+			!is_element_empyt(graphic_info, line))
 		{
 			free_graphic_info(graphic_info);
 			return (NULL);
