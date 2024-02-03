@@ -9,7 +9,7 @@
 static bool	is_pixel_in_image(const t_mlx_image *image, const int x,
 		const int y)
 {
-	return ((0 <= x && x < image->width) && (0 <= y && y <= image->height));
+	return ((0 <= x && x < image->width) && (0 <= y && y < image->height));
 }
 
 int	put_pixel_to_mlx_image(t_mlx_image *image, const int x, const int y,
