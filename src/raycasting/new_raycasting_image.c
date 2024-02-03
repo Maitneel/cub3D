@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 17:28:17 by taksaito          #+#    #+#             */
-/*   Updated: 2024/02/03 15:43:35 by dummy            ###   ########.fr       */
+/*   Updated: 2024/02/03 16:24:33 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_paste_texture_info new_paste_texxture_info(double mag, double texture_pos, siz
 	info.mag = mag;
 	info.texture_pos = texture_pos;
 	info.image_x = image_x;
-	
+	return (info);
 }
 
 t_mlx_image	*draw_world(t_cub3d *cub3d, t_mlx_image *image, t_point screen_left,
@@ -87,7 +87,8 @@ t_mlx_image	*draw_world(t_cub3d *cub3d, t_mlx_image *image, t_point screen_left,
 		wall_dis = get_adj_dis(&cub3d->player, ray_dir, &(coll_pt.pt),
 				&(cub3d->player.point));
 		wall_raito = get_wall_ratio(wall_dis);
-		paste_texture(cub3d, image, get_texture(cub3d, &coll_pt), new_paste_texxture_info(wall_raito, get_texture_position(cub3d, &coll_pt), x));
+		paste_texture(cub3d, image, get_texture(cub3d, &coll_pt), 
+		new_paste_texxture_info(wall_raito, get_texture_position(cub3d, &coll_pt), x));
 		x++;
 	}
 	return (image);
