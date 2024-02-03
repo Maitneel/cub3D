@@ -1,5 +1,4 @@
 #include "cub3d_structs.h"
-#include "get_xpm_data.h"
 #include "libft.h"
 #include "print_lib.h"
 #include "util_lib.h"

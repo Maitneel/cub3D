@@ -1,7 +1,6 @@
 #include "cub3d_structs.h"
 #include "free_lib.h"
 #include "get_next_line.h"
-#include "get_xpm_data.h"
 #include "libft.h"
 #include "mlx.h"
 #include "print_lib.h"
