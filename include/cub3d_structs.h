@@ -4,10 +4,11 @@
 # define IMAGE_SIZE 100
 # define WINDOW_WIDTH 800
 # define WINDOW_HEIGHT 600
-# define PLAYER_MAGFICATION 100
+# define PLAYER_MAGFICATION 100000
 # define HN_FOV_ANGLE (90 * M_PI / 180)
 # define WALL_HEIGHT (PLAYER_MAGFICATION / 10)
 # define VERT_FOV_ANGLE (10 * M_PI / 180)
+# define SCREEN_MAGFICATION 100000
 
 #include "stddef.h"
 # include <stdbool.h>

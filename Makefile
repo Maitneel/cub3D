@@ -59,6 +59,11 @@ SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/ray2d.c \
 		${SRCS_DIR}/vector2d.c \
 		${SRCS_DIR}/raycasting/new_raycasting_image.c \
+		${SRCS_DIR}/raycasting/utils.c \
+		${SRCS_DIR}/raycasting/collision_point.c \
+		${SRCS_DIR}/raycasting/collision_point_helper.c \
+		${SRCS_DIR}/raycasting/distance.c \
+		${SRCS_DIR}/raycasting/texture.c \
 		${SRCS_DIR}/new_point.c \
 		${DEBUG_DIR}/debug.c \
 		./temp/vector_test.c \

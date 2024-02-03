@@ -20,7 +20,6 @@ t_point new_point_struct(const int y, const int x)
     return point;
 }
 
-
 t_coll_point new_coll_pt_struct(t_point pt, bool is_vert)
 {
     t_coll_point coll_point;
