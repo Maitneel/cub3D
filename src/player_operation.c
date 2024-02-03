@@ -1,12 +1,10 @@
-#include <math.h>
-
 #include "cub3d_structs.h"
 #include "mlx_defines.h"
-
+#include <math.h>
 #include <stdio.h>
 
-const double	g_rotate_angle = (M_PI_2 / 9.0f);
-const double	g_moving_coefficient = 0.5f;
+static const double	g_rotate_angle = (M_PI_2 / 9.0f);
+static const double	g_moving_coefficient = 0.5f;
 
 void	rotate_player(int key_code, t_player *player)
 {
@@ -30,18 +28,15 @@ void	move_player(int key_code, t_player *player)
 
 	moving_direction = 0;
 	if (key_code == KEY_W)
-		moving_direction = player->direction ;
+		moving_direction = player->direction;
 	else if (key_code == KEY_S)
 		moving_direction = player->direction + M_PI;
 	else if (key_code == KEY_A)
 		moving_direction = player->direction - M_PI_2;
 	else if (key_code == KEY_D)
 		moving_direction = player->direction + M_PI_2;
-	player->point.x -= (long long)((sin(moving_direction) * g_moving_coefficient) * (double)(PLAYER_MAGFICATION));
-	player->point.y += (long long)((cos(moving_direction) * g_moving_coefficient) * (double)(PLAYER_MAGFICATION));
-	fprintf(stderr, "------------------------------------------------------\n");
-	fprintf(stderr, "moving_direction : '%f'\n", moving_direction * 180.0f / M_PI);
-	fprintf(stderr, "player_direction : '%f'\n", player->direction * 180.0f / M_PI);
-	fprintf(stderr, "cos(moving_direction) : '%+f'\n", cos(moving_direction));
-	fprintf(stderr, "sin(moving_direction) : '%+f'\n", sin(moving_direction));
+	player->point.x -= (long long)((sin(moving_direction)
+				* g_moving_coefficient) * (double)(PLAYER_MAGFICATION));
+	player->point.y += (long long)((cos(moving_direction)
+				* g_moving_coefficient) * (double)(PLAYER_MAGFICATION));
 }
