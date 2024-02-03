@@ -256,11 +256,11 @@ t_color	convert_data_addr_to_color_struct(const char *data_addr,
 	t_color	color;
 
 	color.red = data_addr_to_int((const unsigned char *)
-			(data_addr + (byte_per_pixel / 4 * 0)), byte_per_pixel);
+			(data_addr + (byte_per_pixel / 4 * 2)), byte_per_pixel);
 	color.green = data_addr_to_int((const unsigned char *)
 			(data_addr + (byte_per_pixel / 4 * 1)), byte_per_pixel);
 	color.blue = data_addr_to_int((const unsigned char *)
-			(data_addr + (byte_per_pixel / 4 * 2)), byte_per_pixel);
+			(data_addr + (byte_per_pixel / 4 * 0)), byte_per_pixel);
 	return (color);
 }
 

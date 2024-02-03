@@ -1,14 +1,14 @@
-NAME = cub3D
+NAME = a.out
 
 CC = clang
 CFLAGS = -Wall -Wextra -fsanitize=address -g
 
-MLX_DIR = minilibx-linux
-LIBFT_DIR = ./libft
-GNL_DIR = ${LIBFT_DIR}/get_next_line/
-SRCS_DIR = ./src
-INCLUDE_DIR = ./include
-DEBUG_DIR = ./debug
+MLX_DIR = ../minilibx-linux
+LIBFT_DIR = .././libft
+GNL_DIR = ../${LIBFT_DIR}/get_next_line/
+SRCS_DIR = .././src
+INCLUDE_DIR = .././include
+DEBUG_DIR = .././debug
 
 
 
@@ -31,7 +31,8 @@ endif
 # MLX_FLAG = -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I${MLX_DIR}
 # MLX_FLAG = -lmlx -framework OpenGL -framework AppKit
 
-SRCS =	${SRCS_DIR}/main.c \
+
+SRCS =	main.c \
 		${SRCS_DIR}/print_error.c \
 		${SRCS_DIR}/get_graphic_info.c \
 		${SRCS_DIR}/xpm/get_xpm_file_content.c \
@@ -59,14 +60,9 @@ SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/ray2d.c \
 		${SRCS_DIR}/vector2d.c \
 		${SRCS_DIR}/raycasting/new_raycasting_image.c \
-		${SRCS_DIR}/raycasting/utils.c \
-		${SRCS_DIR}/raycasting/collision_point.c \
-		${SRCS_DIR}/raycasting/collision_point_helper.c \
-		${SRCS_DIR}/raycasting/distance.c \
-		${SRCS_DIR}/raycasting/texture.c \
 		${SRCS_DIR}/new_point.c \
 		${DEBUG_DIR}/debug.c \
-		./temp/vector_test.c \
+
 
 OBJS = ${SRCS:%.c=%.o}
 
@@ -94,17 +90,7 @@ fclean: clean
 
 re: fclean all
 
-# test: ${NAME}
-# 	./${NAME} ./map/my_map.cub
-
 test: ${NAME}
-	./${NAME} ./map/my_map5.cub
-
-test_color: ${NAME}
-	./${NAME} ./map/color_test.cub
-
-echo :
-	@echo ${HOSTNAME}
-	@echo ${MLX_FLAG}
+	./${NAME} ../textures/higashi.xpm
 
 .PHONY: all clean fclean re

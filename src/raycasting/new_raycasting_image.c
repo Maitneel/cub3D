@@ -41,10 +41,10 @@ double	get_direction_across_screen_position(const t_point player_position,
 				* (double)(screen_position) / WINDOW_WIDTH));
 	diff_x = position_x - player_position.x;
 	diff_y = position_y - player_position.y;
-	// ここ問題ないかわからない //
-	// atan func は ＋- inf が与えられた時 +- pi/2 を返すが //
-	// float のゼロ除算が inf を返すかがわからない //
-	direction = (atan(diff_y / diff_x)) * -1.0;
+	if (diff_x == 0.0)
+		direction = (atan(INFINITY)) * -1.0;
+	else
+		direction = (atan(diff_y / diff_x)) * -1.0;
 	if (position_x < player_position.x)
 		direction += M_PI * 2.0;
 	else
@@ -87,7 +87,7 @@ t_mlx_image	*draw_world(t_cub3d *cub3d, t_mlx_image *image, t_point screen_left,
 		wall_dis = get_adj_dis(&cub3d->player, ray_dir, &(coll_pt.pt),
 				&(cub3d->player.point));
 		wall_raito = get_wall_ratio(wall_dis);
-		paste_texture(cub3d, image, get_texture(cub3d, (t_coll_point *)&(coll_pt.pt)), new_paste_texxture_info(wall_raito, get_texture_position(cub3d, &coll_pt), x));
+		paste_texture(cub3d, image, get_texture(cub3d, &coll_pt), new_paste_texxture_info(wall_raito, get_texture_position(cub3d, &coll_pt), x));
 		x++;
 	}
 	return (image);
