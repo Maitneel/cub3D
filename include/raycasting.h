@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 17:41:53 by taksaito          #+#    #+#             */
-/*   Updated: 2024/02/03 17:31:32 by taksaito         ###   ########.fr       */
+/*   Updated: 2024/02/07 23:02:02 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define RAYCASTING_H
 
 # include "cub3d_structs.h"
-# include <float.h>
 # include <limits.h>
 # include <math.h>
 # include <stdbool.h>
