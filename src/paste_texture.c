@@ -47,7 +47,7 @@ void	paste_texture(t_cub3d *cub3d, t_mlx_image *image,
 	int			i;
 	int			y;
 	const int	paste_height = image->height * info.mag;
-	const int	axis_correction = max((image->height - paste_height) / 2, 0);
+	const int	axis_correction = (image->height - paste_height) / 2;
 
 	paste_background(cub3d, image, info.image_x);
 	if (image->width <= (int)(info.image_x))
@@ -55,8 +55,13 @@ void	paste_texture(t_cub3d *cub3d, t_mlx_image *image,
 	color_x = (((double)(info.texture_pos)) * ((double)(texture->width)));
 	if (texture->width <= color_x)
 		color_x = texture->width - 1;
+
 	i = 0;
-	while (i < paste_height && i + axis_correction < image->height)
+	if (axis_correction < 0) {
+		i = -axis_correction;
+	}
+	const start = i;
+	while (i < paste_height  && i < start + image->height)
 	{
 		y = i * texture->height / paste_height;
 		if (0 <= y && y < (int)(texture->height))
