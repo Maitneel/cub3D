@@ -55,17 +55,12 @@ void	paste_texture(t_cub3d *cub3d, t_mlx_image *image,
 	color_x = (((double)(info.texture_pos)) * ((double)(texture->width)));
 	if (texture->width <= color_x)
 		color_x = texture->width - 1;
-
 	i = 0;
-	if (axis_correction < 0) {
-		i = -axis_correction;
-	}
-	const start = i;
-	while (i < paste_height  && i < start + image->height)
+	while (i - axis_correction < paste_height && i < image->height)
 	{
-		y = i * texture->height / paste_height;
+		y = (i - axis_correction) * texture->height / paste_height;
 		if (0 <= y && y < (int)(texture->height))
-			put_pixel_to_mlx_image(image, info.image_x, i + axis_correction,
+			put_pixel_to_mlx_image(image, info.image_x, i,
 				convert_color_to_int(texture->pixel_color[y][color_x]));
 		i++;
 	}
