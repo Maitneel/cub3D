@@ -39,6 +39,8 @@ double	get_moving_direction(const int key_code, const double player_direction)
 		return (INFINITY);
 }
 
+#define BONUS
+
 void	move_player(int key_code, t_player *player, t_map_element **map)
 {
 	const double	moving_direction = get_moving_direction(key_code, player->direction);
@@ -52,8 +54,8 @@ void	move_player(int key_code, t_player *player, t_map_element **map)
 	while (i < g_moving_coefficient)
 	{
 		before_point = player->point;
-		player->point.x = from.x + (long long)(sin(moving_direction) * (double)(i));
-		player->point.y = from.y - (long long)(cos(moving_direction) * (double)(i));
+		player->point.x = from.x - (long long)(sin(moving_direction) * (double)(i));
+		player->point.y = from.y + (long long)(cos(moving_direction) * (double)(i));
 		if (map[before_point.y / PLAYER_MAGFICATION][player->point.x / PLAYER_MAGFICATION] == WALL && map[player->point.y / PLAYER_MAGFICATION][before_point.x / PLAYER_MAGFICATION] == WALL)
 			player->point = before_point;
 		else if (map[player->point.y / PLAYER_MAGFICATION][player->point.x / PLAYER_MAGFICATION] == WALL) {
@@ -62,8 +64,8 @@ void	move_player(int key_code, t_player *player, t_map_element **map)
 			if (map[player->point.y / PLAYER_MAGFICATION][before_point.x / PLAYER_MAGFICATION] == WALL)
 				player->point.y = before_point.y;
 		}
-		from.x = player->point.x - (long long)(sin(moving_direction) * (double)(i));
-		from.y = player->point.y + (long long)(cos(moving_direction) * (double)(i));
+		from.x = player->point.x + (long long)(sin(moving_direction) * (double)(i));
+		from.y = player->point.y - (long long)(cos(moving_direction) * (double)(i));
 		i++;
 	}
 	
