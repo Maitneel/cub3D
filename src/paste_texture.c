@@ -49,8 +49,10 @@ void	paste_texture(t_cub3d *cub3d, t_mlx_image *image,
 	const int	paste_height = image->height * info.mag;
 	const int	axis_correction = (image->height - paste_height) / 2;
 
-	paste_background(cub3d, image, info.image_x);
 	if (image->width <= (int)(info.image_x))
+		return ;
+	paste_background(cub3d, image, info.image_x);
+	if (paste_height == 0)
 		return ;
 	color_x = (((double)(info.texture_pos)) * ((double)(texture->width)));
 	if (texture->width <= color_x)
