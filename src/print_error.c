@@ -1,8 +1,7 @@
+#include "libft.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <unistd.h>
-
-#include "libft.h"
 
 void	print_error(bool is_system_call_error, const char *optional_massage)
 {

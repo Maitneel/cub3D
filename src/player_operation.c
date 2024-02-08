@@ -3,11 +3,11 @@
 
 #include "cub3d_structs.h"
 #include "mlx_defines.h"
-
+#include <math.h>
 #include <stdio.h>
 
-const double		g_rotate_angle = (M_PI_2 / 9.0f);
-const long long 	g_moving_coefficient = 0.5f * (float)(PLAYER_MAGFICATION);
+static const long long 	g_moving_coefficient = 0.5f * (float)(PLAYER_MAGFICATION);
+static const double		g_rotate_angle = (M_PI_2 / 9.0f);
 
 void	rotate_player(int key_code, t_player *player)
 {
@@ -45,9 +45,10 @@ void	move_player(int key_code, t_player *player, t_map_element **map)
 	t_point from;
 	t_point before_point;
 	int i;
-
 	from = player->point;
+#ifdef BONUS
 	i = 1;
+	fprintf(stderr, "g_moving_coefficient : '%d'\n", g_moving_coefficient);
 	while (i < g_moving_coefficient)
 	{
 		before_point = player->point;
@@ -71,6 +72,12 @@ void	move_player(int key_code, t_player *player, t_map_element **map)
 	fprintf(stderr, "moving_direction : '%f'\n", moving_direction);
 	fprintf(stderr, "cos(moving_direction) : '%+f'\n", cos(moving_direction));
 	fprintf(stderr, "sin(moving_direction) : '%+f'\n", sin(moving_direction));
+#else
+	player->point.x -= (long long)((sin(moving_direction)
+				* g_moving_coefficient));
+	player->point.y += (long long)((cos(moving_direction)
+				* g_moving_coefficient));
+#endif
 }
 
 /*

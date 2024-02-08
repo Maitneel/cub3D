@@ -1,8 +1,7 @@
-#include <stdlib.h>
-#include "mlx.h"
-
 #include "cub3d_structs.h"
 #include "free_lib.h"
+#include "mlx.h"
+#include <stdlib.h>
 
 void	free_cub3d(t_cub3d *cub3d)
 {
@@ -36,4 +35,21 @@ void	free_and_detroy_mlx_image(t_mlx_image *image, const t_mlx *mlx)
 		return ;
 	mlx_destroy_image(mlx->mlx, image->image_ptr);
 	free(image);
+}
+
+void	free_uint_array_array(unsigned int **array, const size_t height)
+{
+	size_t	i;
+
+	if (array == NULL)
+	{
+		return ;
+	}
+	i = 0;
+	while (i < height)
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
 }

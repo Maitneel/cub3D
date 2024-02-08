@@ -1,16 +1,14 @@
-#include <stdlib.h>
-#include <stdbool.h>
-#include <sys/fcntl.h>
-
-#include "libft.h"
-#include "util_lib.h"
-#include "free_lib.h"
 #include "cub3d_structs.h"
-#include "print_lib.h"
-#include "get_cub3d_info.h"
-
-#include <stdio.h>
 #include "debug.h"
+#include "free_lib.h"
+#include "get_cub3d_info.h"
+#include "libft.h"
+#include "print_lib.h"
+#include "util_lib.h"
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/fcntl.h>
 
 static bool	is_valid_filename(const char *filename)
 {
@@ -40,36 +38,38 @@ static bool	is_valid_filename(const char *filename)
 	return (true);
 }
 
-static int get_map_width(t_map_element **map)
+static int	get_map_width(t_map_element **map)
 {
-	int i;
+	int	i;
+
 	if (map == NULL)
-		return -1;
+		return (-1);
 	if (map[0] == NULL)
-		return 0;
+		return (0);
 	i = 0;
 	while (map[0][i] != END_OF_LINE)
 		i++;
-	return i;
+	return (i);
 }
 
-static int get_map_height(t_map_element **map)
+static int	get_map_height(t_map_element **map)
 {
-	int i;
+	int	i;
+
 	if (map == NULL)
 		return (-1);
 	i = 0;
 	while (map[i] != NULL)
 		i++;
-	return i;
+	return (i);
 }
 
-static t_cub3d	*get_cub3d_data(const int fd)
+static t_cub3d	*get_cub3d_data(const void *mlx_ptr, const int fd)
 {
 	t_cub3d	*cub3d;
 
 	cub3d = ft_xcalloc(1, sizeof(t_cub3d));
-	cub3d->graphic_info = get_graphic_info(fd);
+	cub3d->graphic_info = get_graphic_info(mlx_ptr, fd);
 	cub3d->map = get_map(fd);
 	if (cub3d->graphic_info == NULL || cub3d->map == NULL)
 	{
@@ -83,7 +83,7 @@ static t_cub3d	*get_cub3d_data(const int fd)
 	return (cub3d);
 }
 
-t_cub3d	*init_cub3d(const char *filename)
+t_cub3d	*init_cub3d(const void *mlx_ptr, const char *filename)
 {
 	int		fd;
 	t_cub3d	*cub3d;
@@ -99,7 +99,7 @@ t_cub3d	*init_cub3d(const char *filename)
 		print_error(true, filename);
 		return (NULL);
 	}
-	cub3d = get_cub3d_data(fd);
+	cub3d = get_cub3d_data(mlx_ptr, fd);
 	close(fd);
 	return (cub3d);
 }

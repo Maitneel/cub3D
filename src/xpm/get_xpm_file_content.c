@@ -104,6 +104,7 @@ char	**get_xpm_file_content(const char *filename)
 
 	if (fd < 0)
 	{
+		write(STDERR_FILENO, filename, ft_strlen(filename));
 		print_error(true, "open");
 		exit(1);
 	}

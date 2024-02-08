@@ -1,10 +1,10 @@
-NO ./xpm_test/minimamu.xpm
-SO ./xpm_test/test_xpm.xpm
-WE ./xpm_test/minimamu.xpm
-EA ./xpm_test/minimamu.xpm
+NO ./textures/single_color/white.xpm
+SO ./textures/minami.xpm
+WE ./textures/nishi.xpm
+EA ./textures/higashi.xpm
 
-F 220,100,0
-C 225,30,0
+F 0,0,0
+C 0,0,0
 
 1111111111111111111111111
 1000000000110000000000001
