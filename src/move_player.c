@@ -34,33 +34,49 @@ t_map_element	get_maged_ele(t_map_element **map, int y, int x)
 	return (map[y / PLAYER_MAGFICATION][x / PLAYER_MAGFICATION]);
 }
 
+t_point	assign_point(const int x, const int y)
+{
+	t_point	result;
+
+	result.x = x;
+	result.y = y;
+	return (result);
+}
+
+void	add_diff(const t_map_element **map, const t_point before,
+	t_point now, t_point *diff)
+{
+	if (get_maged_ele(map, now.y, now.x + diff->x) == WALL)
+		diff->y += before.y - now.y;
+	if (get_maged_ele(map, now.y + diff->y, now.x) == WALL)
+		diff->x += before.x - now.x;
+}
+
 void	move_player_bonus(int key_code, t_player *player, t_map_element **map)
 {
 	const double	moving_dir = get_moving_dir(key_code, player->direction);
-	t_point			from;
+	t_point			now;
 	t_point			before;
+	t_point			diff;
 	int				i;
 
-	from = player->point;
+	now = player->point;
+	diff = assign_point(0, 0);
 	i = -1;
 	while (++i <= g_moving_coefficient)
 	{
-		before = player->point;
-		player->point.x = from.x - (long long)(sin(moving_dir) * (double)(i));
-		player->point.y = from.y + (long long)(cos(moving_dir) * (double)(i));
-		if (get_maged_ele(map, before.y, player->point.x) == WALL || \
-				get_maged_ele(map, player->point.y, before.x) == WALL)
-			player->point = before;
-		else if (get_maged_ele(map, player->point.y, player->point.x) == WALL)
+		before = now;
+		now.x = player->point.x - (long long)(sin(moving_dir) * (double)(i));
+		now.y = player->point.y + (long long)(cos(moving_dir) * (double)(i));
+		if (get_maged_ele(map, now.y + diff.y, before.x + diff.x) == WALL && \
+			get_maged_ele(map, before.y + diff.y, now.x + diff.x) == WALL)
 		{
-			if (get_maged_ele(map, before.y, player->point.x) == WALL)
-				player->point.x = before.x;
-			if (get_maged_ele(map, player->point.y, before.x) == WALL)
-				player->point.y = before.y;
+			now = before;
+			break ;
 		}
-		from.x = player->point.x + (long long)(sin(moving_dir) * (double)(i));
-		from.y = player->point.y - (long long)(cos(moving_dir) * (double)(i));
+		add_diff(map, before, now, &diff);
 	}
+	player->point = assign_point(now.x + diff.x, now.y + diff.y);
 }
 
 void	move_player_mandantory(int key_code, t_player *player)
