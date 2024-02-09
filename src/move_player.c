@@ -33,9 +33,9 @@ double	get_moving_dir(const int key_code, const double player_direction)
 void	add_diff(const t_map_element **map, const t_point before,
 	t_point now, t_point *diff)
 {
-	if (get_maged_ele(map, now.y, now.x + diff->x) == WALL)
+	if (!can_enter(map, now.y, now.x + diff->x))
 		diff->y += before.y - now.y;
-	if (get_maged_ele(map, now.y + diff->y, now.x) == WALL)
+	if (!can_enter(map, now.y + diff->y, now.x))
 		diff->x += before.x - now.x;
 }
 
@@ -55,8 +55,8 @@ void	move_player_bonus(int key_code, t_player *player, const t_map_element **map
 		before = now;
 		now.x = player->point.x - (long long)(sin(moving_dir) * (double)(i));
 		now.y = player->point.y + (long long)(cos(moving_dir) * (double)(i));
-		if (get_maged_ele(map, now.y + diff.y, before.x + diff.x) == WALL && \
-			get_maged_ele(map, before.y + diff.y, now.x + diff.x) == WALL)
+		if (!can_enter(map, now.y + diff.y, before.x + diff.x) && \
+			!can_enter(map, before.y + diff.y, now.x + diff.x))
 		{
 			now = before;
 			break ;
