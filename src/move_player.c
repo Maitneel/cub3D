@@ -1,5 +1,6 @@
 #include "cub3d_structs.h"
 #include "mlx_defines.h"
+#include "move_player_helper.h"
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -29,20 +30,6 @@ double	get_moving_dir(const int key_code, const double player_direction)
 # define BONUS false
 #endif
 
-t_map_element	get_maged_ele(t_map_element **map, int y, int x)
-{
-	return (map[y / PLAYER_MAGFICATION][x / PLAYER_MAGFICATION]);
-}
-
-t_point	assign_point(const int x, const int y)
-{
-	t_point	result;
-
-	result.x = x;
-	result.y = y;
-	return (result);
-}
-
 void	add_diff(const t_map_element **map, const t_point before,
 	t_point now, t_point *diff)
 {
@@ -52,7 +39,7 @@ void	add_diff(const t_map_element **map, const t_point before,
 		diff->x += before.x - now.x;
 }
 
-void	move_player_bonus(int key_code, t_player *player, t_map_element **map)
+void	move_player_bonus(int key_code, t_player *player, const t_map_element **map)
 {
 	const double	moving_dir = get_moving_dir(key_code, player->direction);
 	t_point			now;
@@ -90,7 +77,7 @@ void	move_player_mandantory(int key_code, t_player *player)
 				* g_moving_coefficient));
 }
 
-void	move_player(int key_code, t_player *player, t_map_element **map)
+void	move_player(int key_code, t_player *player, const t_map_element **map)
 {
 	if (BONUS)
 		move_player_bonus(key_code, player, map);
