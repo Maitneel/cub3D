@@ -21,7 +21,7 @@ static t_map_element	get_maged_ele(const t_map_element **map, const int y,
 bool	can_enter(const t_map_element **map, const int maged_y,
 		const int maged_x)
 {
-	const int	collision_distance = ((double)(PLAYER_MAGFICATION)) * (0.1); // この値でどの程度壁に近づけるか決めてる //
+	const int	collision_distance = ((double)(PLAYER_MAGFICATION)) * (0.1);
 
 	return (
 		get_maged_ele(map, maged_y + collision_distance, maged_x) != WALL && \

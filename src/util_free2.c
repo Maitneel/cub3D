@@ -28,7 +28,7 @@ void	free_mlx_struct(t_mlx *mlx)
 {
 	if (mlx == NULL)
 		return ;
-	// TODO
+	free(mlx);
 }
 
 void	free_mlx_hook_arg(t_mlx_hook_arg *mlx_hook_arg)

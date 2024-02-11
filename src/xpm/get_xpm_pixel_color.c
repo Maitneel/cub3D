@@ -58,7 +58,7 @@ t_color	**get_xpm_pixel_color(const char **file_content, const size_t height,
 	if (i != height || file_content[front_of_pixel_info + i] != NULL)
 	{
 		print_error(false, "invalid xpm format\n");
-		exit(1); // eixt していい? //
+		exit(1);
 	}
 	free(color_map);
 	return (pixel_color);
