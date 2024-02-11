@@ -109,12 +109,12 @@ bonus : ${BONUS_NAME}
 clean: 
 	rm -rf ${OBJS}
 	rm -rf ${BONUS_OBJS}
-	# make -C ${LIBFT_DIR}
+	make -C ${LIBFT_DIR}
 
 fclean: clean
 	rm -rf ${NAME}
 	rm -rf ${BONUS_NAME}
-	# make -C ${MLX_DIR} clean
+	make -C ${MLX_DIR} clean
 
 re: fclean all
 
