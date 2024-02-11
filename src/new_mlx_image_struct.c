@@ -13,7 +13,6 @@ t_mlx_image	*new_image_struct(t_mlx *mlx, int width, int height)
 	mlx_image->image_ptr = mlx_new_image(mlx->mlx, width, height);
 	if (mlx_image->image_ptr == NULL)
 	{
-		// TODO;
 		print_error(false, "mlx_new_image failed\n");
 		exit(1);
 	}

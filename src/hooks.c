@@ -22,38 +22,16 @@ int	key_hook(int key_code, void *arg)
 		rotate_player(key_code, &(mlx_hook_arg->cub3d->player));
 	if (key_code == KEY_A || key_code == KEY_S || \
 		key_code == KEY_D || key_code == KEY_W)
-		move_player(key_code, &(mlx_hook_arg->cub3d->player), mlx_hook_arg->cub3d->map);
+		move_player(key_code, &(mlx_hook_arg->cub3d->player), \
+			mlx_hook_arg->cub3d->map);
 	if (key_code == KEY_ESC)
 	{
-		// TODO
 		exit(0);
 	}
 	print_key_code(key_code);
 	print_player(mlx_hook_arg->cub3d->player);
 	return (0);
 }
-
-/******************  TEST FUNCTION ******************/
-// #include "mlx_image_proc.h"
-// #include "paste_texture.h"
-// t_mlx_image *paste_texture_test(t_mlx *mlx, t_texture *texture) {
-// 	t_mlx_image *image;
-// 	image = new_image_struct(mlx, 200, 200);
-
-// 	for(size_t i = 0; i < 200; i++) {
-// 		// if (i < 100)
-// 		// 	paste_texture(image, (double)(i) / 100.0f, (double)(i)
-					// / (double)(200), texture, i);
-// 		// else
-// 		// 	paste_texture(image,  (1.0f - (double)(i) / 200.0f), (double)(i)
-					// / (double)(200), texture, i);
-// 			// paste_texture(image, 0.5f + ((double)(i) / 400.0f), (double)(i)
-					// / (double)(200), texture, i);
-// 	}
-// 	usleep(100);
-// 	return (image);
-// }
-/****************************************************/
 
 int	loop_hook(void *arg)
 {

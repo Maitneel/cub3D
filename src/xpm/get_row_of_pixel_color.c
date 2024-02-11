@@ -86,15 +86,5 @@ t_color	*get_row_of_pixel_color(const char *line,
 		is_continue = !is_include_null_in_len(front, char_per_pixel);
 		i++;
 	}
-	/*
-	i = 0;
-	while (i < width)
-	{
-		printf("%02X%02X%02X ", color_array[i].red, color_array[i].green,
-				color_array[i].blue);
-		i++;
-	}
-	printf("\n");
-	// */
 	return (color_array);
 }
