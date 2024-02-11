@@ -2,7 +2,7 @@ NAME = cub3D
 BONUS_NAME = cub3d_bonus
 
 CC = clang
-CFLAGS = -Wall -Wextra -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror
 
 MLX_DIR = minilibx-linux
 LIBFT_DIR = ./libft
