@@ -1,4 +1,5 @@
 NAME = cub3D
+BONUS_NAME = cub3d_bonus
 
 CC = clang
 CFLAGS = -Wall -Wextra -fsanitize=address -g
@@ -28,6 +29,13 @@ else
 	MLX_FLAG := -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I${MLX_DIR}
 	MACHINE_FLAG = -D LOCAL_MACHINE
 endif
+
+ifeq (${MAKECMDGOALS}, bonus)
+	CFLAGS += -DMAKE_BONUS
+else
+	CFLAGS += -UMAKE_BONUS
+endif
+
 # MLX_FLAG = -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I${MLX_DIR}
 # MLX_FLAG = -lmlx -framework OpenGL -framework AppKit
 
@@ -75,12 +83,19 @@ SRCS =	${SRCS_DIR}/main.c \
 		${DEBUG_DIR}/debug.c \
 
 OBJS = ${SRCS:%.c=%.o}
+BONUS_OBJS = ${SRCS:%.c=%_bonus.o}
 
 %.o: %.c
 	${CC} ${CFLAGS} -I${INCLUDE_DIR} -I${MLX_DIR} -I${LIBFT_DIR} -I${GNL_DIR} -I ${DEBUG_DIR} ${MACHINE_FLAG} -c -o $@ $^
 
+%_bonus.o: %.c
+	${CC} ${CFLAGS} -I${INCLUDE_DIR} -I${MLX_DIR} -I${LIBFT_DIR} -I${GNL_DIR} -I ${DEBUG_DIR} ${MACHINE_FLAG} -c -o $@ $^
+
 ${NAME} : ${OBJS} ${MLX} ${LIBFT}
 	${CC} ${CFLAGS} ${MLX_FLAG} ${OBJS} ${MLX} ${LIBFT} -o ${NAME} 
+
+${BONUS_NAME} : ${BONUS_OBJS} ${MLX} ${LIBFT}
+	${CC} ${CFLAGS} ${MLX_FLAG} ${BONUS_OBJS} ${MLX} ${LIBFT} -o ${BONUS_NAME} 
 
 ${MLX} :
 	make -C ${MLX_DIR}
@@ -90,12 +105,17 @@ ${LIBFT} : ${LIBFT_DIR}/*.c
 
 all: ${NAME}
 
+bonus : ${BONUS_NAME}
+
+
 clean: 
 	rm -rf ${OBJS}
+	rm -rf ${BONUS_OBJS}
 	# make -C ${LIBFT_DIR}
 
 fclean: clean
 	rm -rf ${NAME}
+	rm -rf ${BONUS_NAME}
 	# make -C ${MLX_DIR} clean
 
 re: fclean all
@@ -110,6 +130,7 @@ test_color: ${NAME}
 	./${NAME} ./map/color_test.cub
 
 echo :
+	@echo ${BONUS_OBJS}
 	@echo ${HOSTNAME}
 	@echo ${MLX_FLAG}
 

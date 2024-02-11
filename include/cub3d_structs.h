@@ -14,6 +14,13 @@
 # define MINIMAP_WALL_COLOR 0x80303030
 # define MINIMAP_FILED_OF_VIEW_COLOR 0x80ff0000
 
+
+# ifdef MAKE_BONUS
+#  define BONUS true
+# else
+#  define BONUS false
+# endif
+
 # include "stddef.h"
 # include <stdbool.h>
 

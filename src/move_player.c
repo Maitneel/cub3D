@@ -22,14 +22,6 @@ double	get_moving_dir(const int key_code, const double player_direction)
 		return (INFINITY);
 }
 
-#define MAKE_BONUS
-
-#ifdef MAKE_BONUS
-# define BONUS true
-#else
-# define BONUS false
-#endif
-
 void	add_diff(const t_map_element **map, const t_point before,
 	t_point now, t_point *diff)
 {
@@ -39,7 +31,8 @@ void	add_diff(const t_map_element **map, const t_point before,
 		diff->x += before.x - now.x;
 }
 
-void	move_player_bonus(int key_code, t_player *player, const t_map_element **map)
+void	move_player_bonus(int key_code, t_player *player,
+		const t_map_element **map)
 {
 	const double	moving_dir = get_moving_dir(key_code, player->direction);
 	t_point			now;

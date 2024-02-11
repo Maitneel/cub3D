@@ -44,8 +44,8 @@ void	coloring_filed_of_view(const t_cub3d *cub3d,
 							const int height,
 							const int width)
 {
-	size_t	i;
-	int		greater_size;
+	int	i;
+	int	greater_size;
 
 	if (width < height)
 		greater_size = height;
@@ -87,7 +87,9 @@ t_mlx_image	*new_minimap(
 	t_mlx_image		*minimap;
 	unsigned int	**color_map;
 
-	minimap = new_image_struct(mlx, width, height);
+	if (!BONUS)
+		return (NULL);
+	minimap = new_image_struct((t_mlx *)(mlx), width, height);
 	color_map = get_default_color_map(cub3d, width, height);
 	coloring_filed_of_view(cub3d, color_map, height, width);
 	put_to_image_from_int_array(minimap, color_map);
