@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 17:02:33 by taksaito          #+#    #+#             */
-/*   Updated: 2024/02/11 17:31:08 by dummy            ###   ########.fr       */
+/*   Updated: 2024/02/11 17:37:26 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@
 #include "mlx_related.h"
 #include "mlx_image_proc.h"
 
-
-// /*
 int	main(const int argc, const char **argv)
 {
 	t_mlx_hook_arg	*mlx_hook_arg;
