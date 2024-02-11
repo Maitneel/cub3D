@@ -44,10 +44,9 @@ int	loop_hook(void *arg)
 	while (++i < IMAGE_SIZE)
 		image[i] = NULL;
 	arg_mlx = mlx_hook_arg->mlx;
-	image[1] = new_minimap(mlx_hook_arg->cub3d, arg_mlx, 160, 120);
 	image[0] = new_raycasting_image(mlx_hook_arg->cub3d, arg_mlx, WINDOW_WIDTH,
 			WINDOW_HEIGHT);
-	image[2] = NULL;
+	image[1] = new_minimap(mlx_hook_arg->cub3d, arg_mlx, 160, 120);
 	i = 0;
 	while (i < IMAGE_SIZE)
 	{
