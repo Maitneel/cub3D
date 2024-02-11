@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 17:02:33 by taksaito          #+#    #+#             */
-/*   Updated: 2024/02/11 17:02:34 by taksaito         ###   ########.fr       */
+/*   Updated: 2024/02/11 17:31:08 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 #include "mlx_related.h"
 #include "mlx_image_proc.h"
 
-#include "debug.h"
+
 // /*
 int	main(const int argc, const char **argv)
 {
