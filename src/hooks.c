@@ -70,8 +70,15 @@ int	loop_hook(void *arg)
 	return (0);
 }
 
+int	exit_game(void *ptr)
+{
+	ptr = NULL;
+	exit(0);
+}
+
 void	add_hooks(t_mlx_hook_arg *mlx_hook_arg)
 {
 	mlx_key_hook(mlx_hook_arg->mlx->window, key_hook, mlx_hook_arg);
+	mlx_hook(mlx_hook_arg->mlx->window, 17, 1, exit_game, NULL);
 	mlx_loop_hook(mlx_hook_arg->mlx->mlx, loop_hook, mlx_hook_arg);
 }

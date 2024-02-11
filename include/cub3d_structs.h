@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_structs.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 17:00:22 by taksaito          #+#    #+#             */
-/*   Updated: 2024/02/11 17:00:24 by taksaito         ###   ########.fr       */
+/*   Updated: 2024/02/11 17:18:10 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,14 @@
 # define WINDOW_WIDTH 800
 # define WINDOW_HEIGHT 600
 # define PLAYER_MAGFICATION 100000
-# define HN_FOV_ANGLE (90 * M_PI / 180)
-# define WALL_HEIGHT (PLAYER_MAGFICATION / 10)
-# define VERT_FOV_ANGLE (10 * M_PI / 180)
+# define HN_FOV_ANGLE M_PI_2
+# define WALL_HEIGHT 10000
+# define VERT_FOV_ANGLE 0.1745329251994329576923690768488613
 # define SCREEN_MAGFICATION 100000
 # define MINIMAP_OUT_OF_MAP_COLOR 0x80000000
 # define MINIMAP_EMPYT_COLOR 0x80ffffff
 # define MINIMAP_WALL_COLOR 0x80303030
 # define MINIMAP_FILED_OF_VIEW_COLOR 0x80ff0000
-
-
-# ifdef MAKE_BONUS
-#  define BONUS true
-# else
-#  define BONUS false
-# endif
 
 # include "stddef.h"
 # include <stdbool.h>

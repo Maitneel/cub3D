@@ -1,5 +1,5 @@
 NAME = cub3D
-BONUS_NAME = cub3d_bonus
+BONUS_NAME = cub3D_bonus
 
 CC = clang
 CFLAGS = -Wall -Wextra -Werror
@@ -30,9 +30,9 @@ else
 endif
 
 ifeq (${MAKECMDGOALS}, bonus)
-	CFLAGS += -DMAKE_BONUS
+	CFLAGS += -DBONUS=true
 else
-	CFLAGS += -UMAKE_BONUS
+	CFLAGS += -DBONUS=false
 endif
 
 # MLX_FLAG = -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -I${MLX_DIR}
