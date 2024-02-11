@@ -1,0 +1,15 @@
+NO ./xpm_test/minimamu.xpm
+SO ./xpm_test/test_xpm.xpm
+WE ./xpm_test/minimamu.xpm
+EA ./xpm_test/minimamu.xpm
+
+F 220,100,0
+C 225,30,0
+
+111111111
+100000001
+100010001
+100100001
+1000N0101
+100000001
+111111111
