@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 17:02:23 by taksaito          #+#    #+#             */
-/*   Updated: 2024/02/11 17:02:25 by taksaito         ###   ########.fr       */
+/*   Updated: 2024/02/11 17:31:22 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_structs.h"
-#include "debug.h"
+
 #include "free_lib.h"
 #include "minimap.h"
 #include "mlx.h"
@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "debug.h"
+
 #include <stdbool.h>
 
 #define DEBUGGING
@@ -40,8 +40,6 @@ int	key_hook(int key_code, void *arg)
 	{
 		exit(0);
 	}
-	print_key_code(key_code);
-	print_player(mlx_hook_arg->cub3d->player);
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 17:02:17 by taksaito          #+#    #+#             */
-/*   Updated: 2024/02/11 17:02:17 by taksaito         ###   ########.fr       */
+/*   Updated: 2024/02/11 17:31:09 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include "valid_map.h"
 
 #include <stdio.h>
-#include "debug.h"
+
 
 char	**read_map(const int fd)
 {

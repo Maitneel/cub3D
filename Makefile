@@ -9,7 +9,6 @@ LIBFT_DIR = ./libft
 GNL_DIR = ${LIBFT_DIR}/get_next_line/
 SRCS_DIR = ./src
 INCLUDE_DIR = ./include
-DEBUG_DIR = ./debug
 
 
 
@@ -80,16 +79,15 @@ SRCS =	${SRCS_DIR}/main.c \
 		${SRCS_DIR}/raycasting/distance.c \
 		${SRCS_DIR}/raycasting/texture.c \
 		${SRCS_DIR}/new_point.c \
-		${DEBUG_DIR}/debug.c \
 
 OBJS = ${SRCS:%.c=%.o}
 BONUS_OBJS = ${SRCS:%.c=%_bonus.o}
 
 %.o: %.c
-	${CC} ${CFLAGS} -I${INCLUDE_DIR} -I${MLX_DIR} -I${LIBFT_DIR} -I${GNL_DIR} -I ${DEBUG_DIR} ${MACHINE_FLAG} -c -o $@ $^
+	${CC} ${CFLAGS} -I${INCLUDE_DIR} -I${MLX_DIR} -I${LIBFT_DIR} -I${GNL_DIR} ${MACHINE_FLAG} -c -o $@ $^
 
 %_bonus.o: %.c
-	${CC} ${CFLAGS} -I${INCLUDE_DIR} -I${MLX_DIR} -I${LIBFT_DIR} -I${GNL_DIR} -I ${DEBUG_DIR} ${MACHINE_FLAG} -c -o $@ $^
+	${CC} ${CFLAGS} -I${INCLUDE_DIR} -I${MLX_DIR} -I${LIBFT_DIR} -I${GNL_DIR} ${MACHINE_FLAG} -c -o $@ $^
 
 ${NAME} : ${OBJS} ${MLX} ${LIBFT}
 	${CC} ${CFLAGS} ${MLX_FLAG} ${OBJS} ${MLX} ${LIBFT} -o ${NAME} 

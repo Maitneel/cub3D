@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_xpm_file_content.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 17:06:43 by taksaito          #+#    #+#             */
-/*   Updated: 2024/02/11 17:06:43 by taksaito         ###   ########.fr       */
+/*   Updated: 2024/02/11 17:30:15 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,20 +124,3 @@ char	**get_xpm_file_content(const char *filename)
 	close(fd);
 	return (file_content);
 }
-
-/*
-#include <stdio.h>
-int main(const int argc, const char **argv) {
-	if (argc != 2) {
-		return 1;
-	}
-	char **file_content = get_xpm_file_content(argv[1]);
-	size_t i = 0;
-	while (file_content[i] != NULL)
-	{
-		fprintf(stderr, "%s\n", file_content[i]);
-		i++;
-	}
-	
-} 
-// */

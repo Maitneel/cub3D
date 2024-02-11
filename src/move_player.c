@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 17:02:45 by taksaito          #+#    #+#             */
-/*   Updated: 2024/02/11 17:02:46 by taksaito         ###   ########.fr       */
+/*   Updated: 2024/02/11 17:30:19 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,33 +89,3 @@ void	move_player(int key_code, t_player *player, const t_map_element **map)
 	else
 		move_player_mandantory(key_code, player);
 }
-
-/*
-int	main(void) {
-	t_point from = {-1, -1};
-	t_point to = {0, 0};
-	bool before = true;
-	bool now;
-	for (long long  i = 0; i < PLAYER_MAGFICATION; i++)
-	{
-		from.x = i;
-		for (long long  j = -1 * PLAYER_MAGFICATION * 3; j < PLAYER_MAGFICATION
-				* 3; j++)
-		{
-			to.x = j;
-			for (long long k = 0; k < PLAYER_MAGFICATION * 2; k++)
-			{
-				to.y = k;
-				now = dose_we_colides_first(from, to, 0.0);
-				if (now != before ) {
-					before = now;
-					fprintf(stdout, "now : %d, from : '%lld, %lld' ", now,
-							from.x, from.y);
-					fprintf(stdout, "to : '%lld, %lld'\n", to.x, to.y);
-				}
-			}
-			
-		}
-	}
-}
-// */

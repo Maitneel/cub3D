@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   init_cub3d.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 17:02:28 by taksaito          #+#    #+#             */
-/*   Updated: 2024/02/11 17:02:29 by taksaito         ###   ########.fr       */
+/*   Updated: 2024/02/11 17:31:08 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_structs.h"
-#include "debug.h"
+
 #include "free_lib.h"
 #include "get_cub3d_info.h"
 #include "libft.h"

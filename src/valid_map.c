@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito < taksaito@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 17:03:14 by taksaito          #+#    #+#             */
-/*   Updated: 2024/02/11 17:03:15 by taksaito         ###   ########.fr       */
+/*   Updated: 2024/02/11 17:30:25 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static bool	is_not_using_incorrect_element(const t_map_element **map)
 		}
 		i++;
 	}
-	fprintf(stderr, "start_count : '%zu'\n", start_count);
 	if (start_count != 1)
 		return (false);
 	return (true);
