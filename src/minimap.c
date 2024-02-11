@@ -54,11 +54,11 @@ void	put_player_position(t_mlx_image *minimap)
 unsigned int	**get_default_color_map(
 	const t_cub3d *cub3d, const int width, const int height)
 {
-	int	**color_map;
-	int	x;
-	int	y;
-	int	i;
-	int	j;
+	unsigned int	**color_map;
+	int				x;
+	int				y;
+	int				i;
+	int				j;
 
 	i = 0;
 	color_map = ft_xcalloc(height + 1, sizeof(int *));
